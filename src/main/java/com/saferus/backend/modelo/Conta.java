@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
@@ -16,25 +11,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-/**
- *
- * @author lucasbrito
- */
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Conta implements Serializable{
-    
+public class Conta implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
+
     @NotNull
     private String email;
-    
+
     @NotNull
     private String password;
     
+    @NotNull
+    private int ativo;
+
     @NotNull
     @ManyToOne
     private TipoConta tipoConta;
@@ -70,10 +63,14 @@ public class Conta implements Serializable{
     public void setTipoConta(TipoConta tipoConta) {
         this.tipoConta = tipoConta;
     }
-    
-    
-    
-    
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
     
     
 }

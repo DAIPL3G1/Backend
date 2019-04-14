@@ -1,20 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-/**
- *
- * @author lucasbrito
- */
 @Entity
 public class UtilizadorGenerico extends Utilizador implements Serializable {
 
@@ -23,9 +13,6 @@ public class UtilizadorGenerico extends Utilizador implements Serializable {
 
     @NotNull
     private String nif;
-
-    @ManyToOne
-    private Estatistica estatisticas;
 
     public long getId() {
         return id;
@@ -43,4 +30,20 @@ public class UtilizadorGenerico extends Utilizador implements Serializable {
         this.nif = nif;
     }
 
+    @Override
+    public String getPassword() {
+        return conta.getPassword();
+    }
+
+    public void setPassword(String novapassword) {
+        conta.setPassword(novapassword);
+    }
+    
+    public int getAtivo(){
+        return conta.getAtivo();
+    }
+
+    public void setAtivo(int i) {
+        conta.setAtivo(i);
+    }
 }

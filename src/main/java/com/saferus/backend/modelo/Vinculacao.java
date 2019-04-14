@@ -1,45 +1,44 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
+import static java.lang.Math.random;
 import java.time.Instant;
+import java.util.UUID;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-/**
- *
- * @author lucasbrito
- */
-
 @Entity
 public class Vinculacao implements Serializable {
-    
+
     @Id
     private long id;
     
     @NotNull
-    private Instant dataInicio;
+    private UUID codigo;
     
+    private Instant dataInicio;
+
     @NotNull
     private Instant dataFim;
-    
+
     @NotNull
     private Instant dataPedido;
-    
+
     @OneToOne
     @NotNull
     private Segurado segurado;
-    
+
     @ManyToOne
     @NotNull
     private Mediador mediador;
+    
+    @NotNull
+    private int valida;
 
     public long getId() {
         return id;
@@ -88,6 +87,23 @@ public class Vinculacao implements Serializable {
     public void setMediador(Mediador mediador) {
         this.mediador = mediador;
     }
+
+    public int getValida() {
+        return valida;
+    }
+
+    public void setValida(int valida) {
+        this.valida = valida;
+    }
+
+    public UUID getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(UUID codigo) {
+        this.codigo = codigo;
+    }
+    
     
     
     

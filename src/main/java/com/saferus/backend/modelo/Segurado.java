@@ -1,23 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
-/**
- *
- * @author lucasbrito
- */
 @Entity
 public class Segurado extends UtilizadorGenerico implements Serializable {
 
     @Id
     private long id;
+    
+    @NotNull
+    @OneToOne
+    private UtilizadorGenerico utilizadorGenerico;
+    
+    @NotNull
+    @OneToOne
+    private Vinculacao vinculacao;
 
     @Override
     public long getId() {
@@ -28,7 +29,23 @@ public class Segurado extends UtilizadorGenerico implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
-    
-    
 
+    public UtilizadorGenerico getUtilizadorGenerico() {
+        return utilizadorGenerico;
+    }
+
+    public void setUtilizadorGenerico(UtilizadorGenerico utilizadorGenerico) {
+        this.utilizadorGenerico = utilizadorGenerico;
+    }
+
+    public Vinculacao getVinculacao() {
+        return vinculacao;
+    }
+
+    public void setVinculacao(Vinculacao vinculacao) {
+        this.vinculacao = vinculacao;
+    }
+    
+    
+    
 }
