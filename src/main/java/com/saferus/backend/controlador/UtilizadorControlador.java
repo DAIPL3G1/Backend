@@ -8,7 +8,7 @@ package com.saferus.backend.controlador;
 import com.saferus.backend.modelo.Mediador;
 import com.saferus.backend.modelo.Segurado;
 import com.saferus.backend.modelo.UtilizadorGenerico;
-import com.saferus.backend.servico.UtilizadorServico;
+import com.saferus.backend.servico.UtilizadorServicoImpl;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UtilizadorControlador {
     
-    private UtilizadorServico utilizadorServico;
+    @Autowired
+    private UtilizadorServicoImpl utilizadorServico;
     
     @RequestMapping(value = {"/consultar"}, method = RequestMethod.GET)
     public List<UtilizadorGenerico> consultarUtilizadores(){
@@ -34,7 +35,7 @@ public class UtilizadorControlador {
     }
     
     @RequestMapping(value = {"/consultar/{utilizador_id}"}, method = RequestMethod.GET)
-    public UtilizadorGenerico consultarUtilizador(@PathVariable("utilizador_id") long idUtilizador){
+    public UtilizadorGenerico consultarUtilizador(@PathVariable("utilizador_id") int idUtilizador){
         return utilizadorServico.consultarUtilizador(idUtilizador);
     }
     
@@ -44,7 +45,7 @@ public class UtilizadorControlador {
     }
     
     @RequestMapping(value = {"/consultar/segurado/{segurado_id}"}, method = RequestMethod.GET)
-    public Segurado consultarSegurados(@PathVariable("segurado_id") long idSegurado){
+    public Segurado consultarSegurados(@PathVariable("segurado_id") int idSegurado){
         return utilizadorServico.consultarSegurado(idSegurado);
     }
     
@@ -54,18 +55,18 @@ public class UtilizadorControlador {
     }
     
     @RequestMapping(value = {"/consultar/mediador/{mediador_id}"}, method = RequestMethod.GET)
-    public Mediador consultarMediador(@PathVariable("mediador_id") long idMediador){
+    public Mediador consultarMediador(@PathVariable("mediador_id") int idMediador){
         return utilizadorServico.consultarMediador(idMediador);
     }
     
     @RequestMapping(value = {"/alterar/{utilizador_id}"}, method = RequestMethod.PUT)
-    public UtilizadorGenerico alterarDados(@Valid @RequestBody UtilizadorGenerico ug, long idUtilizador){
+    public UtilizadorGenerico alterarDados(@Valid @RequestBody UtilizadorGenerico ug, int idUtilizador){
         utilizadorServico.alterarDados(ug, idUtilizador);
         return ug;
     }
     
     @RequestMapping(value = {"/alterar/password/{utilizador_id}"}, method = RequestMethod.PUT)
-    public String alterarPassword(@PathVariable("utilizador_id") long idUtilizador, @Valid @RequestBody String password, String novapassword){
+    public String alterarPassword(@PathVariable("utilizador_id") int idUtilizador, @Valid @RequestBody String password, String novapassword){
         utilizadorServico.alterarPassword(idUtilizador, password, novapassword);
         return "Password alterada com sucesso";
     }

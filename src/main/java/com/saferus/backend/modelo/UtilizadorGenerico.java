@@ -1,49 +1,45 @@
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
+import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "UtilizadorGenerico")
 public class UtilizadorGenerico extends Utilizador implements Serializable {
-
-    @Id
-    private long id;
-
-    @NotNull
-    private String nif;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNif() {
-        return nif;
-    }
-
-    public void setNif(String nif) {
-        this.nif = nif;
-    }
 
     @Override
     public String getPassword() {
-        return conta.getPassword();
+        return password;
     }
 
-    public void setPassword(String novapassword) {
-        conta.setPassword(novapassword);
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
     }
     
+    @Override
     public int getAtivo(){
-        return conta.getAtivo();
+        return ativo;
     }
 
+    @Override
     public void setAtivo(int i) {
-        conta.setAtivo(i);
+        this.ativo = i;
     }
+    
+    @Override
+    public Set<TipoConta> getTipoConta() {
+        return tipoConta;
+    }
+
+    @Override
+    public void setTipoConta(Set<TipoConta> tipoConta) {
+        this.tipoConta = tipoConta;
+    }
+    
+    
 }

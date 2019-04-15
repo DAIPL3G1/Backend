@@ -8,10 +8,9 @@ package com.saferus.backend.controlador;
 import com.saferus.backend.modelo.Mediador;
 import com.saferus.backend.modelo.Utilizador;
 import com.saferus.backend.modelo.UtilizadorGenerico;
-import com.saferus.backend.servico.RegistoServico;
+import com.saferus.backend.servico.RegistoServicoImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,39 +23,49 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController()
 public class RegistoControlador {
-    
-    private RegistoServico registoServico;
-    
+
+    @Autowired
+    private RegistoServicoImpl registoServico;
+
     @RequestMapping(value = {"/registo/utilizador"}, method = RequestMethod.POST)
-    public Utilizador registarUtilizador(@Valid @RequestBody UtilizadorGenerico ug){
+    public Utilizador registarUtilizador(@Valid @RequestBody UtilizadorGenerico ug) throws Exception {
+        UtilizadorGenerico result = registoServico.findUtilizadorGenericoByEmail(ug.getId());
+        if (result != null) {
+            throw new Exception("Utilizador já existente");
+        }
         registoServico.registarUtilizador(ug);
         return ug;
     }
-    
+
     @RequestMapping(value = {"/registo/mediador"}, method = RequestMethod.POST)
-    public Mediador registarMediador(@Valid @RequestBody Mediador m){
+    public Mediador registarMediador(@Valid @RequestBody Mediador m) {
         registoServico.registarMediador(m);
         return m;
     }
-    
-    @RequestMapping(value = {"/eliminar/{utilizador_id}"}, method = RequestMethod.DELETE)
-    public void eliminarUtilizador(@PathVariable("utilizador_id") long idUtilizador){
+
+    @RequestMapping(value = {"/acesso_negado"}, method = RequestMethod.GET)
+    public String acessoNegado() {
+        return "Acesso Negado! Tente Novamente mais tarde!";
+    }
+
+    @RequestMapping(value = {"/eliminar/utilizador/{utilizador_id}"}, method = RequestMethod.DELETE)
+    public void eliminarUtilizador(@PathVariable("utilizador_id") int idUtilizador) {
         registoServico.eliminarUtilizador(idUtilizador);
     }
-    
-    @RequestMapping(value = {"/eliminar/{mediador_id}"}, method = RequestMethod.DELETE)
-    public void eliminarMediador(@PathVariable("mediador_id") long idMediador){
+
+    @RequestMapping(value = {"/eliminar/mediador/{mediador_id}"}, method = RequestMethod.DELETE)
+    public void eliminarMediador(@PathVariable("mediador_id") int idMediador) {
         registoServico.eliminarMediador(idMediador);
     }
-    
-    @RequestMapping(value = {"/validar/{utilizador_id}"}, method = RequestMethod.PUT)
-    public String validarUtilizador(@PathVariable("utilizador_id") long idUtilizador) throws Exception{
+
+    @RequestMapping(value = {"/validar/utilizador/{utilizador_id}"}, method = RequestMethod.PUT)
+    public String validarUtilizador(@PathVariable("utilizador_id") int idUtilizador) throws Exception {
         registoServico.validarUtilizador(idUtilizador);
         return "Utilizador Validado Com Sucesso";
     }
-    
-    @RequestMapping(value = {"/validar/{mediador_id}"}, method = RequestMethod.PUT)
-    public String validarMediador(@PathVariable("mediador_id") long idMediador) throws Exception{
+
+    @RequestMapping(value = {"/validar/mediador/{mediador_id}"}, method = RequestMethod.PUT)
+    public String validarMediador(@PathVariable("mediador_id") int idMediador) throws Exception {
         registoServico.validarMediador(idMediador);
         return "Mediador Validado Com Sucesso";
     }

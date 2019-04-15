@@ -1,42 +1,29 @@
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Segurado")
 public class Segurado extends UtilizadorGenerico implements Serializable {
-
-    @Id
-    private long id;
     
-    @NotNull
-    @OneToOne
-    private UtilizadorGenerico utilizadorGenerico;
-    
-    @NotNull
     @OneToOne
     private Vinculacao vinculacao;
-
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public UtilizadorGenerico getUtilizadorGenerico() {
-        return utilizadorGenerico;
-    }
-
-    public void setUtilizadorGenerico(UtilizadorGenerico utilizadorGenerico) {
-        this.utilizadorGenerico = utilizadorGenerico;
-    }
+    
+    /*@OneToMany(mappedBy = "utilizador", cascade = CascadeType.ALL)
+    private final Set<Veiculo> veiculos;*/
+    
+    /*public Segurado(Veiculo veiculos){
+        this.veiculos = Stream.of(veiculos).collect(Collectors.toSet());
+        this.veiculos.forEach(x -> x.setUtilizador(this));
+    }*/
 
     public Vinculacao getVinculacao() {
         return vinculacao;
@@ -45,6 +32,7 @@ public class Segurado extends UtilizadorGenerico implements Serializable {
     public void setVinculacao(Vinculacao vinculacao) {
         this.vinculacao = vinculacao;
     }
+    
     
     
     

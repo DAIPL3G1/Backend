@@ -1,14 +1,18 @@
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -17,26 +21,29 @@ public class Conta implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private int id;
 
     @NotNull
+    @Column(name = "email")
     private String email;
 
     @NotNull
-    private String password;
+    @Column(name = "password")
+    String password;
     
     @NotNull
-    private int ativo;
+    @Column(name = "ativo")
+    int ativo;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Conta_TipoConta", joinColumns = @JoinColumn(name = "conta_id"), inverseJoinColumns = @JoinColumn(name = "tipoconta_id"))
+     Set<TipoConta> tipoConta;
 
-    @NotNull
-    @ManyToOne
-    private TipoConta tipoConta;
-
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,14 +63,6 @@ public class Conta implements Serializable {
         this.password = password;
     }
 
-    public TipoConta getTipoConta() {
-        return tipoConta;
-    }
-
-    public void setTipoConta(TipoConta tipoConta) {
-        this.tipoConta = tipoConta;
-    }
-
     public int getAtivo() {
         return ativo;
     }
@@ -71,6 +70,16 @@ public class Conta implements Serializable {
     public void setAtivo(int ativo) {
         this.ativo = ativo;
     }
+
+    public Set<TipoConta> getTipoConta() {
+        return tipoConta;
+    }
+
+    public void setTipoConta(Set<TipoConta> tipoConta) {
+        this.tipoConta = tipoConta;
+    }
+    
+    
     
     
 }

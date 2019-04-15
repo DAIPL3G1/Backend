@@ -15,11 +15,8 @@ import org.springframework.stereotype.Repository;
  * @author lucasbrito
  */
 @Repository("seguradoRepositorio")
-public interface SeguradoRepositorio extends JpaRepository<Segurado, Long>{
-    public List<Segurado> lerTodos();
-    public Segurado ler(long id);
-    public Segurado alterar(Segurado alteracao, long id);
-    public Segurado criar(Segurado novo);
-    public boolean remover(long id);
+public interface SeguradoRepositorio extends JpaRepository<Segurado, Integer>{
+    
+    Segurado findSeguradoById(int id);
     
 }

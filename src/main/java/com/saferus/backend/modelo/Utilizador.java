@@ -1,34 +1,27 @@
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Utilizador implements Serializable {
-
-    @Id
-    private long id;
+@Table(name = "Utilizador")
+public class Utilizador extends Conta implements Serializable {
 
     @NotNull
+    @Column(name = "nome")
     private String nome;
 
     @NotNull
+    @Column(name = "apelido")
     private String apelido;
-
+    
     @NotNull
-    @OneToOne
-    Conta conta;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    @Column(name = "nif")
+    private int nif;
 
     public String getNome() {
         return nome;
@@ -46,19 +39,21 @@ public class Utilizador implements Serializable {
         this.apelido = apelido;
     }
 
-    public Conta getConta() {
-        return conta;
-    }
-
-    public void setConta(Conta conta) {
-        this.conta = conta;
+    public void setPassword(String password){
+        this.password = password;
     }
     
     public String getPassword(){
-        return conta.getPassword();
+        return password;
+    }
+
+    public int getNif() {
+        return nif;
+    }
+
+    public void setNif(int nif) {
+        this.nif = nif;
     }
     
-    public void setPassword(String novapassword){
-        conta.setPassword(novapassword);
-    }
+    
 }

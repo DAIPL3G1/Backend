@@ -14,10 +14,9 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
-public interface ContaRepositorio extends JpaRepository<Conta, Long>{
-    public List<Conta> lerTodos();
-    public Conta ler(long id);
-    public Conta alterar(Conta alteracao, long id);
-    public boolean remover(long id);
+@Repository("contaRepositorio")
+public interface ContaRepositorio extends JpaRepository<Conta, Integer>{  
+    
+    Conta findContaById(int id);
     
 }

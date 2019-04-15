@@ -5,8 +5,7 @@
  */
 package com.saferus.backend.repositorio;
 
-import com.saferus.backend.modelo.Vinculacao;
-import java.util.List;
+import com.saferus.backend.modelo.TipoConta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,9 +13,9 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
-@Repository("vinculacaoRepositorio")
-public interface VinculacaoRepositorio extends JpaRepository<Vinculacao, Integer>{
+@Repository("tpRepositorio")
+public interface TipoContaRepositorio extends JpaRepository<TipoConta, Integer> {
     
-    Vinculacao findVinculacaoById(int id);
+    TipoConta findTipoContaById(int id);
     
 }

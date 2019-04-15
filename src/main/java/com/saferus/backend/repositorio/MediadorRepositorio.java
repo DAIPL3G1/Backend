@@ -15,11 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author lucasbrito
  */
 @Repository("mediadorRepositorio")
-public interface MediadorRepositorio extends JpaRepository<Mediador, Long>{
-    public List<Mediador> lerTodos();
-    public Mediador ler(long id);
-    public Mediador alterar(Mediador alteracao, long id);
-    public Mediador criar(Mediador alteracao);
-    public boolean remover(long id);
+public interface MediadorRepositorio extends JpaRepository<Mediador, Integer>{
     
+    Mediador findMediadorById(int id);
 }

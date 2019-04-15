@@ -8,68 +8,22 @@ package com.saferus.backend.servico;
 import com.saferus.backend.modelo.Mediador;
 import com.saferus.backend.modelo.Segurado;
 import com.saferus.backend.modelo.UtilizadorGenerico;
-import com.saferus.backend.repositorio.MediadorRepositorio;
-import com.saferus.backend.repositorio.SeguradoRepositorio;
-import com.saferus.backend.repositorio.UtilizadorGenericoRepositorio;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
  * @author lucasbrito
  */
-@Service("utilizadorServico")
-public class UtilizadorServico {
+public interface UtilizadorServico {
     
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    public List<UtilizadorGenerico> consultarUtilizadores();
+    public UtilizadorGenerico consultarUtilizador(int idUtilizador);
+    public UtilizadorGenerico alterarDados(UtilizadorGenerico ug, int idUtilizador);
+    public void alterarPassword(int idUtilizador, String novapassword, String antigapassword);
+    public List<Segurado> consultarSegurados();
+    public Segurado consultarSegurado(int idSegurado);
+    public List<Mediador> consultarMediadores();
+    public Mediador consultarMediador(int idMediador);
     
-    private UtilizadorGenericoRepositorio ugRepositorio;
-    
-    private SeguradoRepositorio seguradoRepositorio;
-    
-    private MediadorRepositorio mediadorRepositorio;
-    
-    public List<UtilizadorGenerico> consultarUtilizadores(){
-        return ugRepositorio.lerTodos();
-    }
-    
-    public UtilizadorGenerico consultarUtilizador(long idUtilizador){
-        UtilizadorGenerico ug = ugRepositorio.ler(idUtilizador);
-        return ug;
-    }
-    
-    public UtilizadorGenerico alterarDados(UtilizadorGenerico ug, long idUtilizador){
-        ugRepositorio.alterar(ug, idUtilizador);
-        return ug;
-    }
-    
-    public void alterarPassword(long idUtilizador, String novapassword, String antigapassword){
-        UtilizadorGenerico ug = ugRepositorio.ler(idUtilizador);
-        if(ug.getPassword() == bCryptPasswordEncoder.encode(antigapassword)){
-            ug.setPassword(bCryptPasswordEncoder.encode(novapassword));
-        }
-        ugRepositorio.alterar(ug, idUtilizador);
-    }
-    
-    public List<Segurado> consultarSegurados(){
-        return seguradoRepositorio.lerTodos();
-    }
-    
-    public Segurado consultarSegurado(long idSegurado){
-        Segurado s = seguradoRepositorio.ler(idSegurado);
-        return s;
-    }
-    
-    public List<Mediador> consultarMediadores(){
-        return mediadorRepositorio.lerTodos();
-    }
-    
-    public Mediador consultarMediador(long idMediador){
-        Mediador m = mediadorRepositorio.ler(idMediador);
-        return m;
-    }
     
 }
