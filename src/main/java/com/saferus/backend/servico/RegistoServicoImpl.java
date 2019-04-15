@@ -5,12 +5,10 @@
  */
 package com.saferus.backend.servico;
 
-import com.saferus.backend.modelo.Mediador;
 import com.saferus.backend.modelo.TipoConta;
-import com.saferus.backend.modelo.UtilizadorGenerico;
-import com.saferus.backend.repositorio.MediadorRepositorio;
+import com.saferus.backend.modelo.Utilizador;
 import com.saferus.backend.repositorio.TipoContaRepositorio;
-import com.saferus.backend.repositorio.UtilizadorGenericoRepositorio;
+import com.saferus.backend.repositorio.UtilizadorRepositorio;
 import java.util.Arrays;
 import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,55 +26,54 @@ public class RegistoServicoImpl implements RegistoServico {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private UtilizadorGenericoRepositorio ugRepositorio;
-
-    @Autowired
-    private MediadorRepositorio mediadorRepositorio;
+    private UtilizadorRepositorio utilizadorRepositorio;
 
     @Autowired
     private TipoContaRepositorio tpRepositorio;
 
     @Override
-    public void registarUtilizador(UtilizadorGenerico novo) {
+    public void registarUtilizador(Utilizador novo) {
         novo.setPassword(bCryptPasswordEncoder.encode(novo.getPassword()));
         novo.setAtivo(0);
         TipoConta tp = tpRepositorio.findTipoContaById(2);
         novo.setTipoConta(new HashSet<TipoConta>(Arrays.asList(tp)));
-        ugRepositorio.save(novo);
+        novo.setDesignacao(tp.getDesignacao());
+        utilizadorRepositorio.save(novo);
     }
 
     @Override
-    public void registarMediador(Mediador novo) {
+    public void registarMediador(Utilizador novo) {
         novo.setPassword(bCryptPasswordEncoder.encode(novo.getPassword()));
         novo.setAtivo(0);
         TipoConta tp = tpRepositorio.findTipoContaById(4);
         novo.setTipoConta(new HashSet<TipoConta>(Arrays.asList(tp)));
-        mediadorRepositorio.save(novo);
+        novo.setDesignacao(tp.getDesignacao());
+        utilizadorRepositorio.save(novo);
     }
 
     @Override
     public void eliminarUtilizador(int idUtilizadorGenerico) {
-        UtilizadorGenerico ug = ugRepositorio.findUtilizadorGenericoById(idUtilizadorGenerico);
-        if (ugRepositorio.findUtilizadorGenericoById(idUtilizadorGenerico) != null) {
-            ugRepositorio.delete(ug);
+        Utilizador ug = utilizadorRepositorio.findUtilizadorGenericoById(idUtilizadorGenerico);
+        if (utilizadorRepositorio.findUtilizadorGenericoById(idUtilizadorGenerico) != null) {
+            utilizadorRepositorio.delete(ug);
         }
     }
 
     @Override
     public void eliminarMediador(int idMediador) {
-        Mediador m = mediadorRepositorio.findMediadorById(idMediador);
-        if (mediadorRepositorio.findMediadorById(idMediador) != null) {
-            mediadorRepositorio.delete(m);
+        Utilizador m = utilizadorRepositorio.findMediadorById(idMediador);
+        if (utilizadorRepositorio.findMediadorById(idMediador) != null) {
+            utilizadorRepositorio.delete(m);
         }
     }
 
     @Override
     public boolean validarUtilizador(int idUtilizador) throws Exception {
         boolean validado = false;
-        UtilizadorGenerico ug = ugRepositorio.findUtilizadorGenericoById(idUtilizador);
+        Utilizador ug = utilizadorRepositorio.findUtilizadorGenericoById(idUtilizador);
         if (ug.getAtivo() == 0) {
             ug.setAtivo(1);
-            ugRepositorio.save(ug);
+            utilizadorRepositorio.save(ug);
             validado = true;
         } else {
             throw new Exception("Utilizador já ativado");
@@ -87,10 +84,10 @@ public class RegistoServicoImpl implements RegistoServico {
     @Override
     public boolean validarMediador(int idMediador) throws Exception {
         boolean validado = false;
-        Mediador m = mediadorRepositorio.findMediadorById(idMediador);
+        Utilizador m = utilizadorRepositorio.findMediadorById(idMediador);
         if (m.getAtivo() == 0) {
             m.setAtivo(1);
-            mediadorRepositorio.save(m);
+            utilizadorRepositorio.save(m);
             validado = true;
         } else {
             throw new Exception("Mediador já ativado");
@@ -99,8 +96,8 @@ public class RegistoServicoImpl implements RegistoServico {
     }
 
     @Override
-    public UtilizadorGenerico findUtilizadorGenericoByEmail(int id) {
-        return ugRepositorio.findUtilizadorGenericoById(id);
+    public Utilizador findUtilizadorGenericoById(int id) {
+        return utilizadorRepositorio.findUtilizadorGenericoById(id);
     }
 
 }

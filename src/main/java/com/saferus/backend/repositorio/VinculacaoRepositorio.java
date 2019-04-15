@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.repositorio;
 
+import com.saferus.backend.modelo.Utilizador;
 import com.saferus.backend.modelo.Vinculacao;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,5 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface VinculacaoRepositorio extends JpaRepository<Vinculacao, Integer>{
     
     Vinculacao findVinculacaoById(int id);
+    Vinculacao findVinculacaoBySegurado(Utilizador s);
     
 }

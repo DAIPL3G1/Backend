@@ -37,7 +37,7 @@ public class VinculacaoControlador {
         return "Vinculacao Validada Com Sucesso";
     }
     
-    @RequestMapping(value = {"/eliminar/{segurado_id}"}, method = RequestMethod.DELETE)
+    @RequestMapping(value = {"/eliminar/{segurado_id}"}, method = RequestMethod.PUT)
     public String desvincularSegurado(@PathVariable("segurado_id") int idSegurado) throws Exception{
         vinculacaoServico.desvincularSegurado(idSegurado);
         return "Segurado desvinculado com Sucesso";

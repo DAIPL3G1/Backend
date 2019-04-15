@@ -5,8 +5,7 @@
  */
 package com.saferus.backend.servico;
 
-import com.saferus.backend.modelo.Mediador;
-import com.saferus.backend.modelo.UtilizadorGenerico;
+import com.saferus.backend.modelo.Utilizador;
 
 /**
  *
@@ -14,9 +13,9 @@ import com.saferus.backend.modelo.UtilizadorGenerico;
  */
 public interface RegistoServico {
     
-    public UtilizadorGenerico findUtilizadorGenericoByEmail(int id);
-    public void registarUtilizador(UtilizadorGenerico novo);
-    public void registarMediador(Mediador novo);
+    public Utilizador findUtilizadorGenericoById(int id);
+    public void registarUtilizador(Utilizador novo);
+    public void registarMediador(Utilizador novo);
     public void eliminarUtilizador(int idUtilizadorGenerico);
     public void eliminarMediador(int idMediador);
     public boolean validarUtilizador(int idUtilizador) throws Exception;

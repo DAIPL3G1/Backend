@@ -5,9 +5,7 @@
  */
 package com.saferus.backend.controlador;
 
-import com.saferus.backend.modelo.Mediador;
 import com.saferus.backend.modelo.Utilizador;
-import com.saferus.backend.modelo.UtilizadorGenerico;
 import com.saferus.backend.servico.RegistoServicoImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +26,8 @@ public class RegistoControlador {
     private RegistoServicoImpl registoServico;
 
     @RequestMapping(value = {"/registo/utilizador"}, method = RequestMethod.POST)
-    public Utilizador registarUtilizador(@Valid @RequestBody UtilizadorGenerico ug) throws Exception {
-        UtilizadorGenerico result = registoServico.findUtilizadorGenericoByEmail(ug.getId());
+    public Utilizador registarUtilizador(@Valid @RequestBody Utilizador ug) throws Exception {
+        Utilizador result = registoServico.findUtilizadorGenericoById(ug.getId());
         if (result != null) {
             throw new Exception("Utilizador já existente");
         }
@@ -38,7 +36,7 @@ public class RegistoControlador {
     }
 
     @RequestMapping(value = {"/registo/mediador"}, method = RequestMethod.POST)
-    public Mediador registarMediador(@Valid @RequestBody Mediador m) {
+    public Utilizador registarMediador(@Valid @RequestBody Utilizador m) {
         registoServico.registarMediador(m);
         return m;
     }

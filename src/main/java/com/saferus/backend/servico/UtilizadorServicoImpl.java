@@ -5,12 +5,8 @@
  */
 package com.saferus.backend.servico;
 
-import com.saferus.backend.modelo.Mediador;
-import com.saferus.backend.modelo.Segurado;
-import com.saferus.backend.modelo.UtilizadorGenerico;
-import com.saferus.backend.repositorio.MediadorRepositorio;
-import com.saferus.backend.repositorio.SeguradoRepositorio;
-import com.saferus.backend.repositorio.UtilizadorGenericoRepositorio;
+import com.saferus.backend.modelo.Utilizador;
+import com.saferus.backend.repositorio.UtilizadorRepositorio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,61 +23,79 @@ public class UtilizadorServicoImpl implements UtilizadorServico {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private UtilizadorGenericoRepositorio ugRepositorio;
-
-    @Autowired
-    private SeguradoRepositorio seguradoRepositorio;
-
-    @Autowired
-    private MediadorRepositorio mediadorRepositorio;
-
+    private UtilizadorRepositorio utilizadorRepositorio;
+    
     @Override
-    public List<UtilizadorGenerico> consultarUtilizadores() {
-        return ugRepositorio.findAll();
+    public List<Utilizador> consultarUtilizadores() {
+        List<Utilizador> utilizadoresGenericos = null;
+        for(Utilizador u : utilizadorRepositorio.findAll()){
+            if(u.equals("GENERICO")){
+                utilizadoresGenericos.add(u);
+            }
+        }
+        return utilizadoresGenericos;
     }
 
     @Override
-    public UtilizadorGenerico consultarUtilizador(int idUtilizador) {
-        UtilizadorGenerico ug = ugRepositorio.findUtilizadorGenericoById(idUtilizador);
+    public Utilizador consultarUtilizador(int idUtilizador) {
+        Utilizador ug = utilizadorRepositorio.findUtilizadorGenericoById(idUtilizador);
         return ug;
     }
+    
+    @Override
+    public Utilizador findUtilizadorByEmail(String email){
+        Utilizador u = utilizadorRepositorio.findUtilizadorByEmail(email);
+        return u;
+    }
 
     @Override
-    public UtilizadorGenerico alterarDados(UtilizadorGenerico ug, int idUtilizador) {
+    public Utilizador alterarDados(Utilizador ug, int idUtilizador) {
         ug.setId(idUtilizador);
-        ugRepositorio.save(ug);
+        utilizadorRepositorio.save(ug);
         return ug;
     }
 
     @Override
     public void alterarPassword(int idUtilizador, String novapassword, String antigapassword) {
-        UtilizadorGenerico ug = ugRepositorio.findUtilizadorGenericoById(idUtilizador);
+        Utilizador ug = utilizadorRepositorio.findUtilizadorGenericoById(idUtilizador);
         if (ug.getPassword() == bCryptPasswordEncoder.encode(antigapassword)) {
             ug.setPassword(bCryptPasswordEncoder.encode(novapassword));
             ug.setId(idUtilizador);
         }
-        ugRepositorio.save(ug);
+        utilizadorRepositorio.save(ug);
     }
 
     @Override
-    public List<Segurado> consultarSegurados() {
-        return seguradoRepositorio.findAll();
+    public List<Utilizador> consultarSegurados() {
+        List<Utilizador> segurados = null;
+        for(Utilizador u : utilizadorRepositorio.findAll()){
+            if(u.getDesignacao().equals("SEGURADO")){
+                segurados.add(u);
+            }
+        }
+        return segurados;
     }
 
     @Override
-    public Segurado consultarSegurado(int idSegurado) {
-        Segurado s = seguradoRepositorio.findSeguradoById(idSegurado);
+    public Utilizador consultarSegurado(int idSegurado) {
+        Utilizador s = utilizadorRepositorio.findSeguradoById(idSegurado);
         return s;
     }
 
     @Override
-    public List<Mediador> consultarMediadores() {
-        return mediadorRepositorio.findAll();
+    public List<Utilizador> consultarMediadores() {
+         List<Utilizador> utilizadoresGenericos = null;
+        for(Utilizador u : utilizadorRepositorio.findAll()){
+            if(u.getDesignacao().equals("MEDIADOR")){
+                utilizadoresGenericos.add(u);
+            }
+        }
+        return utilizadoresGenericos;
     }
 
     @Override
-    public Mediador consultarMediador(int idMediador) {
-        Mediador m = mediadorRepositorio.findMediadorById(idMediador);
+    public Utilizador consultarMediador(int idMediador) {
+        Utilizador m = utilizadorRepositorio.findMediadorById(idMediador);
         return m;
     }
 

@@ -5,9 +5,7 @@
  */
 package com.saferus.backend.servico;
 
-import com.saferus.backend.modelo.Mediador;
-import com.saferus.backend.modelo.Segurado;
-import com.saferus.backend.modelo.UtilizadorGenerico;
+import com.saferus.backend.modelo.Utilizador;
 import java.util.List;
 
 /**
@@ -16,14 +14,15 @@ import java.util.List;
  */
 public interface UtilizadorServico {
     
-    public List<UtilizadorGenerico> consultarUtilizadores();
-    public UtilizadorGenerico consultarUtilizador(int idUtilizador);
-    public UtilizadorGenerico alterarDados(UtilizadorGenerico ug, int idUtilizador);
+    public List<Utilizador> consultarUtilizadores();
+    public Utilizador consultarUtilizador(int idUtilizador);
+    public Utilizador alterarDados(Utilizador ug, int idUtilizador);
     public void alterarPassword(int idUtilizador, String novapassword, String antigapassword);
-    public List<Segurado> consultarSegurados();
-    public Segurado consultarSegurado(int idSegurado);
-    public List<Mediador> consultarMediadores();
-    public Mediador consultarMediador(int idMediador);
+    public List<Utilizador> consultarSegurados();
+    public Utilizador consultarSegurado(int idSegurado);
+    public List<Utilizador> consultarMediadores();
+    public Utilizador consultarMediador(int idMediador);
+    public Utilizador findUtilizadorByEmail(String email);
     
     
 }

@@ -1,6 +1,7 @@
 package com.saferus.backend.modelo;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -22,7 +23,18 @@ public class Utilizador extends Conta implements Serializable {
     @NotNull
     @Column(name = "nif")
     private int nif;
-
+    
+    @Column(name = "designacao")
+    private String designacao;
+    
+    public String getDesignacao(){
+        return designacao;
+    }
+    
+    public void setDesignacao(String designacao){
+        this.designacao = designacao;
+    }
+    
     public String getNome() {
         return nome;
     }
@@ -46,6 +58,15 @@ public class Utilizador extends Conta implements Serializable {
     public String getPassword(){
         return password;
     }
+    
+    public String getEmail(){
+        return email;
+    }
+    
+    @Override
+    public void setTipoConta(Set<TipoConta> tipoConta){
+        this.tipoConta = tipoConta;
+    }
 
     public int getNif() {
         return nif;
@@ -54,6 +75,5 @@ public class Utilizador extends Conta implements Serializable {
     public void setNif(int nif) {
         this.nif = nif;
     }
-    
     
 }

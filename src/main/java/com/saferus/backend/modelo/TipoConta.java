@@ -26,7 +26,7 @@ public class TipoConta implements Serializable{
     private int id;
 
     @Column(name = "designacao")
-    private String designacao;
+    String designacao;
 
     public int getId() {
         return id;

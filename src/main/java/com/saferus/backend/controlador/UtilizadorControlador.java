@@ -5,9 +5,7 @@
  */
 package com.saferus.backend.controlador;
 
-import com.saferus.backend.modelo.Mediador;
-import com.saferus.backend.modelo.Segurado;
-import com.saferus.backend.modelo.UtilizadorGenerico;
+import com.saferus.backend.modelo.Utilizador;
 import com.saferus.backend.servico.UtilizadorServicoImpl;
 import java.util.List;
 import javax.validation.Valid;
@@ -30,37 +28,37 @@ public class UtilizadorControlador {
     private UtilizadorServicoImpl utilizadorServico;
     
     @RequestMapping(value = {"/consultar"}, method = RequestMethod.GET)
-    public List<UtilizadorGenerico> consultarUtilizadores(){
+    public List<Utilizador> consultarUtilizadores(){
         return utilizadorServico.consultarUtilizadores();
     }
     
     @RequestMapping(value = {"/consultar/{utilizador_id}"}, method = RequestMethod.GET)
-    public UtilizadorGenerico consultarUtilizador(@PathVariable("utilizador_id") int idUtilizador){
+    public Utilizador consultarUtilizador(@PathVariable("utilizador_id") int idUtilizador){
         return utilizadorServico.consultarUtilizador(idUtilizador);
     }
     
     @RequestMapping(value = {"/consultar/segurados"}, method = RequestMethod.GET)
-    public List<Segurado> consultarSegurados(){
+    public List<Utilizador> consultarSegurados(){
         return utilizadorServico.consultarSegurados();
     }
     
     @RequestMapping(value = {"/consultar/segurado/{segurado_id}"}, method = RequestMethod.GET)
-    public Segurado consultarSegurados(@PathVariable("segurado_id") int idSegurado){
+    public Utilizador consultarSegurados(@PathVariable("segurado_id") int idSegurado){
         return utilizadorServico.consultarSegurado(idSegurado);
     }
     
     @RequestMapping(value = {"/consultar/mediadores"}, method = RequestMethod.GET)
-    public List<Mediador> consultarMediadores(){
+    public List<Utilizador> consultarMediadores(){
         return utilizadorServico.consultarMediadores();
     }
     
     @RequestMapping(value = {"/consultar/mediador/{mediador_id}"}, method = RequestMethod.GET)
-    public Mediador consultarMediador(@PathVariable("mediador_id") int idMediador){
+    public Utilizador consultarMediador(@PathVariable("mediador_id") int idMediador){
         return utilizadorServico.consultarMediador(idMediador);
     }
     
     @RequestMapping(value = {"/alterar/{utilizador_id}"}, method = RequestMethod.PUT)
-    public UtilizadorGenerico alterarDados(@Valid @RequestBody UtilizadorGenerico ug, int idUtilizador){
+    public Utilizador alterarDados(@Valid @RequestBody Utilizador ug, int idUtilizador){
         utilizadorServico.alterarDados(ug, idUtilizador);
         return ug;
     }

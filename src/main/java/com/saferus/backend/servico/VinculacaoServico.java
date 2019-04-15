@@ -17,7 +17,7 @@ public interface VinculacaoServico {
     
     public UUID criarVinculacaoPorValidar(int idMediador, int idUtilizadorGenerico) throws Exception;
     public Vinculacao validarVinculacao(int idVinculacao) throws Exception;
-    public boolean desvincularSegurado(int idSegurado) throws Exception;
+    public void desvincularSegurado(int idSegurado) throws Exception;
     public List<Vinculacao> consularVinculacoes();
     public Vinculacao consultarVinculacao(int idSegurado);
     

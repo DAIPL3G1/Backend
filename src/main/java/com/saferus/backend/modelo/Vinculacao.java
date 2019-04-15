@@ -37,11 +37,11 @@ public class Vinculacao implements Serializable {
 
     @OneToOne
     @NotNull
-    private Segurado segurado;
+    private Utilizador segurado;
 
     @ManyToOne
     @NotNull
-    private Mediador mediador;
+    private Utilizador mediador;
     
     @NotNull
     @Column(name = "valida")
@@ -79,22 +79,6 @@ public class Vinculacao implements Serializable {
         this.dataPedido = dataPedido;
     }
 
-    public Segurado getSegurado() {
-        return segurado;
-    }
-
-    public void setSegurado(Segurado segurado) {
-        this.segurado = segurado;
-    }
-
-    public Mediador getMediador() {
-        return mediador;
-    }
-
-    public void setMediador(Mediador mediador) {
-        this.mediador = mediador;
-    }
-
     public int getValida() {
         return valida;
     }
@@ -110,6 +94,24 @@ public class Vinculacao implements Serializable {
     public void setCodigo(UUID codigo) {
         this.codigo = codigo;
     }
+
+    public Utilizador getSegurado() {
+        return segurado;
+    }
+
+    public void setSegurado(Utilizador segurado) {
+        this.segurado = segurado;
+    }
+
+    public Utilizador getMediador() {
+        return mediador;
+    }
+
+    public void setMediador(Utilizador mediador) {
+        this.mediador = mediador;
+    }
+    
+    
     
     
     

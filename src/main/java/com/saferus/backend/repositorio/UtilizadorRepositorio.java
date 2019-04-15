@@ -5,17 +5,18 @@
  */
 package com.saferus.backend.repositorio;
 
-import com.saferus.backend.modelo.UtilizadorGenerico;
+import com.saferus.backend.modelo.Utilizador;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author lucasbrito
  */
-@Repository("ugRepositorio")
-public interface UtilizadorGenericoRepositorio extends JpaRepository<UtilizadorGenerico, Integer>{
+public interface UtilizadorRepositorio extends JpaRepository<Utilizador, Integer>{
     
-    UtilizadorGenerico findUtilizadorGenericoById(int id);
+    Utilizador findUtilizadorGenericoById(int id);
+    Utilizador findMediadorById(int id);
+    Utilizador findSeguradoById(int id);
+    Utilizador findUtilizadorByEmail(String email);
     
 }

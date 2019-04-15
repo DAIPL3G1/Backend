@@ -25,19 +25,19 @@ public class Conta implements Serializable {
 
     @NotNull
     @Column(name = "email")
-    private String email;
+     String email;
 
     @NotNull
     @Column(name = "password")
     String password;
-    
+
     @NotNull
     @Column(name = "ativo")
     int ativo;
-    
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Conta_TipoConta", joinColumns = @JoinColumn(name = "conta_id"), inverseJoinColumns = @JoinColumn(name = "tipoconta_id"))
-     Set<TipoConta> tipoConta;
+    Set<TipoConta> tipoConta;
 
     public int getId() {
         return id;
@@ -78,8 +78,5 @@ public class Conta implements Serializable {
     public void setTipoConta(Set<TipoConta> tipoConta) {
         this.tipoConta = tipoConta;
     }
-    
-    
-    
-    
+
 }

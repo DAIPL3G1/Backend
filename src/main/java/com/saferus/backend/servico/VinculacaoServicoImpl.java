@@ -5,15 +5,15 @@
  */
 package com.saferus.backend.servico;
 
-import com.saferus.backend.modelo.Mediador;
-import com.saferus.backend.modelo.Segurado;
-import com.saferus.backend.modelo.UtilizadorGenerico;
+import com.saferus.backend.modelo.TipoConta;
+import com.saferus.backend.modelo.Utilizador;
 import com.saferus.backend.modelo.Vinculacao;
-import com.saferus.backend.repositorio.MediadorRepositorio;
-import com.saferus.backend.repositorio.SeguradoRepositorio;
-import com.saferus.backend.repositorio.UtilizadorGenericoRepositorio;
+import com.saferus.backend.repositorio.TipoContaRepositorio;
+import com.saferus.backend.repositorio.UtilizadorRepositorio;
 import com.saferus.backend.repositorio.VinculacaoRepositorio;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,37 +27,32 @@ import org.springframework.stereotype.Service;
 public class VinculacaoServicoImpl implements VinculacaoServico {
 
     @Autowired
-    private MediadorRepositorio mediadorRepositorio;
-
-    @Autowired
-    private UtilizadorGenericoRepositorio ugRepositorio;
-
-    @Autowired
-    private SeguradoRepositorio seguradoRepositorio;
+    private UtilizadorRepositorio utilizadorRepositorio;
 
     @Autowired
     private VinculacaoRepositorio vinculacaoRepositorio;
 
+    @Autowired
+    private TipoContaRepositorio tpRepositorio;
+
     @Override
     public UUID criarVinculacaoPorValidar(int idMediador, int idUtilizadorGenerico) throws Exception {
-        Mediador m = mediadorRepositorio.findMediadorById(idMediador);
-        UtilizadorGenerico u = ugRepositorio.findUtilizadorGenericoById(idUtilizadorGenerico);
-        Segurado segurado = new Segurado();
-        segurado.setUtilizadorGenerico(u);
-        if (m == null || u == null) {
-            throw new Exception("Erro");
+        Utilizador m = utilizadorRepositorio.findMediadorById(idMediador);
+        Utilizador u = utilizadorRepositorio.findUtilizadorGenericoById(idUtilizadorGenerico);
+        if (!(m.getDesignacao().equals("MEDIADOR")) && !(u.getDesignacao().equals("GENERICO"))) {
+            throw new Exception("ERRO");
         }
+        TipoConta tp = tpRepositorio.findTipoContaById(3);
+        u.setTipoConta(new HashSet<TipoConta>(Arrays.asList(tp)));
+        u.setDesignacao(tp.getDesignacao());
         Vinculacao nova = new Vinculacao();
         nova.setDataPedido(Instant.now());
         nova.setMediador(m);
-        segurado.setUtilizadorGenerico(u);
-        seguradoRepositorio.save(segurado);
-        nova.setSegurado(segurado);
+        nova.setSegurado(u);
         UUID uniqueKey = UUID.randomUUID();
         nova.setCodigo(uniqueKey);
         nova.setValida(0);
         vinculacaoRepositorio.save(nova);
-
         return nova.getCodigo();
 
     }
@@ -74,17 +69,18 @@ public class VinculacaoServicoImpl implements VinculacaoServico {
     }
 
     @Override
-    public boolean desvincularSegurado(int idSegurado) throws Exception {
-        
-        Segurado s = seguradoRepositorio.findSeguradoById(idSegurado);
+    public void desvincularSegurado(int idSegurado) throws Exception {
+        Utilizador s = utilizadorRepositorio.findSeguradoById(idSegurado);
+        Vinculacao v = vinculacaoRepositorio.findVinculacaoBySegurado(s);
         if (v != null) {
             vinculacaoRepositorio.delete(v);
-            seguradoRepositorio.delete(s);
-            desvinculado = true;
+            s.setDesignacao("GENERICO");
+            TipoConta tp = tpRepositorio.findTipoContaById(2);
+            s.setTipoConta(new HashSet<TipoConta>(Arrays.asList(tp)));
+            utilizadorRepositorio.save(s);
         } else {
             throw new Exception("Ocorreu erro a desvincular");
         }
-        return desvinculado;
     }
 
     @Override
@@ -94,7 +90,8 @@ public class VinculacaoServicoImpl implements VinculacaoServico {
 
     @Override
     public Vinculacao consultarVinculacao(int idSegurado) {
-        Vinculacao v = vinculacaoRepositorio.findVinculacaoById(seguradoRepositorio.findSeguradoById(idSegurado).getVinculacao().getId());
+        Utilizador s = utilizadorRepositorio.findSeguradoById(idSegurado);
+        Vinculacao v = vinculacaoRepositorio.findVinculacaoBySegurado(s);
         return v;
     }
 
