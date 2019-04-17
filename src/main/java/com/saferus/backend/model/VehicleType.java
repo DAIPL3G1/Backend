@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.modelo;
+package com.saferus.backend.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,15 +16,14 @@ import javax.persistence.Table;
  * @author lucasbrito
  */
 @Entity
-@Table(name = "TipoConta")
-public class TipoConta implements Serializable{
+@Table(name = "vehicle_type")
+public class VehicleType implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    @Column(name = "designacao")
-    String designacao;
+    
+    @Column(name = "name")
+    private String name;
 
     public int getId() {
         return id;
@@ -36,14 +33,12 @@ public class TipoConta implements Serializable{
         this.id = id;
     }
 
-    public String getDesignacao() {
-        return designacao;
+    public String getName() {
+        return name;
     }
 
-    public void setDesignacao(String designacao) {
-        this.designacao = designacao;
+    public void setName(String name) {
+        this.name = name;
     }
-    
-    
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.modelo;
+package com.saferus.backend.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -19,18 +19,23 @@ import javax.validation.constraints.NotNull;
  *
  * @author lucasbrito
  */
-public class Veiculo {
+@Entity
+@Table(name = "vehicle")
+public class Vehicle implements Serializable {
 
-  /*  @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull
-    private String matricula;
+    private String plate;
 
     @ManyToOne
     @JoinColumn
-    private Utilizador utilizador;
+    private User user;
+
+    @ManyToOne
+    VehicleType vehicleType;
 
     public int getId() {
         return id;
@@ -40,22 +45,30 @@ public class Veiculo {
         this.id = id;
     }
 
-    public String getMatricula() {
-        return matricula;
+    public String getPlate() {
+        return plate;
     }
 
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public void setPlate(String plate) {
+        this.plate = plate;
     }
 
-    public Utilizador getUtilizador() {
-        return utilizador;
+    public User getUser() {
+        return user;
     }
 
-    public void setUtilizador(Utilizador utilizador) {
-        this.utilizador = utilizador;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
     }
     
-    */
+    
 
 }

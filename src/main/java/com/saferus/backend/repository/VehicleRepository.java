@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.repositorio;
+package com.saferus.backend.repository;
 
-import com.saferus.backend.modelo.Conta;
-import java.util.List;
+import com.saferus.backend.model.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,9 +13,10 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
-@Repository("contaRepositorio")
-public interface ContaRepositorio extends JpaRepository<Conta, Integer>{  
+@Repository("vehicleRepository")
+public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     
-    Conta findContaById(int id);
+    Vehicle findVehicleById(int id);
+    Vehicle findVehicleByPlate(String plate);
     
 }

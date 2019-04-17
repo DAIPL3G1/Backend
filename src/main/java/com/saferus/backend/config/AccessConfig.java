@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.configuracao;
+package com.saferus.backend.config;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 @Configuration
 @EnableWebSecurity
-public class ConfiguracaoAcesso extends WebSecurityConfigurerAdapter {
+public class AccessConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -33,9 +33,9 @@ public class ConfiguracaoAcesso extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    private final String USERS_QUERY = "select email, password, ativo from conta where email=?";
-    private final String ROLES_QUERY = "select c.email, tc.designacao from conta c inner join conta_tipo_conta ctc on (c.id = ctc.conta_id) inner join tipo_conta tc on (ctc.tipoconta_id=tc.id) where c.email=?";
-    
+    private final String USERS_QUERY = "select email, password, enabled from account where email=?";
+    private final String ROLES_QUERY = "select a.email, t.name from account a, account_type t where (a.account_type_id = t.id) and a.email = ?";
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
@@ -50,25 +50,26 @@ public class ConfiguracaoAcesso extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/registo/utilizador").permitAll()
-                .antMatchers("/registo/mediador").permitAll()
-                .antMatchers("/eliminar/utilizador/{utilizador_id}").hasAuthority("GENERICO")
-                .antMatchers("/eliminar/mediador/{mediador_id}").hasAuthority("MEDIADOR")
-                .antMatchers("/validar/utilizador/{utilizador_id}").hasAuthority("ADMIN")
-                .antMatchers("/validar/mediador/{mediador_id}").hasAuthority("ADMIN")
-                .antMatchers("/consultar").permitAll()
-                .antMatchers("/consultar/{utilizador_id}").hasAuthority("GENERICO")
-                .antMatchers("/consultar/segurados").permitAll()
-                .antMatchers("/consultar/segurado/{segurado_id}").hasAuthority("SEGURADO")
-                .antMatchers("/consultar/mediadores").permitAll()
-                .antMatchers("/consultar/mediador/{mediador_id}").hasAuthority("MEDIADOR")
-                .antMatchers("/alterar/{utilizador_id}").hasAuthority("GENERICO")
-                .antMatchers("/alterar/password/{utilizador_id}").hasAuthority("GENERICO")
-                .antMatchers("/vinculacao/{mediador_id}/{utilizador_id}").hasAuthority("GENERICO")
-                .antMatchers("/vinculacao/validar/{vinculacao_id}").hasAuthority("MEDIADOR")
-                .antMatchers("/vinculacao/eliminar/{segurado_id}").hasAuthority("SEGURADO")
-                .antMatchers("/vinculacao/consultar").permitAll()
-                .antMatchers("/vinculacao/consultar/{segurado_id}").hasAuthority("SEGURADO")
+                .antMatchers("/signup/user").permitAll()
+                .antMatchers("/signup/broker").permitAll()
+                .antMatchers("/test").permitAll()
+                .antMatchers("/bind/{broker_nif}/{user_nif}").hasAuthority("USER")
+                .antMatchers("/readAllUsers").permitAll()
+                .antMatchers("/readAllBrokers").permitAll()
+                .antMatchers("/readAllBinds").permitAll()
+                .antMatchers("/read/user/{user_nif}").hasAuthority("USER")
+                .antMatchers("/read/broker/{broker_nif}").hasAuthority("BROKER")
+                .antMatchers("/read/bind/{bind_id}").permitAll()
+                .antMatchers("/delete/user/{user_nif}").hasAuthority("USER")
+                .antMatchers("/delete/broker/{broker_nif}").hasAuthority("BROKER")
+                .antMatchers("/unbind/{user_nif}").hasAuthority("USER")
+                .antMatchers("/validate/user/{user_nif}").hasAuthority("ADMIN")
+                .antMatchers("/validate/broker/{broker_nif}").hasAuthority("ADMIN")
+                .antMatchers("/validate/bind/{bind_id}").hasAuthority("BROKER")
+                .antMatchers("/update/{user_nif}").hasAuthority("USER")
+                .antMatchers("/update/password/{user_nif}").hasAuthority("USER")
+                .antMatchers("/update/bind/{bind_id}").hasAnyAuthority("USER")
+                .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
                 .antMatchers("/dashboard/").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable()
                 .formLogin().loginPage("/login").failureUrl("/login?error=true")
@@ -81,10 +82,10 @@ public class ConfiguracaoAcesso extends WebSecurityConfigurerAdapter {
                 .and().rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(60 * 60)
-                .and().exceptionHandling().accessDeniedPage("/accesso_negado");
+                .and().exceptionHandling().accessDeniedPage("/access_denied");
     }
-    
-     @Bean
+
+    @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
         db.setDataSource(dataSource);
