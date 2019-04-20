@@ -64,7 +64,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/read/all/clients/{broker_nif}").permitAll()
                 .antMatchers("/bind/request/pending/{broker_nif}").permitAll()
                 .antMatchers("/read/bound/vehicles/{broker_nif}").permitAll()
-                .antMatchers("/read/user/{user_nif}").permitAll()
+                .antMatchers("/read/user/{user_nif}").hasAnyAuthority("USER")
                 .antMatchers("/read/broker/{broker_nif}").hasAuthority("BROKER")
                 .antMatchers("/read/bind/{bind_id}").permitAll()
                 .antMatchers("/delete/user/{user_nif}").hasAuthority("USER")
