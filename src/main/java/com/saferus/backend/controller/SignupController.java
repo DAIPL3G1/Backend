@@ -7,23 +7,32 @@ package com.saferus.backend.controller;
 
 import com.saferus.backend.model.User;
 import com.saferus.backend.service.SignupServiceImpl;
+import com.saferus.backend.service.VerificationTokenServiceImpl;
+import java.io.IOException;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author lucasbrito
  */
-@RestController()
+@RestController
 public class SignupController {
 
     @Autowired
     private SignupServiceImpl signupService;
+    
+    @Autowired
+    VerificationTokenServiceImpl verificationTokenService;
 
     @RequestMapping(value = {"/signup/user"}, method = RequestMethod.POST)
     public User signupUser(@Valid @RequestBody User user) throws Exception {
@@ -64,5 +73,16 @@ public class SignupController {
     @RequestMapping(value = {"/validate/broker/{broker_nif}"}, method = RequestMethod.PUT)
     public String validateBroker(@PathVariable("broker_nif") String broker_nif) throws Exception {
         return signupService.validateBroker(broker_nif);
+    }
+    
+    
+    @RequestMapping(value = {"/emails/{email}/{generated_password}"}, method = RequestMethod.POST)
+    public String sendEmail(@PathVariable("email") String email, @PathVariable("generated_password") String pw) throws MessagingException, AddressException, IOException {
+      return verificationTokenService.createVerification(email, pw);
+   } 
+    
+    @RequestMapping(value = {"/emails/verify_email/{token}"}, method = RequestMethod.GET)
+    public String verifyEmail(@PathVariable("token") String code) {
+        return verificationTokenService.verifyEmail(code).getBody();
     }
 }

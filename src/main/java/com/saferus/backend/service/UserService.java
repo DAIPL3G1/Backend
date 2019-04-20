@@ -30,5 +30,7 @@ public interface UserService {
     public User findUserByEmail(String email);
 
     public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif);
+    
+    public void deleteVehicle(int id);
 
 }

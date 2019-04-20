@@ -11,6 +11,7 @@ import com.saferus.backend.service.UserServiceImpl;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,7 +66,9 @@ public class UserController {
         return "Veiculo com a matricula {" + vehicle.getPlate() + "} adicionado com Sucesso";
     }
     
-    
-    
+    @RequestMapping(value = {"/delete/vehicle/{vehicle_id}"}, method = RequestMethod.DELETE)
+    public void deleteVehicle(@PathVariable("vehicle_id") int id){
+        userService.deleteVehicle(id);
+    }
     
 }

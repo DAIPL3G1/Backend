@@ -2,8 +2,10 @@ package com.saferus.backend.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -36,7 +38,6 @@ public class User extends Account implements Serializable {
     
     @Column(name = "country")
     private String country;
-    
     
     public String getType(){
         return accountType.getName();
@@ -119,6 +120,11 @@ public class User extends Account implements Serializable {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+    
+    @Override
+    public void setEnabled(int enabled){
+        this.enabled = enabled;
     }
     
     

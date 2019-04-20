@@ -1,12 +1,14 @@
 package com.saferus.backend.model;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -36,10 +38,10 @@ public class Account implements Serializable {
         return nif;
     }
 
-    public void setNif(String nif){
+    public void setNif(String nif) {
         this.nif = nif;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -71,5 +73,6 @@ public class Account implements Serializable {
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
+    
 
 }

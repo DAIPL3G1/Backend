@@ -94,5 +94,11 @@ public class UserServiceImpl implements UserService {
         vehicle.setVehicleType(vtRepository.findVehicleTypeById(1));
         return vehicleRepository.save(vehicle);
     }
+    
+    @Override
+    public void deleteVehicle(int id){
+        Vehicle vehicle = vehicleRepository.findVehicleById(id);
+        vehicleRepository.delete(vehicle);
+    }
 
 }

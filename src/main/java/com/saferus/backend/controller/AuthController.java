@@ -10,12 +10,14 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.saferus.backend.service.UserService;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -27,17 +29,19 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    @ResponseBody
-    public String HomeMessage(Principal p) {
-        User u = userService.findUserByEmail(p.getName());
-        String nome = u.getFirstname() + " " + u.getLastname();
-        return "Loggado com Sucesso Sr." + nome;
-    }
-
+    
     @Autowired
     Environment environment;
+
+    @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
+    public User Login (HttpServletRequest request){
+        return userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+    
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public boolean HomeMessage() {
+        return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+    }
 
     @GetMapping("/test")
     String testConnection() throws UnknownHostException {

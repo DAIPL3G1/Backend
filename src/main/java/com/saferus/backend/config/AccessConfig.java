@@ -16,15 +16,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 /**
  *
  * @author lucasbrito
  */
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class AccessConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -47,42 +47,54 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.cors().and()
+                .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/authenticated").hasAnyAuthority("USER")
                 .antMatchers("/signup/user").permitAll()
                 .antMatchers("/signup/broker").permitAll()
+                .antMatchers("/emails/{email}/{generated_password}").permitAll()
+                .antMatchers("/emails/verify_email/{token}").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/bind/{broker_nif}/{user_nif}").hasAuthority("USER")
                 .antMatchers("/readAllUsers").permitAll()
                 .antMatchers("/readAllBrokers").permitAll()
                 .antMatchers("/readAllBinds").permitAll()
-                .antMatchers("/read/user/{user_nif}").hasAuthority("USER")
+                .antMatchers("/read/user/{user_nif}").permitAll()
                 .antMatchers("/read/broker/{broker_nif}").hasAuthority("BROKER")
                 .antMatchers("/read/bind/{bind_id}").permitAll()
                 .antMatchers("/delete/user/{user_nif}").hasAuthority("USER")
                 .antMatchers("/delete/broker/{broker_nif}").hasAuthority("BROKER")
+                .antMatchers("/delete/vehicle/{vehicle_id}").hasAnyAuthority("USER")
                 .antMatchers("/unbind/{user_nif}").hasAuthority("USER")
                 .antMatchers("/validate/user/{user_nif}").hasAuthority("ADMIN")
                 .antMatchers("/validate/broker/{broker_nif}").hasAuthority("ADMIN")
                 .antMatchers("/validate/bind/{bind_id}").hasAuthority("BROKER")
-                .antMatchers("/update/{user_nif}").hasAuthority("USER")
+                .antMatchers("/update/user/{user_nif}").hasAuthority("USER")
                 .antMatchers("/update/password/{user_nif}").hasAuthority("USER")
                 .antMatchers("/update/bind/{bind_id}").hasAnyAuthority("USER")
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
-                .antMatchers("/dashboard/").hasAuthority("ADMIN").anyRequest()
+                .anyRequest()
                 .authenticated().and().csrf().disable()
-                .formLogin().loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/home")
+                .formLogin()
+                .loginPage("/login")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/authenticated")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .and().logout()
+                .and()
+                .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
-                .and().rememberMe()
+                .and()
+                .rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(60 * 60)
-                .and().exceptionHandling().accessDeniedPage("/access_denied");
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/access_denied");
+
     }
 
     @Bean
@@ -91,11 +103,6 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
         db.setDataSource(dataSource);
 
         return db;
-    }
-
-    @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
     }
 
 }
