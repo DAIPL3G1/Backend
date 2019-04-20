@@ -48,4 +48,9 @@ public class AuthController {
         return "Your server is up and running at port: " + environment.getProperty("local.server.port") + " " + InetAddress.getLocalHost().getHostAddress() + " " + InetAddress.getLocalHost().getHostName(); 
     }
 
+    @GetMapping("/protected")
+    String hello(){
+        return "hello";
+    }
+    
 }

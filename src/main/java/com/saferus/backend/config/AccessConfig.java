@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.config;
 
+import java.util.Arrays;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 
 /**
  *
@@ -37,6 +37,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
     private final String ROLES_QUERY = "select a.email, t.name from account a, account_type t where (a.account_type_id = t.id) and a.email = ?";
 
     @Override
+    @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .usersByUsernameQuery(USERS_QUERY)
@@ -51,7 +52,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/authenticated").permitAll()
+                .antMatchers("/authenticated").hasAnyRole("USER", "ADMIN", "BROKER")
                 .antMatchers("/signup/user").permitAll()
                 .antMatchers("/signup/broker").permitAll()
                 .antMatchers("/emails/{email}/{generated_password}").permitAll()
@@ -76,24 +77,23 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/validate/bind/{bind_id}").hasAuthority("BROKER")
                 .antMatchers("/update/user/{user_nif}").hasAuthority("USER")
                 .antMatchers("/update/password/{user_nif}").hasAuthority("USER")
-                .antMatchers("/update/bind/{bind_id}").hasAnyAuthority("USER")
+                .antMatchers("/update/bind/{bind_id}").hasAnyRole("USER", "BROKER")
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
                 .anyRequest()
                 .authenticated().and().csrf().disable()
                 .formLogin()
-                .loginPage("/login")
                 .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/authenticated")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and()
-                .rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(60 * 60)
-                .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
+                .and()
+                .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(60 * 60)
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/access_denied");
@@ -107,5 +107,4 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
 
         return db;
     }
-
 }

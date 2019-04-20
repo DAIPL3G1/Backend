@@ -33,6 +33,9 @@ public class Account implements Serializable {
 
     @ManyToOne
     AccountType accountType;
+    
+    @Column(name = "role")
+    private String role;
 
     public String getNif() {
         return nif;
@@ -72,6 +75,14 @@ public class Account implements Serializable {
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+    
+    public String getRole(){
+        return role;
+    }
+    
+    public void setRole(String role){
+        this.role = role;
     }
     
 
