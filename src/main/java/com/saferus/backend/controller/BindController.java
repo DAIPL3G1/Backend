@@ -12,7 +12,6 @@ import com.saferus.backend.service.BindServiceImpl;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,7 @@ public class BindController {
     @Autowired
     private BindServiceImpl bindService;
     
-    @RequestMapping(value = {"/bind/{broker_nif}/{user_nif}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/request/bind/{broker_nif}/{user_nif}"}, method = RequestMethod.POST)
     public String requestBind(@Valid @RequestBody Vehicle vehicle, @PathVariable("broker_nif") String broker_nif, @PathVariable("user_nif") String user_nif) throws Exception{
         bindService.requestBind(vehicle.getPlate(), broker_nif, user_nif);
         return "Pedido de Vinculacao feito com Sucesso";
@@ -61,6 +60,5 @@ public class BindController {
     public Bind updateBind(@PathVariable("bind_id") int bind_id, @Valid @RequestBody Bind bind){
         return bindService.updateBind(bind_id, bind);
     }
-    
     
 }

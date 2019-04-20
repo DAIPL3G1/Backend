@@ -23,5 +23,6 @@ public interface BindService {
     public List<Bind> readBinds();
     public Bind readBind(int bind_id);
     public Bind updateBind(int bind_id, Bind bind);
+    public List<Bind> readAllPendingBind(String broker_nif);
     
 }

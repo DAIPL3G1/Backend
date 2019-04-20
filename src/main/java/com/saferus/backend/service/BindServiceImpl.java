@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -104,6 +105,18 @@ public class BindServiceImpl implements BindService {
     public Bind updateBind(int bind_id, Bind bind) {
         bind.setId(bind_id);
         return bindRepository.save(bind);
+    }
+    
+    public List<Bind> readAllPendingBind(String broker_nif){
+        List<Bind> binds = new ArrayList<>();
+        for(Bind b : bindRepository.findAll()){
+            if(b.getBroker().getNif().equals(broker_nif)){
+                if(b.getEnabled() == 0){
+                    binds.add(b);
+                }
+            }
+        }
+        return binds;
     }
 
 }

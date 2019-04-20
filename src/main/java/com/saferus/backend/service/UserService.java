@@ -32,5 +32,9 @@ public interface UserService {
     public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif);
     
     public void deleteVehicle(int id);
+    
+    public List<User> readAllUsersFromBroker(String broker_nif);
+    
+    public List<Vehicle> readAllBoundVehicles(String broker_nif);
 
 }

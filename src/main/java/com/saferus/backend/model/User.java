@@ -39,6 +39,8 @@ public class User extends Account implements Serializable {
     @Column(name = "country")
     private String country;
     
+    private String insuranceCompany;
+    
     public String getType(){
         return accountType.getName();
     }
@@ -126,6 +128,15 @@ public class User extends Account implements Serializable {
     public void setEnabled(int enabled){
         this.enabled = enabled;
     }
+
+    public String getInsuranceCompany() {
+        return insuranceCompany;
+    }
+
+    public void setInsuranceCompany(String insuranceCompany) {
+        this.insuranceCompany = insuranceCompany;
+    }
+    
     
     
     

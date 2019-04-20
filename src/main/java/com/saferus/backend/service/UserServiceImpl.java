@@ -100,5 +100,26 @@ public class UserServiceImpl implements UserService {
         Vehicle vehicle = vehicleRepository.findVehicleById(id);
         vehicleRepository.delete(vehicle);
     }
+    
+    @Override
+    public List<User> readAllUsersFromBroker(String broker_nif){
+        List<User> users = new ArrayList<>();
+        for(User u : userRepository.findAll()){
+            Vehicle v = vehicleRepository.findVehicleByBrokerNif(broker_nif);
+            users.add(v.getUser());
+        }
+        return users;
+    }
+    
+    @Override
+    public List<Vehicle> readAllBoundVehicles(String broker_nif){
+        List<Vehicle> vehicles = new ArrayList<>();
+        for(Vehicle v : vehicleRepository.findAll()){
+            if(v.getUser().getNif().equals(broker_nif)){
+                vehicles.add(v);
+            }
+        }
+        return vehicles;
+    }
 
 }
