@@ -5,8 +5,10 @@
  */
 package com.saferus.backend.service;
 
+import com.saferus.backend.model.Bind;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
+import com.saferus.backend.repository.BindRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private BindRepository bindRepository;
     
     @Autowired
     private VehicleRepository vehicleRepository;
@@ -104,9 +109,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> readAllUsersFromBroker(String broker_nif){
         List<User> users = new ArrayList<>();
-        for(User u : userRepository.findAll()){
-            Vehicle v = vehicleRepository.findVehicleByBrokerNif(broker_nif);
-            users.add(v.getUser());
+        User broker = userRepository.findUserByNif(broker_nif);
+        for(Bind b : bindRepository.findAll()){
+            if(b.getBroker().equals(broker)){
+                users.add(b.getUser());
+            }
         }
         return users;
     }
@@ -114,8 +121,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Vehicle> readAllBoundVehicles(String broker_nif){
         List<Vehicle> vehicles = new ArrayList<>();
-        for(Vehicle v : vehicleRepository.findAll()){
-            if(v.getUser().getNif().equals(broker_nif)){
+        User broker = userRepository.findUserByNif(broker_nif);
+        for(Bind b : bindRepository.findAll()){
+            if(b.getBroker().equals(b)){
+                Vehicle v = b.getVehicle();
                 vehicles.add(v);
             }
         }

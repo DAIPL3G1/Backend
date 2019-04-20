@@ -7,6 +7,7 @@ package com.saferus.backend.repository;
 
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Bind;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface BindRepository extends JpaRepository<Bind, Integer>{
     
     Bind findBindById(int id);
-    Bind findBindByUser(User s);
+    Bind findBindByUser(User u);
     
 }
