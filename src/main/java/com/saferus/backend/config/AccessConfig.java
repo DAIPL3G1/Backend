@@ -51,7 +51,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/authenticated").hasAnyAuthority("USER")
+                .antMatchers("/authenticated").permitAll()
                 .antMatchers("/signup/user").permitAll()
                 .antMatchers("/signup/broker").permitAll()
                 .antMatchers("/emails/{email}/{generated_password}").permitAll()
