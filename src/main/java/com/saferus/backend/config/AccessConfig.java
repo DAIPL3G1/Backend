@@ -81,7 +81,6 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and().csrf().disable()
-                .anonymous().disable()
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
