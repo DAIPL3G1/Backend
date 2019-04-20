@@ -32,9 +32,14 @@ public class AuthController {
     
     @Autowired
     Environment environment;
+    
+    @GetMapping("/login")
+    public String login(){
+        return "ERRO: Login não feito";
+    }
 
     @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
-    public User Login (HttpServletRequest request){
+    public User Login(HttpServletRequest request){
         return userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
     
