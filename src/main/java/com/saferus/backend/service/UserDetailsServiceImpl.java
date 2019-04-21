@@ -6,6 +6,7 @@
 package com.saferus.backend.service;
 
 import com.saferus.backend.repository.UserRepository;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -31,7 +32,17 @@ public class UserDetailsServiceImpl implements UserDetailsService{
       throw new UsernameNotFoundException("User not found");
     }
 
-    List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("USER"));
+    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    
+    if(user.getType().equals("USER")){
+        authorities.add(new SimpleGrantedAuthority("USER"));
+    }
+    else if(user.getType().equals("BROKER")){
+        authorities.add(new SimpleGrantedAuthority("BROKER"));
+    }
+    else if(user.getType().equals("ADMIN")){
+        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+    }
     
     boolean enabled = false;
     if(user.getEnabled() == 0){
