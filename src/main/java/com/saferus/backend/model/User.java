@@ -31,7 +31,7 @@ public class User extends Account implements Serializable {
     private String address;
     
     @Column(name = "zip_code")
-    private String zipCode;
+    private String zip_code;
     
     @Column(name = "city")
     private String city;
@@ -101,11 +101,11 @@ public class User extends Account implements Serializable {
     }
 
     public String getZipCode() {
-        return zipCode;
+        return zip_code;
     }
 
     public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+        this.zip_code = zipCode;
     }
 
     public String getCity() {
