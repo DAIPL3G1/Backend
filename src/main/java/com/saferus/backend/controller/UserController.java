@@ -76,7 +76,7 @@ public class UserController {
         return userService.readAllVehiclesFromUser(user_nif);
     }
     
-    @RequestMapping(value = {"/readAllvehicles"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/readAllVehicles"}, method = RequestMethod.GET)
     public List<Vehicle> readAllVehicles(){
         return userService.readAllVehicles();
     }
