@@ -5,7 +5,10 @@
  */
 package com.saferus.backend.config;
 
+import java.io.IOException;
 import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,12 +17,16 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
-/**
+/*/**
  *
  * @author lucasbrito
  */
@@ -82,9 +89,9 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated().and().csrf().disable()
                 .formLogin()
-                .loginPage("/login")
+                .loginProcessingUrl("/perform_login")
                 .failureUrl("/login?error=true")
-                .defaultSuccessUrl("/authenticated")
+                .defaultSuccessUrl("/authenticated", true)
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and()
@@ -108,4 +115,5 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
 
         return db;
     }
+
 }
