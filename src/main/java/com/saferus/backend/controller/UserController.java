@@ -71,4 +71,9 @@ public class UserController {
         userService.deleteVehicle(id);
     }
     
+    @RequestMapping(value = {"/read/user/vehicles/{user_nif}"}, method = RequestMethod.GET)
+    public List<Vehicle> readAllVehiclesFromUser(@PathVariable("user_nif") String user_nif){
+        return userService.readAllVehiclesFromUser(user_nif);
+    }
+    
 }

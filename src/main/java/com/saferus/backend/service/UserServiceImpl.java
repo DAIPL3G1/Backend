@@ -123,8 +123,19 @@ public class UserServiceImpl implements UserService {
         List<Vehicle> vehicles = new ArrayList<>();
         User broker = userRepository.findUserByNif(broker_nif);
         for(Bind b : bindRepository.findAll()){
-            if(b.getBroker().equals(b)){
+            if(b.getBroker().equals(broker)){
                 Vehicle v = b.getVehicle();
+                vehicles.add(v);
+            }
+        }
+        return vehicles;
+    }
+    
+    public List<Vehicle> readAllVehiclesFromUser(String user_nif){
+        List<Vehicle> vehicles = new ArrayList<>();
+        User user = userRepository.findUserByNif(user_nif);
+        for(Vehicle v : vehicleRepository.findAll()){
+            if(v.getUser().equals(user)){
                 vehicles.add(v);
             }
         }

@@ -36,5 +36,7 @@ public interface UserService {
     public List<User> readAllUsersFromBroker(String broker_nif);
     
     public List<Vehicle> readAllBoundVehicles(String broker_nif);
+    
+    public List<Vehicle> readAllVehiclesFromUser(String user_nif);
 
 }
