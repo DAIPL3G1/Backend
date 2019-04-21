@@ -84,8 +84,17 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/update/password/{user_nif}").hasAuthority("USER")
                 .antMatchers("/update/bind/{bind_id}").hasAnyRole("USER", "BROKER")
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
-                .and().formLogin().defaultSuccessUrl("/authenticated")
-                .loginProcessingUrl("/login").and().logout().deleteCookies("JSESSIONID").permitAll();
+                .and()
+                .formLogin()
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/authenticated")
+                    .failureUrl("/login?error=true")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                .and().logout()
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/logout")
+                .permitAll();
 
     }
 
