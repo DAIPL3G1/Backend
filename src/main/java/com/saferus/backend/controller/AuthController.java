@@ -16,6 +16,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,8 +57,8 @@ public class AuthController {
     }
 
     @GetMapping("/protected")
-    String hello(){
-        return "hello";
+    ResponseEntity hello(){
+        return new ResponseEntity( "hello", HttpStatus.OK);
     }
     
 }
