@@ -21,8 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  *
  * @author lucasbrito
- * 
- * 
+ *
+ *
  */
 @Configuration
 @EnableWebMvc
@@ -34,10 +34,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
-    
-    /*@Override
+
+    @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        registry
+                .addMapping("*")
+                .allowedMethods("OPTIONS", "GET", "PUT", "POST", "DELETE")
+                .allowedOrigins("*")
+                .allowedHeaders("*");
     }
 
     @Bean
@@ -50,5 +54,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-    }*/
+    }
 }

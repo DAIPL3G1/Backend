@@ -2,10 +2,8 @@ package com.saferus.backend.model;
 
 import java.io.Serializable;
 import java.time.Instant;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +20,7 @@ public class User extends Account implements Serializable {
     private String lastname;
     
     @Column(name = "birth_date")
-    private Instant birthDate;
+    private Instant birth_date;
     
     @Column(name = "contact")
     private String contact;
@@ -77,11 +75,11 @@ public class User extends Account implements Serializable {
     }
 
     public Instant getBirthDate() {
-        return birthDate;
+        return birth_date;
     }
 
     public void setBirthDate(Instant birthDate) {
-        this.birthDate = birthDate;
+        this.birth_date = birthDate;
     }
 
     public String getContact() {
