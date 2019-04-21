@@ -17,21 +17,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 
 /*/**
  *
  * @author lucasbrito
  */
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
 public class AccessConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -89,6 +85,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated().and().csrf().disable()
                 .formLogin()
+                .loginPage("/login").permitAll()
                 .loginProcessingUrl("/perform_login")
                 .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/authenticated", true)
