@@ -17,6 +17,9 @@ import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.repository.VehicleRepository;
 import com.saferus.backend.repository.VehicleTypeRepository;
 import java.util.ArrayList;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  *
@@ -64,6 +67,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateInfo(User user, String user_nif) {
         User u = userRepository.findUserByNif(user_nif);
+        String string = user.getBirthDate().toString();
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+        DateTime dt = formatter.parseDateTime(string);
         user.setNif(user_nif);
         user.setAccountType(u.getAccountType());
         user.setEmail(u.getEmail());

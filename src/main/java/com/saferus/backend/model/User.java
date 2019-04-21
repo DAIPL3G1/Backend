@@ -1,5 +1,6 @@
 package com.saferus.backend.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "user")
+@JsonDeserialize(using = DateHandler.class)
 public class User extends Account implements Serializable {
 
     @NotNull
