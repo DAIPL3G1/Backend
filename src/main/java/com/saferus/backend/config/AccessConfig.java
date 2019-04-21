@@ -42,7 +42,6 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
     private final String ROLES_QUERY = "select a.email, t.name from account a, account_type t where (a.account_type_id = t.id) and a.email = ?";
 
     @Override
-    @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .usersByUsernameQuery(USERS_QUERY)
@@ -86,6 +85,14 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
                 .anyRequest()
                 .authenticated().and()
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .loginProcessingUrl("/perform_login")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/authenticated", true)
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
