@@ -55,9 +55,8 @@ public class UserController {
     }
     
     @RequestMapping(value = {"/update/password/{user_nif}"}, method = RequestMethod.PUT)
-    public String updatePassword(@PathVariable("user_nif") String user_nif, @Valid @RequestBody String password, String newPassword){
-        userService.updatePassword(user_nif, password, newPassword);
-        return "Password alterada com sucesso";
+    public void updatePassword(@PathVariable("user_nif") String user_nif, @Valid @RequestBody User user){
+        userService.updatePassword(user_nif, user);
     }
     
     @RequestMapping(value = {"/add/vehicle/{user_nif}"}, method = RequestMethod.POST)

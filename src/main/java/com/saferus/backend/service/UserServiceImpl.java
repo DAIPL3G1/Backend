@@ -30,21 +30,21 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private BindRepository bindRepository;
-    
+
     @Autowired
     private VehicleRepository vehicleRepository;
-    
+
     @Autowired
     private VehicleTypeRepository vtRepository;
-    
+
     @Override
     public List<User> readAllUsers() {
         List<User> users = new ArrayList<>();
-        for(User u : userRepository.findAll()){
-            if(u.getType().equals("USER")){
+        for (User u : userRepository.findAll()) {
+            if (u.getType().equals("USER")) {
                 users.add(u);
             }
         }
@@ -55,9 +55,9 @@ public class UserServiceImpl implements UserService {
     public User readUser(String user_nif) {
         return userRepository.findUserByNif(user_nif);
     }
-    
+
     @Override
-    public User findUserByEmail(String email){
+    public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
 
@@ -68,20 +68,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(String user_nif, String newPassword, String oldPassword) {
-        User user = userRepository.findUserByNif(user_nif);
-        if (user.getPassword() == bCryptPasswordEncoder.encode(oldPassword)) {
-            user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-            user.setNif(user_nif);
-        }
+    public void updatePassword(String user_nif, User user) {
+        user.setNif(user_nif);
         userRepository.save(user);
     }
 
     @Override
     public List<User> readAllBrokers() {
-         List<User> brokers = new ArrayList<>();
-        for(User u : userRepository.findAll()){
-            if(u.getType().equals("BROKER")){
+        List<User> brokers = new ArrayList<>();
+        for (User u : userRepository.findAll()) {
+            if (u.getType().equals("BROKER")) {
                 brokers.add(u);
             }
         }
@@ -92,59 +88,59 @@ public class UserServiceImpl implements UserService {
     public User readBroker(String broker_nif) {
         return userRepository.findUserByNif(broker_nif);
     }
-    
+
     @Override
-    public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif){
+    public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif) {
         vehicle.setUser(userRepository.findUserByNif(user_nif));
         vehicle.setVehicleType(vtRepository.findVehicleTypeById(1));
         return vehicleRepository.save(vehicle);
     }
-    
+
     @Override
-    public void deleteVehicle(int id){
+    public void deleteVehicle(int id) {
         Vehicle vehicle = vehicleRepository.findVehicleById(id);
         vehicleRepository.delete(vehicle);
     }
-    
+
     @Override
-    public List<User> readAllUsersFromBroker(String broker_nif){
+    public List<User> readAllUsersFromBroker(String broker_nif) {
         List<User> users = new ArrayList<>();
         User broker = userRepository.findUserByNif(broker_nif);
-        for(Bind b : bindRepository.findAll()){
-            if(b.getBroker().equals(broker)){
+        for (Bind b : bindRepository.findAll()) {
+            if (b.getBroker().equals(broker)) {
                 users.add(b.getUser());
             }
         }
         return users;
     }
-    
+
     @Override
-    public List<Vehicle> readAllBoundVehicles(String broker_nif){
+    public List<Vehicle> readAllBoundVehicles(String broker_nif) {
         List<Vehicle> vehicles = new ArrayList<>();
         User broker = userRepository.findUserByNif(broker_nif);
-        for(Bind b : bindRepository.findAll()){
-            if(b.getBroker().equals(broker)){
+        for (Bind b : bindRepository.findAll()) {
+            if (b.getBroker().equals(broker)) {
                 Vehicle v = b.getVehicle();
                 vehicles.add(v);
             }
         }
         return vehicles;
     }
-    
+
     @Override
-    public List<Vehicle> readAllVehiclesFromUser(String user_nif){
+    public List<Vehicle> readAllVehiclesFromUser(String user_nif) {
         List<Vehicle> vehicles = new ArrayList<>();
         User user = userRepository.findUserByNif(user_nif);
-        for(Vehicle v : vehicleRepository.findAll()){
-            if(v.getUser().equals(user)){
+        for (Vehicle v : vehicleRepository.findAll()) {
+            if (v.getUser().equals(user)) {
                 vehicles.add(v);
             }
         }
         return vehicles;
     }
-    
+
     @Override
-    public List<Vehicle> readAllVehicles(){
+    public List<Vehicle> readAllVehicles() {
         return vehicleRepository.findAll();
     }
 

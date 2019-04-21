@@ -21,7 +21,7 @@ public interface UserService {
 
     public User updateInfo(User user, String user_nif);
 
-    public void updatePassword(String user_nif, String newPassword, String oldPassword);
+    public void updatePassword(String user_nif, User user) ;
 
     public List<User> readAllBrokers();
 
