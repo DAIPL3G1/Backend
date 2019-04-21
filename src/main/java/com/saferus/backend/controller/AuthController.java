@@ -55,12 +55,14 @@ public class AuthController {
         return new ResponseEntity( "hello", HttpStatus.OK);
     }
     
-    @GetMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Principal principal) {
-        if (principal!=null && ((Authentication)principal).isAuthenticated())
+        if (principal !=null && ((Authentication)principal).isAuthenticated()){
             return "redirect:/home";
-        else
+        }
+        else{
             return "login";
+        }
     }
     
 }

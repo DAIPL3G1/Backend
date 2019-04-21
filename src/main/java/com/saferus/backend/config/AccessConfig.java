@@ -55,6 +55,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/auth").hasRole("USER")
                 .antMatchers("/protected").hasRole("USER")
                 .antMatchers("/signup/user").permitAll()
                 .antMatchers("/signup/broker").permitAll()
