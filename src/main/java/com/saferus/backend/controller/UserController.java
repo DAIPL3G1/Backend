@@ -49,7 +49,7 @@ public class UserController {
     }
     
     @RequestMapping(value = {"/update/user/{user_nif}"}, method = RequestMethod.PUT)
-    public User updateInfo(@Valid @RequestBody User user, String user_nif){
+    public User updateInfo(@Valid @RequestBody User user, @PathVariable("user_nif") String user_nif){
         userService.updateInfo(user, user_nif);
         return user;
     }
