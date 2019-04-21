@@ -104,8 +104,8 @@ public class User extends Account implements Serializable {
         return zip_code;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zip_code = zipCode;
+    public void setZipCode(String zip_code) {
+        this.zip_code = zip_code;
     }
 
     public String getCity() {
