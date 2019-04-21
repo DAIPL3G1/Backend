@@ -131,6 +131,7 @@ public class UserServiceImpl implements UserService {
         return vehicles;
     }
     
+    @Override
     public List<Vehicle> readAllVehiclesFromUser(String user_nif){
         List<Vehicle> vehicles = new ArrayList<>();
         User user = userRepository.findUserByNif(user_nif);
@@ -140,6 +141,11 @@ public class UserServiceImpl implements UserService {
             }
         }
         return vehicles;
+    }
+    
+    @Override
+    public List<Vehicle> readAllVehicles(){
+        return vehicleRepository.findAll();
     }
 
 }

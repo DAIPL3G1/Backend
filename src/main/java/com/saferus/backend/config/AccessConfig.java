@@ -158,6 +158,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/readAllUsers").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/readAllBrokers").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/readAllBinds").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/readAllvehicles").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/read/all/clients/{broker_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/bind/request/pending/{broker_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/read/bound/vehicles/{broker_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")

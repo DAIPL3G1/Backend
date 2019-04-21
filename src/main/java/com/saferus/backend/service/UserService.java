@@ -28,15 +28,17 @@ public interface UserService {
     public User readBroker(String broker_nif);
 
     public User findUserByEmail(String email);
-
-    public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif);
+    
+    public List<User> readAllUsersFromBroker(String broker_nif);
     
     public void deleteVehicle(int id);
     
-    public List<User> readAllUsersFromBroker(String broker_nif);
+    public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif);
     
     public List<Vehicle> readAllBoundVehicles(String broker_nif);
     
     public List<Vehicle> readAllVehiclesFromUser(String user_nif);
+    
+    public List<Vehicle> readAllVehicles();
 
 }
