@@ -51,7 +51,8 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("**/login")).and().authorizeRequests()
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
@@ -84,7 +85,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/update/bind/{bind_id}").hasAnyRole("USER", "BROKER")
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
                 .and().formLogin().defaultSuccessUrl("/authenticated")
-                .loginPage("/login").and().logout().permitAll();
+                .loginProcessingUrl("/login").and().logout().deleteCookies("JSESSIONID").permitAll();
 
     }
 
