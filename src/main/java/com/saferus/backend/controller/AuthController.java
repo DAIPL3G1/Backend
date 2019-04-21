@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author lucasbrito
  */
 @RestController
-@CrossOrigin(origins = "http://saferus.herokuapp.com", maxAge = 3600)
+@CrossOrigin
 public class AuthController {
 
     @Autowired
