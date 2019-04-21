@@ -41,7 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addMapping("*")
                 .allowedMethods("OPTIONS", "GET", "PUT", "POST", "DELETE")
                 .allowedOrigins("*")
-                .allowedHeaders("*");
+                .allowedHeaders("Authorization", "Content-Type");
     }
 
     @Bean
