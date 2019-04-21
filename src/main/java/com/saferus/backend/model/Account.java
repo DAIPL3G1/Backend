@@ -27,7 +27,6 @@ public class Account implements Serializable {
     @Column(name = "password")
     String password;
 
-    @NotNull
     @Column(name = "enabled")
     int enabled;
 

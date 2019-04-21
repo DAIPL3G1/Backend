@@ -137,8 +137,19 @@ public class User extends Account implements Serializable {
         this.insuranceCompany = insuranceCompany;
     }
     
+    @Override
     public int getEnabled(){
         return enabled;
+    }
+    
+    @Override
+    public void setAccountType(AccountType at){
+        this.accountType = at;
+    }
+    
+    @Override
+    public void setEmail(String email){
+        this.email = email;
     }
     
     
