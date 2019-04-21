@@ -2,7 +2,7 @@ package com.saferus.backend.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "user")
-@JsonDeserialize(using = DateHandler.class)
 public class User extends Account implements Serializable {
 
     @NotNull
@@ -22,7 +21,7 @@ public class User extends Account implements Serializable {
     private String lastname;
     
     @Column(name = "birth_date")
-    private Instant birth_date;
+    private Date birth_date;
     
     @Column(name = "contact")
     private String contact;
@@ -76,11 +75,11 @@ public class User extends Account implements Serializable {
         return email;
     }
 
-    public Instant getBirthDate() {
+    public Date getBirthDate() {
         return birth_date;
     }
 
-    public void setBirthDate(Instant birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birth_date = birthDate;
     }
 
