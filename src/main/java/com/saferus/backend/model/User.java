@@ -137,7 +137,9 @@ public class User extends Account implements Serializable {
         this.insuranceCompany = insuranceCompany;
     }
     
-    
+    public int getEnabled(){
+        return enabled;
+    }
     
     
 }

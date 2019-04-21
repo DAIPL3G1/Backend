@@ -31,8 +31,16 @@ public class UserDetailsServiceImpl implements UserDetailsService{
       throw new UsernameNotFoundException("User not found");
     }
 
-    List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("user"));
+    List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("USER"), new SimpleGrantedAuthority("BROKER"), new SimpleGrantedAuthority("ADMIN"));
+    
+    boolean enabled = false;
+    if(user.getEnabled() == 0){
+        enabled = false;
+    }
+    else{
+        enabled = true;
+    }
 
-    return new User(user.getEmail(), user.getPassword(), authorities);
+    return new User(user.getEmail(), user.getPassword(), enabled, true, true, true, authorities);
   }
 }

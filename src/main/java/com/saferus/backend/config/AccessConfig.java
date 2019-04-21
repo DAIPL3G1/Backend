@@ -130,7 +130,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableConfigurationProperties
@@ -145,7 +144,37 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/auth").hasRole("USER")
+                .antMatchers("/protected").hasRole("USER")
+                .antMatchers("/signup/user").permitAll()
+                .antMatchers("/signup/broker").permitAll()
+                .antMatchers("/emails/{email}/{generated_password}").permitAll()
+                .antMatchers("/emails/verify_email/{token}").permitAll()
+                .antMatchers("/test").permitAll()
+                .antMatchers("/request/bind/{broker_nif}/{user_nif}").hasAuthority("USER")
+                .antMatchers("/readAllUsers").permitAll()
+                .antMatchers("/readAllBrokers").permitAll()
+                .antMatchers("/readAllBinds").permitAll()
+                .antMatchers("/read/all/clients/{broker_nif}").permitAll()
+                .antMatchers("/bind/request/pending/{broker_nif}").permitAll()
+                .antMatchers("/read/bound/vehicles/{broker_nif}").permitAll()
+                .antMatchers("/read/user/{user_nif}").hasAnyAuthority("USER")
+                .antMatchers("/read/broker/{broker_nif}").hasAuthority("BROKER")
+                .antMatchers("/read/bind/{bind_id}").permitAll()
+                .antMatchers("/delete/user/{user_nif}").hasAuthority("USER")
+                .antMatchers("/delete/broker/{broker_nif}").hasAuthority("BROKER")
+                .antMatchers("/delete/vehicle/{vehicle_id}").hasAnyAuthority("USER")
+                .antMatchers("/unbind/{user_nif}").hasAuthority("USER")
+                .antMatchers("/validate/user/{user_nif}").hasAuthority("ADMIN")
+                .antMatchers("/validate/broker/{broker_nif}").hasAuthority("ADMIN")
+                .antMatchers("/validate/bind/{bind_id}").hasAuthority("BROKER")
+                .antMatchers("/update/user/{user_nif}").hasAuthority("USER")
+                .antMatchers("/update/password/{user_nif}").hasAuthority("USER")
+                .antMatchers("/update/bind/{bind_id}").hasAnyRole("USER", "BROKER")
+                .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().disable();
