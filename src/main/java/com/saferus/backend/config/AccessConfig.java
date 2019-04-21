@@ -146,7 +146,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/authenticated").hasAnyRole("USER", "BROKER", "ADMIN")
                 .antMatchers("/auth").hasRole("USER")
                 .antMatchers("/protected").hasRole("USER")
                 .antMatchers("/signup/user").permitAll()
