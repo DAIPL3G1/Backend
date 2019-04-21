@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
       throw new UsernameNotFoundException("User not found");
     }
 
-    List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("USER"), new SimpleGrantedAuthority("BROKER"), new SimpleGrantedAuthority("ADMIN"));
+    List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("USER"));
     
     boolean enabled = false;
     if(user.getEnabled() == 0){
