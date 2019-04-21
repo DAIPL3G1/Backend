@@ -37,6 +37,7 @@ public class AuthController {
     public String login(){
         return "ERRO: Login não feito";
     }
+    
 
     @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
     public User Login(HttpServletRequest request){

@@ -21,6 +21,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 /*/**
  *
@@ -51,7 +53,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and()
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
@@ -83,15 +85,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/update/bind/{bind_id}").hasAnyRole("USER", "BROKER")
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
                 .anyRequest()
-                .authenticated().and().csrf().disable()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .loginProcessingUrl("/perform_login")
-                .failureUrl("/login?error=true")
-                .defaultSuccessUrl("/authenticated", true)
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .and()
+                .authenticated().and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
