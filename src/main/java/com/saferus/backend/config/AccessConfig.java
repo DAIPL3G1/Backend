@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.config;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,9 +31,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class AccessConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthenticationEntryPoint authEntryPoint;
-
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -43,22 +41,21 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        /* auth.jdbcAuthentication()
+        auth.jdbcAuthentication()
                 .usersByUsernameQuery(USERS_QUERY)
                 .authoritiesByUsernameQuery(ROLES_QUERY)
                 .dataSource(dataSource)
-                .passwordEncoder(bCryptPasswordEncoder);*/
-        auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
-                .authorizeRequests()
+        http.cors().and().csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("**/login")).and().authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/protected").hasRole("USER")
                 .antMatchers("/signup/user").permitAll()
                 .antMatchers("/signup/broker").permitAll()
                 .antMatchers("/emails/{email}/{generated_password}").permitAll()
@@ -85,10 +82,8 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/update/password/{user_nif}").hasAuthority("USER")
                 .antMatchers("/update/bind/{bind_id}").hasAnyRole("USER", "BROKER")
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
-                .anyRequest()
-                .authenticated().and()
-                .httpBasic()
-                .authenticationEntryPoint(authEntryPoint);
+                .and().formLogin().defaultSuccessUrl("/authenticated")
+                .loginPage("/login").and().logout().permitAll();
 
     }
 

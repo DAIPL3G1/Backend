@@ -33,13 +33,7 @@ public class AuthController {
     private UserService userService;
     
     @Autowired
-    Environment environment;
-    
-    @GetMapping("/login")
-    public String login(){
-        return "ERRO: Login não feito";
-    }
-    
+    Environment environment;    
 
     @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
     public User Login(HttpServletRequest request){
@@ -59,6 +53,14 @@ public class AuthController {
     @GetMapping("/protected")
     ResponseEntity hello(){
         return new ResponseEntity( "hello", HttpStatus.OK);
+    }
+    
+    @GetMapping("/login")
+    public String login(Principal principal) {
+        if (principal!=null && ((Authentication)principal).isAuthenticated())
+            return "redirect:/home";
+        else
+            return "login";
     }
     
 }
