@@ -40,13 +40,13 @@ public class BindController {
         return "Vinculacao Validada Com Sucesso";
     }
     
-    @RequestMapping(value = {"/unbind/{user_nif}"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/unbind/user/{user_nif}"}, method = RequestMethod.PUT)
     public String unbind(@PathVariable("user_nif") String user_nif) throws Exception{
         bindService.unbind(user_nif);
         return "Utilizador desvinculado com Sucesso";
     }
     
-    @RequestMapping(value = {"/unbind/{vehicle_id}"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/unbind/vehicle/{vehicle_id}"}, method = RequestMethod.PUT)
     public void unbindVehicle(@PathVariable("vehicle_id") int vehicle_id) throws Exception{
         bindService.unbindVehicle(vehicle_id);
     }
