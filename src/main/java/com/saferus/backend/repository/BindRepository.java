@@ -20,6 +20,6 @@ public interface BindRepository extends JpaRepository<Bind, Integer>{
     
     Bind findBindById(int id);
     Bind findBindByUser(User u);
-    Bind findBindbyVehicle(Vehicle v);
+    Bind findBindByVehicle(Vehicle v);
     
 }

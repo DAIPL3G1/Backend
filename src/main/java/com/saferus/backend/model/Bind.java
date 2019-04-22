@@ -45,8 +45,8 @@ public class Bind implements Serializable {
     @Column(name = "enabled")
     private int enabled;
 
-    @NotNull
     @OneToOne
+    @NotNull
     private Vehicle vehicle;
 
     public int getId() {
