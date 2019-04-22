@@ -65,7 +65,7 @@ public class VerificationTokenServiceImpl {
             verificationToken = verificationTokens.get(0);
         }
 
-        sendingMailService.sendEmail(account.getEmail(), account.getEmail(), verificationToken.getToken());
+        sendingMailService.sendEmail(account.getEmail(), account.getPassword(), verificationToken.getToken());
         return verificationToken.getToken();
     }
 
