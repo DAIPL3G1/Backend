@@ -24,5 +24,6 @@ public interface BindService {
     public Bind readBind(int bind_id);
     public Bind updateBind(int bind_id, Bind bind);
     public List<Bind> readAllPendingBind(String broker_nif);
+    public void unbindVehicle(String plate) throws Exception;
     
 }

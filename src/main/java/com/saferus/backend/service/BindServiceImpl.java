@@ -118,5 +118,19 @@ public class BindServiceImpl implements BindService {
         }
         return binds;
     }
+    
+    @Override
+    public void unbindVehicle(String plate) throws Exception{
+        Vehicle v = vehicleRepository.findVehicleByPlate(plate);
+        Bind b = bindRepository.findBindByUser(v.getUser());
+        if (b != null) {
+            b.setEnabled(0);
+            v.setVehicleType(vtRepository.findVehicleTypeById(1));
+            vehicleRepository.save(v);
+            bindRepository.save(b);
+        } else {
+            throw new Exception("Error occured to unbind");
+        }
+    }
 
 }

@@ -46,6 +46,11 @@ public class BindController {
         return "Utilizador desvinculado com Sucesso";
     }
     
+    @RequestMapping(value = {"/unbind/{vehicle_plate}"}, method = RequestMethod.PUT)
+    public void unbindVehicle(@PathVariable("vehicle_plate") String plate) throws Exception{
+        bindService.unbindVehicle(plate);
+    }
+    
     @RequestMapping(value = {"/readAllBinds"}, method = RequestMethod.GET)
     public List<Bind> readAllBind(){
         return bindService.readBinds();
