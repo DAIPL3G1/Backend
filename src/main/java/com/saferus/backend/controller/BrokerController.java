@@ -32,7 +32,7 @@ public class BrokerController {
 
     @RequestMapping(value = "/read/all/clients/{broker_nif}", method = RequestMethod.GET)
     public List<User> readAllClientsFromABroker(@PathVariable("broker_nif") String broker_nif) {
-        return userService.readAllUsersFromBroker(broker_nif);
+        return userService.readAllClientsFromBroker(broker_nif);
     }
 
     @RequestMapping(value = {"/read/bound/vehicles/{broker_nif}"}, method = RequestMethod.GET)

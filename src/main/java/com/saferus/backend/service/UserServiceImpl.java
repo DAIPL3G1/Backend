@@ -113,16 +113,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> readAllUsersFromBroker(String broker_nif) {
-        List<User> users = new ArrayList<>();
+    public List<User> readAllClientsFromBroker(String broker_nif) {
+
         User broker = userRepository.findUserByNif(broker_nif);
+
+        List<User> users = new ArrayList<>();
+
         for (Bind b : bindRepository.findAll()) {
-            if (b.getBroker().equals(broker)) {
-                if (b.getEnabled() == 1) {
-                    users.add(b.getUser());
+            if (b.getEnabled() == 1) {
+                if (b.getBroker().equals(broker)) {
+                    if(!users.contains(b.getUser())){
+                        users.add(b.getUser());
+                    }
                 }
             }
         }
+
         return users;
     }
 

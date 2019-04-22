@@ -29,7 +29,7 @@ public interface UserService {
 
     public User findUserByEmail(String email);
     
-    public List<User> readAllUsersFromBroker(String broker_nif);
+    public List<User> readAllClientsFromBroker(String broker_nif);
     
     public void deleteVehicle(int id);
     
