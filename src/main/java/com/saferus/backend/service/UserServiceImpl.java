@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateInfo(User user, String user_nif) {
         User u = userRepository.findUserByNif(user_nif);
+        user.setNif(user_nif);
         user.setAccountType(u.getAccountType());
         user.setEmail(u.getEmail());
         user.setPassword(u.getPassword());
