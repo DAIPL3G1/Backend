@@ -12,7 +12,7 @@ import org.bson.types.ObjectId;
  *
  * @author lucasbrito
  */
-public class Statistic {
+public class Datas {
     
     @Id
     private ObjectId id;
@@ -21,7 +21,7 @@ public class Statistic {
     
     private int value;
     
-    public Statistic(ObjectId id, String type, int value){
+    public Datas(ObjectId id, String type, int value){
         this.id = id;
         this.type = type;
         this.value = value;

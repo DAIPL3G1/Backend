@@ -5,7 +5,7 @@
  */
 package com.saferus.backend.repository;
 
-import com.saferus.backend.model.Statistic;
+import com.saferus.backend.model.Datas;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -13,8 +13,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  *
  * @author lucasbrito
  */
-public interface StatisticRepository extends MongoRepository<Statistic, String>{
+public interface StatisticRepository extends MongoRepository<Datas, String>{
     
-    public Statistic findStatisticById(ObjectId id);
+    public Datas findStatisticById(ObjectId id);
     
 }
