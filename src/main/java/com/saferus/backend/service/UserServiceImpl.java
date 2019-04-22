@@ -78,14 +78,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(String user_nif, User user) {
         User u = userRepository.findUserByNif(user_nif);
-        user.setNif(user_nif);
-        user.setAccountType(u.getAccountType());
-        user.setEmail(u.getEmail());
-        user.setFirstname(u.getFirstname());
-        user.setLastname(u.getLastname());
-        user.setEnabled(1);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        u.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     }
 
     @Override
