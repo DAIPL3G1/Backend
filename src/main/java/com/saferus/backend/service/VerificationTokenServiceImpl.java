@@ -9,6 +9,7 @@ package com.saferus.backend.service;
  *
  * @author lucasbrito
  */
+import com.saferus.backend.model.Account;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.VerificationToken;
 import com.saferus.backend.repository.UserRepository;
@@ -42,19 +43,19 @@ public class VerificationTokenServiceImpl {
         this.sendingMailService = sendingMailService;
     }
 
-    public String createVerification(String email, String pw) throws MessagingException, AddressException, IOException{
-        List<User> users = userRepository.findByEmail(email);
+    public String createVerification(Account account) throws MessagingException, AddressException, IOException{
+        List<User> users = userRepository.findByEmail(account.getEmail());
         User user;
         if (users.isEmpty()) {
             user = new User();
-            user.setEmail(email);
-            user.setPassword(pw);
+            user.setEmail(account.getEmail());
+            user.setPassword(account.getPassword());
             userRepository.save(user);
         } else {
             user = users.get(0);
         }
 
-        List<VerificationToken> verificationTokens = verificationTokenRepository.findByUserEmail(email);
+        List<VerificationToken> verificationTokens = verificationTokenRepository.findByUserEmail(account.getEmail());
         VerificationToken verificationToken;
         if (verificationTokens.isEmpty()) {
             verificationToken = new VerificationToken();
@@ -64,7 +65,7 @@ public class VerificationTokenServiceImpl {
             verificationToken = verificationTokens.get(0);
         }
 
-        sendingMailService.sendEmail(email, pw, verificationToken.getToken());
+        sendingMailService.sendEmail(account.getEmail(), account.getEmail(), verificationToken.getToken());
         return verificationToken.getToken();
     }
 

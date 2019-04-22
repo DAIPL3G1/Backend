@@ -147,7 +147,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/auth").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/protected").hasAnyAuthority("USER", "BROKER", "ADMIN")
-                .antMatchers("/emails/{email}/{generated_password}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/emails").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/emails/verify_email/{token}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/test").permitAll()
                 .antMatchers("/request/bind/{broker_nif}/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")

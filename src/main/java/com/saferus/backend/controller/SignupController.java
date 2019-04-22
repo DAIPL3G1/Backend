@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.controller;
 
+import com.saferus.backend.model.Account;
 import com.saferus.backend.model.User;
 import com.saferus.backend.service.SignupServiceImpl;
 import com.saferus.backend.service.VerificationTokenServiceImpl;
@@ -76,9 +77,9 @@ public class SignupController {
     }
     
     
-    @RequestMapping(value = {"/emails/{email}/{generated_password}"}, method = RequestMethod.POST)
-    public String sendEmail(@PathVariable("email") String email, @PathVariable("generated_password") String pw) throws MessagingException, AddressException, IOException {
-      return verificationTokenService.createVerification(email, pw);
+    @RequestMapping(value = {"/emails"}, method = RequestMethod.POST)
+    public String sendEmail(@Valid Account account) throws MessagingException, AddressException, IOException {
+      return verificationTokenService.createVerification(account);
    } 
     
     @RequestMapping(value = {"/emails/verify_email/{token}"}, method = RequestMethod.GET)

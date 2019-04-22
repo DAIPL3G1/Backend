@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.service;
 
+import com.saferus.backend.model.Account;
 import java.io.IOException;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service("verificationTokenService")
 public interface VerificationTokenService {
     
-    public String createVerification(String email, String pw) throws MessagingException, AddressException, IOException;
+    public String createVerification(Account account) throws MessagingException, AddressException, IOException;
     public ResponseEntity<String> verifyEmail(String token);
 
 
