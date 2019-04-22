@@ -107,6 +107,7 @@ public class BindServiceImpl implements BindService {
         return bindRepository.save(bind);
     }
     
+    @Override
     public List<Bind> readAllPendingBind(String broker_nif){
         List<Bind> binds = new ArrayList<>();
         for(Bind b : bindRepository.findAll()){

@@ -118,7 +118,9 @@ public class UserServiceImpl implements UserService {
         User broker = userRepository.findUserByNif(broker_nif);
         for (Bind b : bindRepository.findAll()) {
             if (b.getBroker().equals(broker)) {
-                users.add(b.getUser());
+                if (b.getEnabled() == 1) {
+                    users.add(b.getUser());
+                }
             }
         }
         return users;
