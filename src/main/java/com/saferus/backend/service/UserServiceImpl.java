@@ -79,6 +79,8 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(String user_nif, User user) {
         User u = userRepository.findUserByNif(user_nif);
         u.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        u.setNif(user_nif);
+        userRepository.save(u);
     }
 
     @Override
