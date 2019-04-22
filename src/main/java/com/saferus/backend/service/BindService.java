@@ -19,7 +19,7 @@ public interface BindService {
     
     public void requestBind(String plate, String broker_nif, String user_nif) ;
     public Bind validateBind(ValidateBind vb, int bind_id) throws Exception;
-    public Bind unvalidateBind(ValidateBind vb, int bind_id) throws Exception;
+    public Bind unvalidateBind(int bind_id) throws Exception;
     public void unbind(String user_nif) throws Exception;
     public List<Bind> readBinds();
     public Bind readBind(int bind_id);

@@ -77,7 +77,7 @@ public class BindServiceImpl implements BindService {
     }
     
     @Override
-    public Bind unvalidateBind(ValidateBind vb, int bind_id) throws Exception{
+    public Bind unvalidateBind(int bind_id) throws Exception{
         ZoneId denverTimeZone = ZoneId.of("Europe/Lisbon");
         Bind b = bindRepository.findBindById(bind_id);
         b.setStartDate(ZonedDateTime.now(denverTimeZone).toInstant());
@@ -90,7 +90,6 @@ public class BindServiceImpl implements BindService {
         } else {
             throw new Exception("Bind already activated!");
         }
-        b.setContractCode(vb.getContract_code());
         b.setAccepted(0);
         bindRepository.save(b);
         return b;
