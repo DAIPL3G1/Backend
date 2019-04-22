@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = new ArrayList<>();
 
         for (Bind b : bindRepository.findAll()) {
-            if (b.getEnabled() == 1) {
+            if (b.getAccepted() == 1) {
                 if (b.getBroker().equals(broker)) {
                     if(!users.contains(b.getUser())){
                         users.add(b.getUser());

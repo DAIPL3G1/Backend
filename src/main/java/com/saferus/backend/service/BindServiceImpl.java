@@ -52,7 +52,8 @@ public class BindServiceImpl implements BindService {
         Vehicle v = vehicleRepository.findVehicleByPlate(plate);
         newBind.setVehicle(v);
         newBind.setRequestDate(Instant.now());
-        newBind.setEnabled(0);
+        newBind.setRequest(1);
+        newBind.setAccepted(0);
         bindRepository.save(newBind);
     }
 
@@ -65,13 +66,9 @@ public class BindServiceImpl implements BindService {
         Vehicle v = b.getVehicle();
         v.setVehicleType(vtRepository.findVehicleTypeById(2));
         vehicleRepository.save(v);
-        if (b.getEnabled() == 0) {
-            b.setEnabled(1);
-        } else {
-            throw new Exception("Bind already activated!");
-        }
         b.setContractCode(vb.getContract_code());
         b.setAccepted(1);
+        b.setRequest(0);
         bindRepository.save(b);
         return b;
     }
@@ -85,11 +82,7 @@ public class BindServiceImpl implements BindService {
         Vehicle v = b.getVehicle();
         v.setVehicleType(vtRepository.findVehicleTypeById(2));
         vehicleRepository.save(v);
-        if (b.getEnabled() == 0) {
-            b.setEnabled(1);
-        } else {
-            throw new Exception("Bind already activated!");
-        }
+        b.setRequest(0);
         b.setAccepted(0);
         bindRepository.save(b);
         return b;
@@ -100,7 +93,8 @@ public class BindServiceImpl implements BindService {
         User u = userRepository.findUserByNif(user_nif);
         Bind b = bindRepository.findBindByUser(u);
         if (b != null) {
-            b.setEnabled(0);
+            b.setRequest(0);
+            b.setAccepted(0);
             Vehicle v = b.getVehicle();
             v.setVehicleType(vtRepository.findVehicleTypeById(1));
             vehicleRepository.save(v);
@@ -132,7 +126,7 @@ public class BindServiceImpl implements BindService {
         List<Bind> binds = new ArrayList<>();
         for(Bind b : bindRepository.findAll()){
             if(b.getBroker().getNif().equals(broker_nif)){
-                if(b.getEnabled() == 0){
+                if(b.getRequest() == 1){
                     binds.add(b);
                 }
             }
@@ -145,7 +139,8 @@ public class BindServiceImpl implements BindService {
         Vehicle v = vehicleRepository.findVehicleById(vehicle_id);
         Bind b = bindRepository.findBindByVehicle(v);
         if (b != null) {
-            b.setEnabled(0);
+            b.setAccepted(0);
+            b.setRequest(0);
             v.setVehicleType(vtRepository.findVehicleTypeById(1));
             vehicleRepository.save(v);
             bindRepository.save(b);

@@ -41,15 +41,13 @@ public class Bind implements Serializable {
     @NotNull
     private User broker;
 
-    @NotNull
-    @Column(name = "enabled")
-    private int enabled;
-
     @OneToOne
     @NotNull
     private Vehicle vehicle;
     
     private int accepted;
+    
+    private int request;
 
     public int getId() {
         return id;
@@ -81,14 +79,6 @@ public class Bind implements Serializable {
 
     public void setRequestDate(Instant requestDate) {
         this.requestDate = requestDate;
-    }
-
-    public int getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(int enabled) {
-        this.enabled = enabled;
     }
 
     public String getContractCode() {
@@ -142,6 +132,16 @@ public class Bind implements Serializable {
     public void setAccepted(int accepted) {
         this.accepted = accepted;
     }
+
+    public int getRequest() {
+        return request;
+    }
+
+    public void setRequest(int request) {
+        this.request = request;
+    }
+    
+    
     
 
 }
