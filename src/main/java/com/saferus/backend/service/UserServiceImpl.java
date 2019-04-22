@@ -131,7 +131,9 @@ public class UserServiceImpl implements UserService {
         for (Bind b : bindRepository.findAll()) {
             if (b.getBroker().equals(broker)) {
                 Vehicle v = b.getVehicle();
-                vehicles.add(v);
+                if (v.getVehicleType().getId() == 2) {
+                    vehicles.add(v);
+                }
             }
         }
         return vehicles;
