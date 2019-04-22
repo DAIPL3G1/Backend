@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
         for (Bind b : bindRepository.findAll()) {
             if (b.getAccepted() == 1) {
                 if (b.getBroker().equals(broker)) {
-                    if(!users.contains(b.getUser())){
+                    if (!users.contains(b.getUser())) {
                         users.add(b.getUser());
                     }
                 }
@@ -137,10 +137,12 @@ public class UserServiceImpl implements UserService {
         List<Vehicle> vehicles = new ArrayList<>();
         User broker = userRepository.findUserByNif(broker_nif);
         for (Bind b : bindRepository.findAll()) {
-            if (b.getBroker().equals(broker)) {
-                Vehicle v = b.getVehicle();
-                if (v.getVehicleType().getId() == 2) {
-                    vehicles.add(v);
+            if (b.getAccepted() == 1) {
+                if (b.getBroker().equals(broker)) {
+                    Vehicle v = b.getVehicle();
+                    if (v.getVehicleType().getId() == 2) {
+                        vehicles.add(v);
+                    }
                 }
             }
         }
