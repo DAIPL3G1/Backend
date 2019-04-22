@@ -78,7 +78,7 @@ public class SignupController {
     
     
     @RequestMapping(value = {"/emails"}, method = RequestMethod.POST)
-    public String sendEmail(@Valid Account account) throws MessagingException, AddressException, IOException {
+    public String sendEmail(@Valid @RequestBody Account account) throws MessagingException, AddressException, IOException {
       return verificationTokenService.createVerification(account);
    } 
     
