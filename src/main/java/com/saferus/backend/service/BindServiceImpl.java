@@ -120,8 +120,8 @@ public class BindServiceImpl implements BindService {
     }
     
     @Override
-    public void unbindVehicle(String plate) throws Exception{
-        Vehicle v = vehicleRepository.findVehicleByPlate(plate);
+    public void unbindVehicle(int vehicle_id) throws Exception{
+        Vehicle v = vehicleRepository.findVehicleById(vehicle_id);
         Bind b = bindRepository.findBindByUser(v.getUser());
         if (b != null) {
             b.setEnabled(0);

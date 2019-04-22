@@ -166,7 +166,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/delete/broker/{broker_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/delete/vehicle/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/unbind/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
-                .antMatchers("/unbind/{vehicle_plate}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/unbind/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/validate/user/{user_nif}").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/validate/broker/{broker_nif}").hasAnyAuthority("BROKER", "ADMIN")
                 .antMatchers("/validate/bind/{bind_id}").hasAnyAuthority("BROKER", "ADMIN")
