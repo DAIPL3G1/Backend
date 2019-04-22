@@ -145,8 +145,6 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/auth").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/protected").hasAnyAuthority("USER", "BROKER", "ADMIN")
-                .antMatchers("/signup/user").permitAll()
-                .antMatchers("/signup/broker").permitAll()
                 .antMatchers("/emails/{email}/{generated_password}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/emails/verify_email/{token}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/test").permitAll()
@@ -176,6 +174,8 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/update/bind/{bind_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER", "ADMIN")
                 .anyRequest().authenticated()
+                .antMatchers("/signup/user").permitAll()
+                .antMatchers("/signup/broker").permitAll()
                 .and().httpBasic()
                 .and().sessionManagement().disable();
     }
