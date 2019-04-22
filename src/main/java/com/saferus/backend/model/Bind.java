@@ -48,6 +48,8 @@ public class Bind implements Serializable {
     @OneToOne
     @NotNull
     private Vehicle vehicle;
+    
+    private int accepted;
 
     public int getId() {
         return id;
@@ -124,5 +126,22 @@ public class Bind implements Serializable {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+
+    public String getContract_code() {
+        return contract_code;
+    }
+
+    public void setContract_code(String contract_code) {
+        this.contract_code = contract_code;
+    }
+
+    public int getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(int accepted) {
+        this.accepted = accepted;
+    }
+    
 
 }

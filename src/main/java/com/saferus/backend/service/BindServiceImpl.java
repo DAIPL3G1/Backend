@@ -71,6 +71,27 @@ public class BindServiceImpl implements BindService {
             throw new Exception("Bind already activated!");
         }
         b.setContractCode(vb.getContract_code());
+        b.setAccepted(1);
+        bindRepository.save(b);
+        return b;
+    }
+    
+    @Override
+    public Bind unvalidateBind(ValidateBind vb, int bind_id) throws Exception{
+        ZoneId denverTimeZone = ZoneId.of("Europe/Lisbon");
+        Bind b = bindRepository.findBindById(bind_id);
+        b.setStartDate(ZonedDateTime.now(denverTimeZone).toInstant());
+        b.setEndDate(ZonedDateTime.now(denverTimeZone).toInstant());
+        Vehicle v = b.getVehicle();
+        v.setVehicleType(vtRepository.findVehicleTypeById(2));
+        vehicleRepository.save(v);
+        if (b.getEnabled() == 0) {
+            b.setEnabled(1);
+        } else {
+            throw new Exception("Bind already activated!");
+        }
+        b.setContractCode(vb.getContract_code());
+        b.setAccepted(0);
         bindRepository.save(b);
         return b;
     }
