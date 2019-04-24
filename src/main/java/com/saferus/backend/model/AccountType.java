@@ -8,50 +8,42 @@ package com.saferus.backend.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.hibernate.annotations.NaturalId;
 
 /**
  *
  * @author lucasbrito
  */
 @Entity
-@Table(name = "roles")
-public class Role implements Serializable {
+@Table(name = "AccountType")
+public class AccountType implements Serializable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
- 
-    @Enumerated(EnumType.STRING)
-    @NaturalId
-    @Column(length = 60)
-    private RoleName name;
- 
-    public Role() {}
- 
-    public Role(RoleName name) {
-        this.name = name;
-    }
- 
-    public Long getId() {
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Column(name = "name")
+    String name;
+
+    public int getId() {
         return id;
     }
- 
-    public void setId(Long id) {
+
+    public void setId(int id) {
         this.id = id;
     }
- 
-    public RoleName getName() {
+
+    public String getName() {
         return name;
     }
- 
-    public void setName(RoleName name) {
+
+    public void setName(String name) {
         this.name = name;
     }
+    
+    
+    
 }

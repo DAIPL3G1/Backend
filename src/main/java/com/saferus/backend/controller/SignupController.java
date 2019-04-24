@@ -34,6 +34,18 @@ public class SignupController {
     @Autowired
     VerificationTokenServiceImpl verificationTokenService;
 
+    @RequestMapping(value = {"/signup/user"}, method = RequestMethod.POST)
+    public User signupUser(@Valid @RequestBody User user) throws Exception {
+        signupService.signupUser(user);
+        return user;
+    }
+
+    @RequestMapping(value = {"/signup/broker"}, method = RequestMethod.POST)
+    public User signupBroker(@Valid @RequestBody User b) {
+        signupService.signupBroker(b);
+        return b;
+    }
+
     @RequestMapping(value = {"/access_denied"}, method = RequestMethod.GET)
     public String accessDenied() {
         return "Acesso Negado! Tente Novamente mais tarde!";

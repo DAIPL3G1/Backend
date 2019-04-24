@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*package com.saferus.backend.config;
+package com.saferus.backend.config;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +16,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;*/
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  *
@@ -24,11 +24,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;*/
  *
  *
  */
-/*
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.saferus.backend")
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
+    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -51,4 +56,3 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new CorsFilter(source);
     }
 }
-*/
