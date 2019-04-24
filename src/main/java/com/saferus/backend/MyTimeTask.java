@@ -125,7 +125,7 @@ public class MyTimeTask extends TimerTask {
             //Receive Date from the Data
             Date date = parse(myResponse.getJSONArray("data").getJSONObject(i).getString("DataHora"));
 
-            int velocity = Integer.parseInt(myResponse.getJSONArray("data").getJSONObject(i).getString("Velocidade"));
+            double velocity = Double.parseDouble(myResponse.getJSONArray("data").getJSONObject(i).getString("Velocidade"));
 
             //Receive Start and Finish Boolean from the Data
             boolean start = Boolean.parseBoolean(myResponse.getJSONArray("data").getJSONObject(i).getString("Start"));
@@ -136,7 +136,7 @@ public class MyTimeTask extends TimerTask {
             double longitude = Double.parseDouble(myResponse.getJSONArray("data").getJSONObject(i).getString("Longitude"));
 
             //Receive velocity limit from the Data
-            int velocityLimit = Integer.parseInt(myResponse.getJSONArray("data").getJSONObject(i).getString("LimiteVelocidade"));
+            double velocityLimit = Integer.parseInt(myResponse.getJSONArray("data").getJSONObject(i).getString("LimiteVelocidade"));
 
             Data newData = new Data(id, date, velocity, start, finish, latitude, longitude, velocityLimit);
             dataList.add(newData);

@@ -26,13 +26,13 @@ public class TripTratment {
     public double latitudeFinish;
     public double longitudeFinish;
     public long tripTime;
-    public int distance;
+    public double distance;
     public long aboveVelocityLimitTime;
     public double velocityAverage;
 
     public TripTratment(){}
 
-    public TripTratment(ObjectId _id, int vehicle_id, Date startDate, Date finishDate, double latitudeStart, double longitudeStart, double latitudeFinish, double longitudeFinish, long tripTime, int distance, long aboveVelocityLimitTime, double velocityAverage) {
+    public TripTratment(ObjectId _id, int vehicle_id, Date startDate, Date finishDate, double latitudeStart, double longitudeStart, double latitudeFinish, double longitudeFinish, long tripTime, double distance, long aboveVelocityLimitTime, double velocityAverage) {
         this._id = _id;
         this.vehicle_id = vehicle_id;
         this.startDate = startDate;
@@ -80,11 +80,11 @@ public class TripTratment {
         this.tripTime = tripTime;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 

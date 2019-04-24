@@ -19,7 +19,7 @@ public class Data {
     
     private Date date;
     
-    private int velocity;
+    private double velocity;
     
     private boolean start;
     
@@ -29,9 +29,9 @@ public class Data {
     
     private double longitude;
     
-    private int velocityLimit;
+    private double velocityLimit;
 
-    public Data(int idVeiculo, Date date, int velocity, boolean start, boolean finish, double latitude, double longitude, int velocityLimit) {
+    public Data(int idVeiculo, Date date, double velocity, boolean start, boolean finish, double latitude, double longitude, double velocityLimit) {
         this.idVeiculo = idVeiculo;
         this.date = date;
         this.velocity = velocity;
@@ -91,19 +91,19 @@ public class Data {
         this.longitude = longitude;
     }
 
-    public int getVelocityLimit() {
+    public double getVelocityLimit() {
         return velocityLimit;
     }
 
-    public void setVelocityLimit(int velocityLimit) {
+    public void setVelocityLimit(double velocityLimit) {
         this.velocityLimit = velocityLimit;
     }
 
-    public int getVelocity() {
+    public double getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(int velocity) {
+    public void setVelocity(double velocity) {
         this.velocity = velocity;
     }
     
