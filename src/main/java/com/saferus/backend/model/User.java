@@ -3,8 +3,14 @@ package com.saferus.backend.model;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -20,29 +26,43 @@ public class User extends Account implements Serializable {
     @NotNull
     @Column(name = "lastname")
     private String lastname;
-    
+
     @Column(name = "birth_date")
     private Date birth_date;
-    
+
     @Column(name = "contact")
     private String contact;
-    
+
     @Column(name = "address")
     private String address;
-    
+
     @Column(name = "zip_code")
     private String zip_code;
-    
+
     @Column(name = "city")
     private String city;
-    
+
     @Column(name = "country")
     private String country;
-    
+
     private String insuranceCompany;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_nif"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
     
-    private String type;
+    public User(){}
     
+    public User(String nif, String firstname, String lastname, String email, String password){
+        this.nif = nif;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -60,17 +80,17 @@ public class User extends Account implements Serializable {
     }
 
     @Override
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
-    
+
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
-    
+
     @Override
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
@@ -121,9 +141,9 @@ public class User extends Account implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-    
+
     @Override
-    public void setEnabled(int enabled){
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -134,14 +154,14 @@ public class User extends Account implements Serializable {
     public void setInsuranceCompany(String insuranceCompany) {
         this.insuranceCompany = insuranceCompany;
     }
-    
+
     @Override
-    public int getEnabled(){
+    public boolean isEnabled() {
         return enabled;
     }
-    
+
     @Override
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -161,14 +181,6 @@ public class User extends Account implements Serializable {
         this.zip_code = zip_code;
     }
 
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
-    }
-
     @Override
     public String getNif() {
         return nif;
@@ -179,18 +191,12 @@ public class User extends Account implements Serializable {
         this.nif = nif;
     }
 
-    public String getType() {
-        return accountType.name;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

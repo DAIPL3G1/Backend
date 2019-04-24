@@ -32,7 +32,7 @@ public class BackendApplication extends SpringBootServletInitializer {
 
         //Use this if you want to execute it repeatedly
         int period = 60000*60;//60secs*
-        //timer.schedule(new MyTimeTask(), date, period);
+        //timer.schedule(new MyTimeTask(appContext), date, period);
 
         MyTimeTask hello = new MyTimeTask(appContext);
         hello.run();

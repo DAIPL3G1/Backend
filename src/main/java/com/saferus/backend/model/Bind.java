@@ -1,5 +1,6 @@
 package com.saferus.backend.model;
 
+import com.saferus.backend.exceptions.AppException;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.Column;
@@ -44,9 +45,9 @@ public class Bind implements Serializable {
     @OneToOne
     @NotNull
     private Vehicle vehicle;
-    
+
     private int accepted;
-    
+
     private int request;
 
     public int getId() {
@@ -90,23 +91,11 @@ public class Bind implements Serializable {
     }
 
     public User getUser() {
-          return user;
-    }
-
-    public void setUser(User user) {
-        if (user.getAccountType().getId() == 1) {
-            this.user = user;
-        }
+        return user;
     }
 
     public User getBroker() {
         return broker;
-    }
-
-    public void setBroker(User broker) {
-        if (broker.getAccountType().getId() == 2) {
-            this.broker = broker;
-        }
     }
 
     public Vehicle getVehicle() {
@@ -140,8 +129,13 @@ public class Bind implements Serializable {
     public void setRequest(int request) {
         this.request = request;
     }
-    
-    
-    
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setBroker(User broker) {
+        this.broker = broker;
+    }
 
 }

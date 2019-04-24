@@ -5,49 +5,148 @@
  */
 package com.saferus.backend.controller;
 
+import com.saferus.backend.exceptions.AppException;
+import com.saferus.backend.model.Role;
+import com.saferus.backend.model.RoleName;
 import com.saferus.backend.model.User;
+import com.saferus.backend.payload.ApiResponse;
+import com.saferus.backend.payload.JwtAuthenticationResponse;
+import com.saferus.backend.payload.LoginRequest;
+import com.saferus.backend.payload.SignUpRequest;
+import com.saferus.backend.repository.RoleRepository;
+import com.saferus.backend.repository.UserRepository;
+import com.saferus.backend.security.JwtTokenProvider;
+import com.saferus.backend.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import com.saferus.backend.service.UserService;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.Collections;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 
-/**
- *
- * @author lucasbrito
- */
 @RestController
-@CrossOrigin
 public class AuthController {
 
     @Autowired
-    private UserService userService;
-    
+    AuthenticationManager authenticationManager;
+
     @Autowired
-    Environment environment;    
+    UserRepository userRepository;
 
-    @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
-    public User Login(HttpServletRequest request){
-        return userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-    }
-    
-    @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public boolean HomeMessage() {
-        return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    JwtTokenProvider tokenProvider;
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.generateToken(authentication);
+
+        Cookie cookie = new Cookie("SaferusCookie", jwt);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(500000);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
-    @GetMapping("/test")
-    String testConnection() throws UnknownHostException {
-        return "Your server is up and running at port: " + environment.getProperty("local.server.port") + " " + InetAddress.getLocalHost().getHostAddress() + " " + InetAddress.getLocalHost().getHostName(); 
+    @PostMapping("/signup/user")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        if (userRepository.existsByNif(signUpRequest.getNif())) {
+            return new ResponseEntity(new ApiResponse(false, "Nif já em uso"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity(new ApiResponse(false, "Email já em uso!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // Creating user's account
+        User user = new User(signUpRequest.getNif(), signUpRequest.getFirstname(), signUpRequest.getLastname(),
+                signUpRequest.getEmail(), signUpRequest.getPassword());
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new AppException("Não existe este tipo de Utilizador."));
+
+        user.setRoles(Collections.singleton(userRole));
+
+        User result = userRepository.save(user);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/api/users/{username}")
+                .buildAndExpand(result.getEmail()).toUri();
+
+        return ResponseEntity.created(location).body(new ApiResponse(true, "Utilizador Registado com sucesso"));
     }
-    
+
+    @PostMapping("/signup/broker")
+    public ResponseEntity<?> registerBroker(@Valid @RequestBody SignUpRequest signUpRequest) {
+        if (userRepository.existsByNif(signUpRequest.getNif())) {
+            return new ResponseEntity(new ApiResponse(false, "Nif já em uso"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity(new ApiResponse(false, "Email já em uso"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // Creating user's account
+        User user = new User(signUpRequest.getNif(), signUpRequest.getFirstname(), signUpRequest.getLastname(),
+                signUpRequest.getEmail(), signUpRequest.getPassword());
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        Role userRole = roleRepository.findByName(RoleName.ROLE_BROKER)
+                .orElseThrow(() -> new AppException("Não existe tipo de Mediador"));
+
+        user.setRoles(Collections.singleton(userRole));
+
+        User result = userRepository.save(user);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/brokers/{email}")
+                .buildAndExpand(result.getEmail()).toUri();
+
+        return ResponseEntity.created(location).body(new ApiResponse(true, "Mediador registado com Sucesso!"));
+    }
+
+    @GetMapping("/authenticated")
+    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
+    public User getCurrentUser() {
+        return userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
 }

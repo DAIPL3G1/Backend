@@ -5,11 +5,14 @@
  */
 package com.saferus.backend.service;
 
-import com.saferus.backend.exceptions.DataNotFoundException;
+import com.saferus.backend.exceptions.AppException;
+import com.saferus.backend.exceptions.ResourceNotFoundException;
 import com.saferus.backend.model.Bind;
+import com.saferus.backend.model.Role;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
 import com.saferus.backend.repository.BindRepository;
+import com.saferus.backend.repository.RoleRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,16 +44,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private VehicleTypeRepository vtRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public List<User> readAllUsers() {
         List<User> users = new ArrayList<>();
         for (User u : userRepository.findAll()) {
-            if (u.getAccountType().getId() == 1) {
-                users.add(u);
+
+            for (Role role : roleRepository.findAll()) {
+                if (role.getId() == 1) {
+                    users.add(u);
+                }
             }
         }
         if (users.isEmpty()) {
-            throw new DataNotFoundException("Nenhum Utilizador encontrado");
+           throw new AppException("Nenhum Utilizador encontrado");
         }
         return users;
     }
@@ -58,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User readUser(String user_nif) {
         if (userRepository.findUserByNif(user_nif) == null) {
-            throw new DataNotFoundException("Utilizador não encontrado");
+            throw new AppException("Utilizador não encontrado");
         }
         return userRepository.findUserByNif(user_nif);
     }
@@ -67,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public User findUserByEmail(String email) {
         User u = userRepository.findUserByEmail(email);
         if (u == null) {
-            throw new DataNotFoundException("Utilizador não encontrado");
+            //    throw new DataNotFoundException("Utilizador não encontrado");
         }
         return u;
     }
@@ -76,13 +85,13 @@ public class UserServiceImpl implements UserService {
     public User updateInfo(User user, String user_nif) {
         User u = userRepository.findUserByNif(user_nif);
         if (u == null) {
-            throw new DataNotFoundException("Utilizador não encontrado");
+            //   throw new DataNotFoundException("Utilizador não encontrado");
         }
         user.setNif(user_nif);
-        user.setAccountType(u.getAccountType());
+        // user.setAccountType(u.getAccountType());
         user.setEmail(u.getEmail());
         user.setPassword(u.getPassword());
-        user.setEnabled(1);
+        user.setEnabled(true);
         return userRepository.save(user);
     }
 
@@ -90,7 +99,7 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(String user_nif, User user) {
         User u = userRepository.findUserByNif(user_nif);
         if (u == null) {
-            throw new DataNotFoundException("Utilizador não encontrado");
+            //    throw new DataNotFoundException("Utilizador não encontrado");
         }
         u.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         u.setNif(user_nif);
@@ -101,12 +110,12 @@ public class UserServiceImpl implements UserService {
     public List<User> readAllBrokers() {
         List<User> brokers = new ArrayList<>();
         for (User b : userRepository.findAll()) {
-            if (b.getAccountType().getId() == 2) {
+            /*if (b.getAccountType().getId() == 2) {
                 brokers.add(b);
-            }
+            }*/
         }
         if (brokers.isEmpty()) {
-            throw new DataNotFoundException("Nenhum Mediador encontrado");
+            //    throw new DataNotFoundException("Nenhum Mediador encontrado");
         }
         return brokers;
     }
@@ -115,7 +124,7 @@ public class UserServiceImpl implements UserService {
     public User readBroker(String broker_nif) {
         User b = userRepository.findUserByNif(broker_nif);
         if (b == null) {
-            throw new DataNotFoundException("Mediador não encontrado");
+            //    throw new DataNotFoundException("Mediador não encontrado");
         }
         return userRepository.findUserByNif(broker_nif);
     }
@@ -123,10 +132,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif) {
         if (vehicleRepository.findVehicleById(vehicle.getId()) == null) {
-            throw new DataNotFoundException("Veículo não encontrado");
+            //     throw new DataNotFoundException("Veículo não encontrado");
         }
         if (userRepository.findUserByNif(user_nif) == null) {
-            throw new DataNotFoundException("Utilizador não encontrado");
+            //    throw new DataNotFoundException("Utilizador não encontrado");
         }
         vehicle.setUser(userRepository.findUserByNif(user_nif));
         vehicle.setVehicleType(vtRepository.findVehicleTypeById(1));
@@ -137,7 +146,7 @@ public class UserServiceImpl implements UserService {
     public void deleteVehicle(int vehicle_id) {
         Vehicle vehicle = vehicleRepository.findVehicleById(vehicle_id);
         if (vehicle == null) {
-            throw new DataNotFoundException("Veículo não encontrado");
+            //     throw new DataNotFoundException("Veículo não encontrado");
         }
         vehicleRepository.delete(vehicle);
     }
@@ -147,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
         User broker = userRepository.findUserByNif(broker_nif);
         if (broker == null) {
-            throw new DataNotFoundException("Mediador não encontrado");
+            //     throw new DataNotFoundException("Mediador não encontrado");
         }
 
         List<User> users = new ArrayList<>();
@@ -162,7 +171,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         if (users.isEmpty()) {
-            throw new DataNotFoundException("Mediador não tem clientes");
+            //    throw new DataNotFoundException("Mediador não tem clientes");
         }
         return users;
     }
@@ -172,7 +181,7 @@ public class UserServiceImpl implements UserService {
         List<Vehicle> vehicles = new ArrayList<>();
         User broker = userRepository.findUserByNif(broker_nif);
         if (broker == null) {
-            throw new DataNotFoundException("Mediador não encontrado");
+            //    throw new DataNotFoundException("Mediador não encontrado");
         }
         for (Bind b : bindRepository.findAll()) {
             if (b.getAccepted() == 1) {
@@ -185,7 +194,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         if (vehicles.isEmpty()) {
-            throw new DataNotFoundException("Nenhum Veículo Vinculado encontrado");
+            //     throw new DataNotFoundException("Nenhum Veículo Vinculado encontrado");
         }
         return vehicles;
     }
@@ -195,7 +204,7 @@ public class UserServiceImpl implements UserService {
         List<Vehicle> vehicles = new ArrayList<>();
         User user = userRepository.findUserByNif(user_nif);
         if (user == null) {
-            throw new DataNotFoundException("Utiliador não encontrado");
+            //   throw new DataNotFoundException("Utiliador não encontrado");
         }
         for (Vehicle v : vehicleRepository.findAll()) {
             if (v.getUser().equals(user)) {
@@ -203,7 +212,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         if (vehicles.isEmpty()) {
-            throw new DataNotFoundException("Utilizador não tem qualquer veículo");
+            //     throw new DataNotFoundException("Utilizador não tem qualquer veículo");
         }
         return vehicles;
     }
@@ -211,7 +220,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Vehicle> readAllVehicles() {
         if (vehicleRepository.findAll().isEmpty()) {
-            throw new DataNotFoundException("Nenhum Veículo encontrado");
+            //   throw new DataNotFoundException("Nenhum Veículo encontrado");
         }
         return vehicleRepository.findAll();
     }

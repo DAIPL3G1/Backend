@@ -9,7 +9,6 @@ package com.saferus.backend.service;
  *
  * @author lucasbrito
  */
-import com.saferus.backend.exceptions.DataNotFoundException;
 import com.saferus.backend.model.Account;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.VerificationToken;
@@ -48,7 +47,7 @@ public class VerificationTokenServiceImpl {
 
     public String createVerification(Account account) throws MessagingException, AddressException, IOException{
         if(account == null){
-            throw new DataNotFoundException("Conta não encontrada");
+     //       throw new DataNotFoundException("Conta não encontrada");
         }
         List<User> users = userRepository.findByEmail(account.getEmail());
         User user;
@@ -88,7 +87,7 @@ public class VerificationTokenServiceImpl {
 
         verificationToken.setConfirmedDateTime(LocalDateTime.now());
         verificationToken.setStatus(VerificationToken.STATUS_VERIFIED);
-        verificationToken.getUser().setEnabled(1);
+        verificationToken.getUser().setEnabled(true);
         verificationTokenRepository.save(verificationToken);
         
         URL page = new URL("https://saferus.herokuapp.com");

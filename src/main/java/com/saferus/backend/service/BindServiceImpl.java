@@ -5,9 +5,8 @@
  */
 package com.saferus.backend.service;
 
+import com.saferus.backend.exceptions.AppException;
 import com.saferus.backend.exceptions.BadRequestException;
-import com.saferus.backend.exceptions.DataNotFoundException;
-import com.saferus.backend.exceptions.DuplicatedException;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
 import com.saferus.backend.model.Bind;
@@ -50,12 +49,12 @@ public class BindServiceImpl implements BindService {
         User broker = userRepository.findUserByNif(broker_nif);
         User user = userRepository.findUserByNif(user_nif);
         Vehicle vehicle = vehicleRepository.findVehicleByPlate(plate);
-        if (broker == null) {
-            throw new DataNotFoundException("Mediador não encontrado");
+        if(broker == null) {
+            throw new AppException("Mediador não encontrado");
         } else if (user == null) {
-            throw new DataNotFoundException("Utilizador não encontrado");
+            throw new AppException("Utilizador não encontrado");
         } else if (vehicle == null) {
-            throw new DataNotFoundException("Veículo não encontrado");
+            throw new AppException("Veículo não encontrado");
         }
         newBind.setBroker(broker);
         newBind.setUser(user);
@@ -64,7 +63,7 @@ public class BindServiceImpl implements BindService {
         newBind.setRequest(1);
         newBind.setAccepted(0);
         if (newBind.equals(bindRepository.findBindByVehicle(vehicle))) {
-            throw new DuplicatedException("Já existe um Vinculo com este veiculo");
+            throw new BadRequestException("Já existe um Vinculo com este veiculo");
         }
         bindRepository.save(newBind);
     }
@@ -74,17 +73,17 @@ public class BindServiceImpl implements BindService {
         ZoneId denverTimeZone = ZoneId.of("Europe/Lisbon");
         Bind b = bindRepository.findBindById(bind_id);
         if (b == null) {
-            throw new DataNotFoundException("Vinculo não encontrado");
+            throw new AppException("Vinculo não encontrado");
         }
         b.setStartDate(ZonedDateTime.now(denverTimeZone).toInstant());
         b.setEndDate(ZonedDateTime.now(denverTimeZone).plusYears(1).toInstant());
         Vehicle v = b.getVehicle();
         if (v == null) {
-            throw new DataNotFoundException("Veículo não encontrado");
+            throw new AppException("Veículo não encontrado");
         }
         VehicleType vt = vtRepository.findVehicleTypeById(2);
         if (vt == null) {
-            throw new DataNotFoundException("Tipo de Veículo não encontrado");
+            throw new AppException("Tipo de Veículo não encontrado");
         }
         v.setVehicleType(vt);
         vehicleRepository.save(v);
@@ -100,7 +99,7 @@ public class BindServiceImpl implements BindService {
         ZoneId denverTimeZone = ZoneId.of("Europe/Lisbon");
         Bind b = bindRepository.findBindById(bind_id);
         if (b == null) {
-            throw new DataNotFoundException("Vinculo não encontrado");
+            throw new AppException("Vinculo não encontrado");
         }
         b.setStartDate(ZonedDateTime.now(denverTimeZone).toInstant());
         b.setEndDate(ZonedDateTime.now(denverTimeZone).toInstant());
@@ -118,16 +117,16 @@ public class BindServiceImpl implements BindService {
         User u = userRepository.findUserByNif(user_nif);
         Bind b = bindRepository.findBindByUser(u);
         if (u == null) {
-            throw new DataNotFoundException("Utilizador não encontrado");
+            throw new AppException("Utilizador não encontrado");
         }
         if (b == null) {
-            throw new DataNotFoundException("Mediador não encontrado");
+            throw new AppException("Mediador não encontrado");
         }
         b.setRequest(0);
         b.setAccepted(0);
         Vehicle v = b.getVehicle();
         if (v == null) {
-            throw new DataNotFoundException("Veículo não encontrado");
+            throw new AppException("Veículo não encontrado");
         }
         v.setVehicleType(vtRepository.findVehicleTypeById(1));
         vehicleRepository.save(v);
@@ -137,7 +136,7 @@ public class BindServiceImpl implements BindService {
     @Override
     public List<Bind> readBinds() {
         if (bindRepository.findAll().isEmpty()) {
-            throw new DataNotFoundException("Nenhum Vinculo encontrado");
+            throw new AppException("Nenhum Vinculo encontrado");
         }
         return bindRepository.findAll();
     }
@@ -146,7 +145,7 @@ public class BindServiceImpl implements BindService {
     public Bind readBind(int bind_id) {
         Bind b = bindRepository.findBindById(bind_id);
         if (b == null) {
-            throw new DataNotFoundException("Vinculo não encontrado");
+            throw new AppException("Vinculo não encontrado");
         }
         return b;
     }
@@ -154,7 +153,7 @@ public class BindServiceImpl implements BindService {
     @Override
     public Bind updateBind(int bind_id, Bind bind) {
         if (bind == null) {
-            throw new DataNotFoundException("Informações do Vinculo inválidas ou não encontradas");
+            throw new AppException("Informações do Vinculo inválidas ou não encontradas");
         }
         if (bindRepository.findBindById(bind_id) == null) {
             throw new BadRequestException("Vinculo Inválido");
@@ -166,7 +165,7 @@ public class BindServiceImpl implements BindService {
     @Override
     public List<Bind> readAllPendingBind(String broker_nif) {
         if (bindRepository.findBindByUser(userRepository.findUserByNif(broker_nif)) == null) {
-            throw new DataNotFoundException("Vinculos não encontrados");
+           throw new AppException("Vinculos não encontrados");
         }
         List<Bind> binds = new ArrayList<>();
         for (Bind b : bindRepository.findAll()) {
@@ -183,11 +182,11 @@ public class BindServiceImpl implements BindService {
     public void unbindVehicle(int vehicle_id) throws Exception {
         Vehicle v = vehicleRepository.findVehicleById(vehicle_id);
         if (v == null) {
-            throw new DataNotFoundException("Veículo não encontrado");
+            throw new AppException("Veículo não encontrado");
         }
         Bind b = bindRepository.findBindByVehicle(v);
         if (b == null) {
-            throw new DataNotFoundException("Vínculo não encontrado");
+            throw new AppException("Vínculo não encontrado");
         }
         b.setAccepted(0);
         b.setRequest(0);

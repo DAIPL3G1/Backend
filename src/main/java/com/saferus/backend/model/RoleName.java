@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.exceptions;
+package com.saferus.backend.model;
 
 /**
  *
  * @author lucasbrito
  */
-public class DuplicatedException extends RuntimeException{
-    
-    public DuplicatedException(String message){
-        super(message);
-    }
-    
+public enum  RoleName {
+    ROLE_USER,
+    ROLE_ADMIN,
+    ROLE_BROKER
 }
