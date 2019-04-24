@@ -12,6 +12,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,6 +33,9 @@ public class Account implements Serializable {
 
     @Column(name = "enabled")
     int enabled;
+    
+    @ManyToOne
+    AccountType accountType;
     
     public String getNif() {
         return nif;
@@ -64,5 +68,15 @@ public class Account implements Serializable {
     public void setEnabled(int enabled) {
         this.enabled = enabled;
     }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+    
+    
 
 }

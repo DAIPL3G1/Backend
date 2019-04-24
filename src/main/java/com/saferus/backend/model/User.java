@@ -41,9 +41,6 @@ public class User extends Account implements Serializable {
     
     private String insuranceCompany;
     
-    @ManyToOne
-    private AccountType accountType;
-    
     public String getFirstname() {
         return firstname;
     }

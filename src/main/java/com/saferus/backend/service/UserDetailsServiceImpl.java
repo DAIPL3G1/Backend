@@ -26,11 +26,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
   private UserRepository repository;
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      com.saferus.backend.model.User user = repository.findUserByEmail(username);
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+      com.saferus.backend.model.User user = repository.findUserByEmail(email);
 
     if(user == null) {
-      throw new UsernameNotFoundException("User not found");
+      throw new UsernameNotFoundException("Utilizador não encontrado");
     }
 
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -38,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     if(user.getAccountType().getId() == 1){
         authorities.add(new SimpleGrantedAuthority("USER"));
     }
-    else if(user.getAccountType().getId() ==2){
+    else if(user.getAccountType().getId() == 2){
         authorities.add(new SimpleGrantedAuthority("BROKER"));
     }
     else if(user.getAccountType().getId() == 3){
