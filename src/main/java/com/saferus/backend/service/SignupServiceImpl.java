@@ -29,9 +29,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 public class SignupServiceImpl implements SignupService {
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
