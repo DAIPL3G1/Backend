@@ -76,7 +76,6 @@ public class AuthController {
         String jwt = tokenProvider.generateToken(authentication);
 
         Cookie cookie = new Cookie("SaferusCookie", jwt);
-        cookie.setDomain("herokuapp.com");
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(500000);
