@@ -70,6 +70,8 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+        User user = userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         String jwt = tokenProvider.generateToken(authentication);
 
@@ -79,7 +81,7 @@ public class AuthController {
         cookie.setMaxAge(500000);
         response.addCookie(cookie);
 
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, user));
     }
 
     @PostMapping("/signup/user")

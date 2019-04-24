@@ -5,13 +5,17 @@
  */
 package com.saferus.backend.payload;
 
+import com.saferus.backend.model.User;
+
 public class JwtAuthenticationResponse {
     
     private String accessToken;
     private String tokenType = "Bearer";
+    private User userlogged;
 
-    public JwtAuthenticationResponse(String accessToken) {
+    public JwtAuthenticationResponse(String accessToken, User userlogged) {
         this.accessToken = accessToken;
+        this.userlogged = userlogged;
     }
 
     public String getAccessToken() {
@@ -29,4 +33,14 @@ public class JwtAuthenticationResponse {
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
     }
+
+    public User getUserlogged() {
+        return userlogged;
+    }
+
+    public void setUserlogged(User userlogged) {
+        this.userlogged = userlogged;
+    }
+    
+    
 }
