@@ -15,11 +15,11 @@ import com.saferus.backend.repository.RoleRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.repository.VehicleRepository;
 import com.saferus.backend.repository.VehicleTypeRepository;
 import java.util.ArrayList;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
