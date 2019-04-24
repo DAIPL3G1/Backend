@@ -7,11 +7,8 @@ package com.saferus.backend.controller;
 
 import com.saferus.backend.model.TripData;
 import com.saferus.backend.model.TripTratment;
-import com.saferus.backend.repository.TripRepository;
 import com.saferus.backend.service.TripServiceImpl;
-import java.util.Date;
 import java.util.List;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +29,11 @@ public class TripController {
     @RequestMapping(value = "/read/{vehicle_id}", method = RequestMethod.GET)
     public List<TripTratment> readTripsFromVehicle(@PathVariable("vehicle_id") int vehicle_id){
         return tripService.readTripsFromVehicle(vehicle_id);
+    }
+    
+    @RequestMapping(value = "/read/datas/{vehicle_id}", method = RequestMethod.GET)
+    public List<TripData> readTripsDatasFromVehicle(@PathVariable("vehicle_id") int vehicle_id){
+        return tripService.readTripsDatasFromVehicle(vehicle_id);
     }
     
 }

@@ -6,7 +6,9 @@
 package com.saferus.backend.service;
 
 import com.saferus.backend.exceptions.DataNotFoundException;
+import com.saferus.backend.model.TripData;
 import com.saferus.backend.model.TripTratment;
+import com.saferus.backend.repository.TripRepository;
 import com.saferus.backend.repository.TripTratmentRepository;
 import com.saferus.backend.repository.VehicleRepository;
 import java.util.ArrayList;
@@ -26,6 +28,9 @@ public class TripServiceImpl implements TripService {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+    
+    @Autowired
+    private TripRepository tripRepository;
 
     @Override
     public List<TripTratment> readTripsFromVehicle(int vehicle_id) {
@@ -34,6 +39,19 @@ public class TripServiceImpl implements TripService {
         }
         List<TripTratment> trips = new ArrayList<>();
         for (TripTratment trip : tripTratmentRepository.findAll()) {
+            if (trip.getVehicle_id() == vehicle_id) {
+                trips.add(trip);
+            }
+        }
+        return trips;
+    }
+    
+    public List<TripData> readTripsDatasFromVehicle(int vehicle_id){
+        if (vehicleRepository.findVehicleById(vehicle_id) == null) {
+            throw new DataNotFoundException("Veículo não encontrado");
+        }
+        List<TripData> trips = new ArrayList<>();
+        for (TripData trip : tripRepository.findAll()) {
             if (trip.getVehicle_id() == vehicle_id) {
                 trips.add(trip);
             }

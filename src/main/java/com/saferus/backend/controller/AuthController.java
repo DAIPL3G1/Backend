@@ -13,20 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.saferus.backend.service.UserService;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
@@ -55,11 +48,6 @@ public class AuthController {
     @GetMapping("/test")
     String testConnection() throws UnknownHostException {
         return "Your server is up and running at port: " + environment.getProperty("local.server.port") + " " + InetAddress.getLocalHost().getHostAddress() + " " + InetAddress.getLocalHost().getHostName(); 
-    }
-
-    @GetMapping("/protected")
-    ResponseEntity hello(){
-        return new ResponseEntity( "hello", HttpStatus.OK);
     }
     
 }
