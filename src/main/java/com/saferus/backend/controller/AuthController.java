@@ -76,7 +76,7 @@ public class AuthController {
         String jwt = tokenProvider.generateToken(authentication);
 
         Cookie cookie = new Cookie("SaferusCookie", jwt);
-        cookie.setPath("/");
+        cookie.setPath("/a85679/daipl3g1/DAIPL3G1.github.io/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(500000);
         response.addCookie(cookie);
