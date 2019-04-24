@@ -78,6 +78,7 @@ public class AuthController {
         Cookie cookie = new Cookie("SaferusCookie", jwt);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
+        cookie.setDomain(".saferus.herokuapp.com");
         cookie.setMaxAge(500000);
         response.addCookie(cookie);
 
