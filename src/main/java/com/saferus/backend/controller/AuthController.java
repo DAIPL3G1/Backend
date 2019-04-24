@@ -14,7 +14,6 @@ import com.saferus.backend.model.User;
 import com.saferus.backend.repository.RoleRepository;
 import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.security.jwt.JwtProvider;
-import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -138,7 +137,7 @@ public class AuthController {
     Environment environment;    
 
     @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
-    public User Login(HttpServletRequest request){
+    public User getCurrentUser(HttpServletRequest request){
         return userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
     

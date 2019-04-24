@@ -45,6 +45,8 @@ public class User extends Account implements Serializable {
     private String country;
 
     private String insuranceCompany;
+    
+    private String type;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -196,6 +198,16 @@ public class User extends Account implements Serializable {
     public void setNif(String nif) {
         this.nif = nif;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
     
     
 
