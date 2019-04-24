@@ -63,13 +63,11 @@ public class SignupController {
         return signupService.validateBroker(broker_nif);
     }
 
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/emails"}, method = RequestMethod.POST)
     public String sendEmail(@Valid @RequestBody Account account) throws MessagingException, AddressException, IOException {
         return verificationTokenService.createVerification(account);
     }
 
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/emails/verify_email/{token}"}, method = RequestMethod.GET)
     public String verifyEmail(@PathVariable("token") String token) throws MalformedURLException {
         return verificationTokenService.verifyEmail(token).getBody();

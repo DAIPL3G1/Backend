@@ -15,6 +15,7 @@ import com.saferus.backend.payload.LoginRequest;
 import com.saferus.backend.payload.SignUpRequest;
 import com.saferus.backend.repository.RoleRepository;
 import com.saferus.backend.repository.UserRepository;
+import com.saferus.backend.security.CurrentUser;
 import com.saferus.backend.security.JwtTokenProvider;
 import com.saferus.backend.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -148,5 +151,23 @@ public class AuthController {
     public User getCurrentUser() {
         return userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
-
+    
+    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
+    @GetMapping("/logout")
+    public ResponseEntity<ApiResponse> logout(HttpServletRequest request, HttpServletResponse response){
+        Cookie[] cookies = request.getCookies();
+        if(cookies.length == 0){
+            throw new AppException("Não há cookies existentes :D");
+        }
+        for(Cookie cookie: cookies){
+            if(cookie.getName().equals("SaferusCookie")){
+                cookie.setPath("/");
+                cookie.setValue("");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
+        return ResponseEntity.ok().body(new ApiResponse(true, "Logout feito com Sucesso!"));
+        
+    }
 }

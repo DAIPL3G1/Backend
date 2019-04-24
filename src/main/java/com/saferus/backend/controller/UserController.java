@@ -93,27 +93,4 @@ public class UserController {
         return userService.readAllVehicles();
     }
     
-    @GetMapping("/raed")
-    public String ler(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-    
-    @Secured("ROLE_USER")
-    @GetMapping("/souser")
-    public String soLeituraUser(){
-        return "SO USER";
-    }
-    
-    @Secured({"ROLE_USER", "ROLE_BROKER"})
-    @GetMapping("/useremediador")
-    public String soLeituraUserMediador(){
-        return "SO USER e MEDIADOR";
-    }
-    
-    @Secured("ROLE_BROKER")
-    @GetMapping("/somediador")
-    public String soLeituraMediador(){
-        return "SO MEDIADOR";
-    }
-    
 }
