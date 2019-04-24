@@ -76,9 +76,9 @@ public class AuthController {
         String jwt = tokenProvider.generateToken(authentication);
 
         Cookie cookie = new Cookie("SaferusCookie", jwt);
+        cookie.setDomain("herokuapp.com");
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setDomain(".saferus.herokuapp.com");
         cookie.setMaxAge(500000);
         response.addCookie(cookie);
 
@@ -150,7 +150,7 @@ public class AuthController {
     }
 
     @GetMapping("/authenticated")
-    //@Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
+    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     public User getCurrentUser() {
         return userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
