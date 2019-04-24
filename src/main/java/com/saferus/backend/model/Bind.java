@@ -94,7 +94,7 @@ public class Bind implements Serializable {
     }
 
     public void setUser(User user) {
-        if (user.getType().equals("USER")) {
+        if (user.getRoles().stream().equals("USER")) {
             this.user = user;
         }
     }
@@ -104,7 +104,7 @@ public class Bind implements Serializable {
     }
 
     public void setBroker(User broker) {
-        if (broker.getType().equals("BROKER")) {
+        if (broker.equals("BROKER")) {
             this.broker = broker;
         }
     }

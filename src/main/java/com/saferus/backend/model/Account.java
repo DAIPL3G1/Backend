@@ -1,17 +1,11 @@
 package com.saferus.backend.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,9 +26,7 @@ public class Account implements Serializable {
 
     @Column(name = "enabled")
     int enabled;
-    
-    private String type;
-    
+
     public String getNif() {
         return nif;
     }
@@ -66,14 +58,5 @@ public class Account implements Serializable {
     public void setEnabled(int enabled) {
         this.enabled = enabled;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-    
 
 }

@@ -18,6 +18,7 @@ import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.repository.VehicleRepository;
 import com.saferus.backend.repository.VehicleTypeRepository;
 import java.util.ArrayList;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -25,9 +26,9 @@ import java.util.ArrayList;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
-
+    
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    PasswordEncoder encoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public List<User> readAllUsers() {
         List<User> users = new ArrayList<>();
         for (User u : userRepository.findAll()) {
-            if (u.getType().equals("USER")) {
+            if (u.getRoles().equals("USER")) {
                 users.add(u);
             }
         }
@@ -79,7 +80,6 @@ public class UserServiceImpl implements UserService {
             throw new DataNotFoundException("Utilizador não encontrado");
         }
         user.setNif(user_nif);
-        user.setAccountType(u.getAccountType());
         user.setEmail(u.getEmail());
         user.setPassword(u.getPassword());
         user.setEnabled(1);
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
         if (u == null) {
             throw new DataNotFoundException("Utilizador não encontrado");
         }
-        u.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        u.setPassword(encoder.encode(user.getPassword()));
         u.setNif(user_nif);
         userRepository.save(u);
     }
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     public List<User> readAllBrokers() {
         List<User> brokers = new ArrayList<>();
         for (User b : userRepository.findAll()) {
-            if (b.getType().equals("BROKER")) {
+            if (b.getRoles().equals("BROKER")) {
                 brokers.add(b);
             }
         }
