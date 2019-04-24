@@ -32,9 +32,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties
 @EnableGlobalMethodSecurity(
-        prePostEnabled = true
+        securedEnabled = true,
+        prePostEnabled = true,
+        jsr250Enabled = true
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
