@@ -41,6 +41,8 @@ public class User extends Account implements Serializable {
     
     private String insuranceCompany;
     
+    private String type;
+    
     public String getFirstname() {
         return firstname;
     }
@@ -176,6 +178,15 @@ public class User extends Account implements Serializable {
     public void setNif(String nif) {
         this.nif = nif;
     }
+
+    public String getType() {
+        return accountType.name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     
     
     
