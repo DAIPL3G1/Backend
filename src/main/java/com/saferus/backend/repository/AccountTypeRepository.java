@@ -5,9 +5,7 @@
  */
 package com.saferus.backend.repository;
 
-import com.saferus.backend.model.User;
-import java.util.List;
-import java.util.Optional;
+import com.saferus.backend.model.AccountType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,11 +13,9 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
-@Repository("userRepository")
-public interface UserRepository extends JpaRepository<User, String>{
+@Repository("atRepository")
+public interface AccountTypeRepository extends JpaRepository<AccountType, Integer> {
     
-    User findUserByNif(String nif);
-    User findUserByEmail(String email);
-    List<User> findByEmail(String email);
+    AccountType findAccountTypeById(int id);
     
 }

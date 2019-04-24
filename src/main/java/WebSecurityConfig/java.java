@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.model;
+package WebSecurityConfig;
 
 /**
  *
  * @author lucasbrito
  */
-public enum  RoleName {
-    USER,
-    BROKER,
-    ADMIN
+public class java {
+    
 }

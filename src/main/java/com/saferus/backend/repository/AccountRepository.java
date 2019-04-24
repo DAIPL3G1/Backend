@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository("accountRepository")
 public interface AccountRepository extends JpaRepository<Account, String>{  
     
-    Optional<Account> findByEmail(String email);
     Account findAccountByNif(String nif);
     
 }

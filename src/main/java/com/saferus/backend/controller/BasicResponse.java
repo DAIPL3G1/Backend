@@ -3,20 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.message.response;
-
-import org.springframework.security.core.userdetails.UserDetails;
+package com.saferus.backend.controller;
 
 /**
  *
  * @author lucasbrito
  */
-public class JwtResponse {
+public class BasicResponse {
     
     private String token;
-    private String type = "Bearer";
+    private String type = "Basic";
  
-    public JwtResponse(String accessToken) {
+    public BasicResponse(String accessToken) {
         this.token = accessToken;
     }
  
