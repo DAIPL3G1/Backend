@@ -107,7 +107,7 @@ public class SignupServiceImpl implements SignupService {
             throw new DataNotFoundException("Utilizador não encontrado");
         }
 
-        if (u.getType().equals("USER")) {
+        if (u.getAccountType().getId() == 1) {
             userRepository.delete(u);
         } else {
             throw new GenericException("Não foi possível eliminar o Utilizador");
@@ -120,7 +120,7 @@ public class SignupServiceImpl implements SignupService {
         if (b == null) {
             throw new DataNotFoundException("Mediador não encontrado");
         }
-        if (b.getType().equals("BROKER")) {
+        if (b.getAccountType().getId() == 2) {
             userRepository.delete(b);
         } else {
             throw new GenericException("Não foi possível eliminar o Mediador");

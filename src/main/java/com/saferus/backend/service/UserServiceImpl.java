@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     public List<User> readAllUsers() {
         List<User> users = new ArrayList<>();
         for (User u : userRepository.findAll()) {
-            if (u.getType().equals("USER")) {
+            if (u.getAccountType().getId() == 1) {
                 users.add(u);
             }
         }
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     public List<User> readAllBrokers() {
         List<User> brokers = new ArrayList<>();
         for (User b : userRepository.findAll()) {
-            if (b.getType().equals("BROKER")) {
+            if (b.getAccountType().getId() == 2) {
                 brokers.add(b);
             }
         }

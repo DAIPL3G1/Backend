@@ -120,8 +120,6 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
     
 }*/
 import com.saferus.backend.service.UserDetailsServiceImpl;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

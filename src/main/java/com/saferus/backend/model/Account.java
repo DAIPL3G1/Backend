@@ -33,8 +33,6 @@ public class Account implements Serializable {
     @Column(name = "enabled")
     int enabled;
     
-    private String type;
-    
     public String getNif() {
         return nif;
     }
@@ -66,14 +64,5 @@ public class Account implements Serializable {
     public void setEnabled(int enabled) {
         this.enabled = enabled;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-    
 
 }

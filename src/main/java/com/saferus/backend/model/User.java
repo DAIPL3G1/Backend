@@ -44,8 +44,6 @@ public class User extends Account implements Serializable {
     @ManyToOne
     private AccountType accountType;
     
-    private String type;
-    
     public String getFirstname() {
         return firstname;
     }
@@ -172,20 +170,14 @@ public class User extends Account implements Serializable {
         this.accountType = accountType;
     }
 
+    @Override
     public String getNif() {
         return nif;
     }
 
+    @Override
     public void setNif(String nif) {
         this.nif = nif;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
     
     

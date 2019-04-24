@@ -35,13 +35,13 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     
-    if(user.getType().equals("USER")){
+    if(user.getAccountType().getId() == 1){
         authorities.add(new SimpleGrantedAuthority("USER"));
     }
-    else if(user.getType().equals("BROKER")){
+    else if(user.getAccountType().getId() ==2){
         authorities.add(new SimpleGrantedAuthority("BROKER"));
     }
-    else if(user.getType().equals("ADMIN")){
+    else if(user.getAccountType().getId() == 3){
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
     }
     
