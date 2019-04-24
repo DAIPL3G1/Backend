@@ -6,7 +6,6 @@
 package com.saferus.backend.service;
 
 import com.saferus.backend.exceptions.AppException;
-import com.saferus.backend.exceptions.ResourceNotFoundException;
 import com.saferus.backend.model.Bind;
 import com.saferus.backend.model.Role;
 import com.saferus.backend.model.User;
