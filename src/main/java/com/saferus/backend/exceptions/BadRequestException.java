@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.controller;
-
-import org.springframework.web.bind.annotation.RestController;
+package com.saferus.backend.exceptions;
 
 /**
  *
  * @author lucasbrito
  */
-@RestController
-public class DatasController {
+public class BadRequestException extends RuntimeException{
     
-    
+    public BadRequestException(String message){
+        super(message);
+    }
     
 }

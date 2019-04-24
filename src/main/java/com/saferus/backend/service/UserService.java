@@ -31,7 +31,7 @@ public interface UserService {
     
     public List<User> readAllClientsFromBroker(String broker_nif);
     
-    public void deleteVehicle(int id);
+    public void deleteVehicle(int vehicle_id);
     
     public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif);
     

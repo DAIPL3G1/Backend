@@ -10,16 +10,15 @@ import com.saferus.backend.model.User;
 import com.saferus.backend.service.SignupServiceImpl;
 import com.saferus.backend.service.VerificationTokenServiceImpl;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -34,22 +33,6 @@ public class SignupController {
     
     @Autowired
     VerificationTokenServiceImpl verificationTokenService;
-
-    @RequestMapping(value = {"/signup/user"}, method = RequestMethod.POST)
-    public User signupUser(@Valid @RequestBody User user) throws Exception {
-        User result = signupService.findGenericUserByNif(user.getNif());
-        if (result != null) {
-            throw new Exception("User already exists!");
-        }
-        signupService.signupUser(user);
-        return user;
-    }
-
-    @RequestMapping(value = {"/signup/broker"}, method = RequestMethod.POST)
-    public User signupBroker(@Valid @RequestBody User b) {
-        signupService.signupBroker(b);
-        return b;
-    }
 
     @RequestMapping(value = {"/access_denied"}, method = RequestMethod.GET)
     public String accessDenied() {
@@ -83,7 +66,7 @@ public class SignupController {
    } 
     
     @RequestMapping(value = {"/emails/verify_email/{token}"}, method = RequestMethod.GET)
-    public String verifyEmail(@PathVariable("token") String code) {
-        return verificationTokenService.verifyEmail(code).getBody();
+    public String verifyEmail(@PathVariable("token") String token) throws MalformedURLException {
+        return verificationTokenService.verifyEmail(token).getBody();
     }
 }

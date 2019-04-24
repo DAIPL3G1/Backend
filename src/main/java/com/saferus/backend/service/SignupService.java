@@ -16,9 +16,7 @@ import javax.mail.internet.AddressException;
  */
 public interface SignupService {
     
-    public User findGenericUserByNif(String nif);
-    public void signupUser(User newUser);
-    public void signupBroker(User newBroker);
+    public User findUserByNif(String nif);
     public void deleteUser(String user_nif);
     public void deleteBroker(String broker_nif);
     public String validateUser(String user_nif) throws Exception;

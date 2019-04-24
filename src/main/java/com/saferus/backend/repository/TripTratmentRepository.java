@@ -5,17 +5,18 @@
  */
 package com.saferus.backend.repository;
 
-import com.saferus.backend.model.AccountType;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.saferus.backend.model.TripTratment;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author lucasbrito
  */
-@Repository("atRepository")
-public interface AccountTypeRepository extends JpaRepository<AccountType, Integer> {
+@Repository("tripTratmentRepository")
+public interface TripTratmentRepository extends MongoRepository<TripTratment, Integer>{
     
-    AccountType findAccountTypeById(int id);
+    TripTratment findBy_id(ObjectId _id);
     
 }

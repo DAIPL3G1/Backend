@@ -9,12 +9,15 @@ package com.saferus.backend.service;
  *
  * @author lucasbrito
  */
+import com.saferus.backend.exceptions.DataNotFoundException;
 import com.saferus.backend.model.Account;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.VerificationToken;
 import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.repository.VerificationTokenRepository;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -44,6 +47,9 @@ public class VerificationTokenServiceImpl {
     }
 
     public String createVerification(Account account) throws MessagingException, AddressException, IOException{
+        if(account == null){
+            throw new DataNotFoundException("Conta não encontrada");
+        }
         List<User> users = userRepository.findByEmail(account.getEmail());
         User user;
         if (users.isEmpty()) {
@@ -69,7 +75,7 @@ public class VerificationTokenServiceImpl {
         return verificationToken.getToken();
     }
 
-    public ResponseEntity<String> verifyEmail(String token){
+    public ResponseEntity<String> verifyEmail(String token) throws MalformedURLException{
         List<VerificationToken> verificationTokens = verificationTokenRepository.findByToken(token);
         if (verificationTokens.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid token.");
@@ -84,7 +90,9 @@ public class VerificationTokenServiceImpl {
         verificationToken.setStatus(VerificationToken.STATUS_VERIFIED);
         verificationToken.getUser().setEnabled(1);
         verificationTokenRepository.save(verificationToken);
+        
+        URL page = new URL("https://saferus.herokuapp.com");
 
-        return ResponseEntity.ok("You have successfully verified your email address.");
+        return ResponseEntity.ok("Ativaste o teu email com sucesso. \nClica aqui para voltares à Página Inicial e fazeres Login: " + page);
     }
 }

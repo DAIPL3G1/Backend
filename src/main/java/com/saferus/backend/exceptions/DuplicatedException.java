@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.saferus.backend.service;
-
-import org.springframework.stereotype.Service;
+package com.saferus.backend.exceptions;
 
 /**
  *
  * @author lucasbrito
  */
-@Service("datasService")
-public class DatasServiceImpl {
+public class DuplicatedException extends RuntimeException{
     
-    
+    public DuplicatedException(String message){
+        super(message);
+    }
     
 }

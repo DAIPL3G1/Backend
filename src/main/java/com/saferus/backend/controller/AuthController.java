@@ -57,14 +57,4 @@ public class AuthController {
         return new ResponseEntity( "hello", HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Principal principal) {
-        if (principal !=null && ((Authentication)principal).isAuthenticated()){
-            return "redirect:/home";
-        }
-        else{
-            return "login";
-        }
-    }
-    
 }
