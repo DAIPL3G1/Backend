@@ -10,7 +10,6 @@ import com.saferus.backend.model.Role;
 import com.saferus.backend.model.User;
 import com.saferus.backend.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.saferus.backend.repository.UserRepository;
 import java.io.IOException;
