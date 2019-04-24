@@ -149,7 +149,7 @@ public class AuthController {
     }
 
     @GetMapping("/authenticated")
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
+    //@Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     public User getCurrentUser() {
         return userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
