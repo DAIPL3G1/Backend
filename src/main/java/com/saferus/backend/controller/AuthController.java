@@ -40,9 +40,6 @@ public class AuthController {
     private UserService userService;
     
     @Autowired
-    private AuthenticationManager authenticationManager;
-    
-    @Autowired
     Environment environment;    
 
     @RequestMapping(value = "/authenticated", method = RequestMethod.GET)

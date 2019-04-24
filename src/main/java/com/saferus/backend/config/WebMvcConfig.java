@@ -38,13 +38,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry
-                .addMapping("*")
+                .addMapping("/**")
                 .allowedMethods("OPTIONS", "GET", "PUT", "POST", "DELETE")
                 .allowedOrigins("*")
                 .allowedHeaders("Authorization", "Content-Type");
     }
 
-    @Bean
+    /*@Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
@@ -54,5 +54,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-    }
+    }*/
 }

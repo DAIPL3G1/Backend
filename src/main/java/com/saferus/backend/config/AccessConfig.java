@@ -188,24 +188,6 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
         builder.userDetailsService(userDetailsService);
     }
     
-    private String getJwt(HttpServletRequest request) {
-        
-        if(!(request.getCookies() == null)){
-            
-            Cookie[] cookies = request.getCookies();
-            
-            for(Cookie cookie : cookies){
-                if("token".equals(cookie.getName())){
-                    System.out.println(cookie.getValue());
-                    return cookie.getValue();
-                }
-            }
-            
-        }
-        
-        return null;
-    }
-
     /*@Bean
     CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
