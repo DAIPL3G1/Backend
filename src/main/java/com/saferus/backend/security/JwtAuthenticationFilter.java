@@ -53,12 +53,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
     
     private String getJwtFromRequest(HttpServletRequest request) {
-        /*String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
         }
-        return null;*/
-        if (!(request.getCookies() == null)) {
+        return null;
+        /*if (!(request.getCookies() == null)) {
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
                 if ("token".equals(cookie.getName())) {
@@ -67,6 +67,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }
-        return null;
+        return null;*/
     }
 }
