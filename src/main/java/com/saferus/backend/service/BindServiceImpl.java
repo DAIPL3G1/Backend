@@ -63,9 +63,6 @@ public class BindServiceImpl implements BindService {
         newBind.setRequestDate(Instant.now());
         newBind.setRequest(1);
         newBind.setAccepted(0);
-        if (newBind.equals(bindRepository.findBindByVehicle(vehicle))) {
-            throw new DuplicatedException("Já existe um Vinculo com este veiculo");
-        }
         bindRepository.save(newBind);
     }
 

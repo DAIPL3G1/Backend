@@ -21,7 +21,7 @@ public class Bind implements Serializable {
     private int id;
 
     @Column(name = "contract_code")
-    private String contract_code;
+    private String contractCcode;
 
     @Column(name = "startDate")
     private Instant startDate;
@@ -82,11 +82,11 @@ public class Bind implements Serializable {
     }
 
     public String getContractCode() {
-        return contract_code;
+        return contractCcode;
     }
 
     public void setContractCode(String code) {
-        this.contract_code = code;
+        this.contractCcode = code;
     }
 
     public User getUser() {
@@ -115,14 +115,6 @@ public class Bind implements Serializable {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
-    }
-
-    public String getContract_code() {
-        return contract_code;
-    }
-
-    public void setContract_code(String contract_code) {
-        this.contract_code = contract_code;
     }
 
     public int getAccepted() {
