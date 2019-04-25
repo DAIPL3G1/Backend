@@ -136,9 +136,6 @@ public class BindServiceImpl implements BindService {
 
     @Override
     public List<Bind> readBinds() {
-        if (bindRepository.findAll().isEmpty()) {
-            throw new DataNotFoundException("Nenhum Vinculo encontrado");
-        }
         return bindRepository.findAll();
     }
 
