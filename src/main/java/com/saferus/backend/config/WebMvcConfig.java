@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
-                .allowedHeaders("X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'")
+                .allowedHeaders("X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept")
                 .allowCredentials(true)
                 .maxAge(MAX_AGE_SECS);
     }
