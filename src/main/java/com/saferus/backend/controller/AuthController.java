@@ -37,6 +37,7 @@ import java.util.Collections;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -59,7 +60,7 @@ public class AuthController {
     JwtTokenProvider tokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+    public ResponseEntity<?> authenticateUser(HttpServletResponse response, @Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -69,17 +70,29 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        
+
         User user = userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         String jwt = tokenProvider.generateToken(authentication);
 
-        Cookie cookie = new Cookie("SaferusCookie", jwt);
-        cookie.setHttpOnly(false);
-        cookie.setMaxAge(6000);
+        JwtAuthenticationResponse JwtResponse = new JwtAuthenticationResponse(jwt, user);
+
+        /*Cookie cookie = new Cookie("SaferusCookie", jwt);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 60 * 24 * 7);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        response.addCookie(cookie);*/
+        final Cookie cookie = new Cookie("SaferusCookie", jwt);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 60 * 24 * 7);
         response.addCookie(cookie);
 
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, user));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Set-Cookie", "SaferusCookie=" + jwt);
+
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).build();
     }
 
     @PostMapping("/signup/user")
@@ -151,16 +164,16 @@ public class AuthController {
     public User getCurrentUser() {
         return userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
-    
+
     @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @GetMapping("/logout")
-    public ResponseEntity<ApiResponse> logout(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<ApiResponse> logout(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
-        if(cookies.length == 0){
+        if (cookies.length == 0) {
             throw new AppException("Não há cookies existentes :D");
         }
-        for(Cookie cookie: cookies){
-            if(cookie.getName().equals("SaferusCookie")){
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("SaferusCookie")) {
                 cookie.setPath("/");
                 cookie.setValue("");
                 cookie.setMaxAge(0);
@@ -168,6 +181,6 @@ public class AuthController {
             }
         }
         return ResponseEntity.ok().body(new ApiResponse(true, "Logout feito com Sucesso!"));
-        
+
     }
 }
