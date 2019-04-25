@@ -79,22 +79,22 @@ public class AuthController {
 
         JwtAuthenticationResponse JwtResponse = new JwtAuthenticationResponse(jwt, user);
 
-        /*Cookie cookie = new Cookie("SaferusCookie", jwt);
+        /*Cookie cookie = new Cookie("token", jwt);
+        cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(60 * 60 * 24 * 7);
-        cookie.setPath("/");
-        cookie.setSecure(true);
         response.addCookie(cookie);*/
         
-        HttpCookie cookie = ResponseCookie.from("SaferusCookie", "Bearer " + jwt)
+        HttpCookie cookie = ResponseCookie.from("token", jwt)
         .path("/")
-        .maxAge(60 * 60 * 24 * 3600)
         .httpOnly(true)
+        .maxAge(60 * 60 * 24 * 3600)
         .build();
         
         return ResponseEntity.ok()
         .header(HttpHeaders.SET_COOKIE, cookie.toString())
         .body(JwtResponse);
+        //return ResponseEntity.ok(JwtResponse);
     }
 
     @PostMapping("/signup/user")
@@ -163,8 +163,11 @@ public class AuthController {
 
     @GetMapping("/authenticated")
     @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
-    public User getCurrentUser() {
-        return userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+    public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal currentUser) {
+        //return userRepository.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        
+        User user = userRepository.findUserByEmail(currentUser.getEmail());
+        return ResponseEntity.ok().body(user);
     }
 
     @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})

@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (!(request.getCookies() == null)) {
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
-                if ("SaferusCookie".equals(cookie.getName())) {
+                if ("token".equals(cookie.getName())) {
                     System.out.println(cookie.getValue());
                     return cookie.getValue();
                 }
