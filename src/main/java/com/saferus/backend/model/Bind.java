@@ -1,6 +1,5 @@
 package com.saferus.backend.model;
 
-import com.saferus.backend.exceptions.AppException;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.Column;
@@ -42,13 +41,13 @@ public class Bind implements Serializable {
     @NotNull
     private User broker;
 
-    @OneToOne
     @NotNull
+    @Column(name = "enabled")
+    private int enabled;
+
+    @NotNull
+    @OneToOne
     private Vehicle vehicle;
-
-    private int accepted;
-
-    private int request;
 
     public int getId() {
         return id;
@@ -82,6 +81,14 @@ public class Bind implements Serializable {
         this.requestDate = requestDate;
     }
 
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
+    }
+
     public String getContractCode() {
         return contract_code;
     }
@@ -94,8 +101,20 @@ public class Bind implements Serializable {
         return user;
     }
 
+    public void setUser(User user) {
+        if (user.getType().equals("USER")) {
+            this.user = user;
+        }
+    }
+
     public User getBroker() {
         return broker;
+    }
+
+    public void setBroker(User broker) {
+        if (broker.getType().equals("BROKER")) {
+            this.broker = broker;
+        }
     }
 
     public Vehicle getVehicle() {
@@ -104,38 +123,6 @@ public class Bind implements Serializable {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
-    }
-
-    public String getContract_code() {
-        return contract_code;
-    }
-
-    public void setContract_code(String contract_code) {
-        this.contract_code = contract_code;
-    }
-
-    public int getAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(int accepted) {
-        this.accepted = accepted;
-    }
-
-    public int getRequest() {
-        return request;
-    }
-
-    public void setRequest(int request) {
-        this.request = request;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setBroker(User broker) {
-        this.broker = broker;
     }
 
 }

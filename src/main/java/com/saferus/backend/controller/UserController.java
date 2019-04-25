@@ -11,9 +11,6 @@ import com.saferus.backend.service.UserServiceImpl;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,69 +25,47 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
     
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/readAllUsers"}, method = RequestMethod.GET)
     public List<User> readAllUsers(){
         return userService.readAllUsers();
     }
     
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/read/user/{user_nif}"}, method = RequestMethod.GET)
     public User readUser(@PathVariable("user_nif") String user_nif){
         return userService.readUser(user_nif);
     }
     
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/readAllBrokers"}, method = RequestMethod.GET)
     public List<User> readAllBrokers(){
         return userService.readAllBrokers();
     }
     
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/read/broker/{broker_nif}"}, method = RequestMethod.GET)
     public User readBroker(@PathVariable("broker_nif") String broker_nif){
         return userService.readBroker(broker_nif);
     }
     
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/update/user/{user_nif}"}, method = RequestMethod.PUT)
-    public User updateInfo(@Valid @RequestBody User user, @PathVariable("user_nif") String user_nif){
+    public User updateInfo(@Valid @RequestBody User user, String user_nif){
         userService.updateInfo(user, user_nif);
         return user;
     }
     
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/update/password/{user_nif}"}, method = RequestMethod.PUT)
-    public void updatePassword(@PathVariable("user_nif") String user_nif, @Valid @RequestBody User user){
-        userService.updatePassword(user_nif, user);
+    public String updatePassword(@PathVariable("user_nif") String user_nif, @Valid @RequestBody String password, String newPassword){
+        userService.updatePassword(user_nif, password, newPassword);
+        return "Password alterada com sucesso";
     }
     
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/add/vehicle/{user_nif}"}, method = RequestMethod.POST)
     public String addVehicleToUser(@Valid @RequestBody Vehicle vehicle, @PathVariable("user_nif") String user_nif){
         userService.addVehicleToUser(vehicle, user_nif);
         return "Veiculo com a matricula {" + vehicle.getPlate() + "} adicionado com Sucesso";
     }
     
-    @GetMapping("/delete/vehicle/{vehicle_id}")
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public void deleteVehicle(@PathVariable("vehicle_id") int id){
-        userService.deleteVehicle(id);
-    }
     
-    @GetMapping("/read/user/vehicles/{user_nif}")
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public ResponseEntity<List<Vehicle>> readAllVehiclesFromUser(@PathVariable("user_nif") String user_nif){
-        List<Vehicle> vehicles = userService.readAllVehiclesFromUser(user_nif);
-        return ResponseEntity.ok().body(vehicles);
-    }
     
-    @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
-    @RequestMapping(value = {"/readAllVehicles"}, method = RequestMethod.GET)
-    public List<Vehicle> readAllVehicles(){
-        return userService.readAllVehicles();
-    }
     
 }

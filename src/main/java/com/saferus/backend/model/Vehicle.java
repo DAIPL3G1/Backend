@@ -36,8 +36,6 @@ public class Vehicle implements Serializable {
 
     @ManyToOne
     VehicleType vehicleType;
-    
-    private String brand;
 
     public int getId() {
         return id;
@@ -71,12 +69,6 @@ public class Vehicle implements Serializable {
         this.vehicleType = vehicleType;
     }
     
-    public String getBrand(){
-        return brand;
-    }
     
-    public void setBrand(String brand){
-        this.brand = brand;
-    }
 
 }

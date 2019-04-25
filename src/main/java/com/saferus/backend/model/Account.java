@@ -3,21 +3,17 @@ package com.saferus.backend.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Account implements Serializable {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    
     @Column(name = "nif")
     String nif;
 
@@ -29,25 +25,21 @@ public class Account implements Serializable {
     @Column(name = "password")
     String password;
 
+    @NotNull
     @Column(name = "enabled")
-    boolean enabled;
+    int enabled;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    AccountType accountType;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
     public String getNif() {
         return nif;
     }
 
-    public void setNif(String nif) {
+    public void setNif(String nif){
         this.nif = nif;
     }
-
+    
     public String getEmail() {
         return email;
     }
@@ -64,13 +56,20 @@ public class Account implements Serializable {
         this.password = password;
     }
 
-    public boolean isEnabled() {
+    public int getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(int enabled) {
         this.enabled = enabled;
     }
-    
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
 
 }

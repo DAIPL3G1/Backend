@@ -5,13 +5,17 @@
  */
 package com.saferus.backend.repository;
 
-import com.saferus.backend.model.Role;
-import com.saferus.backend.model.RoleName;
+import com.saferus.backend.model.AccountType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
 
-@Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
-    Optional<Role> findByName(RoleName roleName);
+/**
+ *
+ * @author lucasbrito
+ */
+@Repository("atRepository")
+public interface AccountTypeRepository extends JpaRepository<AccountType, Integer> {
+    
+    AccountType findAccountTypeById(int id);
+    
 }
