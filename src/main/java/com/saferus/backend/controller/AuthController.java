@@ -37,7 +37,9 @@ import java.util.Collections;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -83,16 +85,13 @@ public class AuthController {
         cookie.setPath("/");
         cookie.setSecure(true);
         response.addCookie(cookie);*/
-        final Cookie cookie = new Cookie("SaferusCookie", "Bearer " + jwt);
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(60 * 60 * 24 * 7);
-        response.addCookie(cookie);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "SaferusCookie=" + cookie);
-
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(JwtResponse);
+        
+        HttpCookie cookie = ResponseCookie.from("heroku-nav-data", jwt)
+        .path("/")
+        .build();
+        return ResponseEntity.ok()
+        .header(HttpHeaders.SET_COOKIE, cookie.toString())
+        .body(JwtResponse);
     }
 
     @PostMapping("/signup/user")
