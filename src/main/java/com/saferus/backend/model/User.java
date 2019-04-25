@@ -1,6 +1,5 @@
 package com.saferus.backend.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -11,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -63,6 +61,18 @@ public class User extends Account implements Serializable {
         this.password = password;
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    
+    
     public String getFirstname() {
         return firstname;
     }
@@ -181,12 +191,10 @@ public class User extends Account implements Serializable {
         this.zip_code = zip_code;
     }
 
-    @Override
     public String getNif() {
         return nif;
     }
 
-    @Override
     public void setNif(String nif) {
         this.nif = nif;
     }

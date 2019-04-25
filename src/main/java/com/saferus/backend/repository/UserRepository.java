@@ -16,13 +16,14 @@ import org.springframework.stereotype.Repository;
  * @author lucasbrito
  */
 @Repository("userRepository")
-public interface UserRepository extends JpaRepository<User, String>{
+public interface UserRepository extends JpaRepository<User, Long>{
     
     Optional<User> findOptionalByNifOrEmail(String nif, String email);
     Optional<User> findOptionalByEmail(String email);
     User findUserByNif(String nif);
     User findUserByEmail(String email);
     List<User> findByEmail(String email);
+    List<User> findByIdIn(List<Long> userIds);
     Boolean existsByNif(String nif);
     Boolean existsByEmail(String email);
     

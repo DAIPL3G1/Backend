@@ -5,8 +5,6 @@
  */
 package com.saferus.backend.payload;
 
-import com.saferus.backend.model.User;
-
 public class ApiResponse {
     
     private Boolean success;

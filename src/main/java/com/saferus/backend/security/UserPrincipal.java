@@ -18,28 +18,32 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
     
+    private Long id;
+    
     private String nif;
 
     private String firstname;
 
     private String lastname;
 
+    @JsonIgnore
     private String email;
     
-    private boolean enabled;
+    //private boolean enabled;
 
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(String nif, String firstname, String lastname, String email, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String nif, String firstname, String lastname, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
         this.nif = nif;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.enabled = enabled;
+       // this.enabled = enabled;
         this.authorities = authorities;
     }
 
@@ -49,14 +53,23 @@ public class UserPrincipal implements UserDetails {
         ).collect(Collectors.toList());
 
         return new UserPrincipal(
+                user.getId(),
                 user.getNif(),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getEmail(),
                 user.getPassword(),
-                user.isEnabled(),
+               // user.isEnabled(),
                 authorities
         );
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNif() {
@@ -107,7 +120,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 
     @Override
@@ -115,7 +128,7 @@ public class UserPrincipal implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserPrincipal that = (UserPrincipal) o;
-        return Objects.equals(nif, that.nif);
+        return Objects.equals(id, that.id);
     }
 
     @Override
