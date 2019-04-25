@@ -181,6 +181,7 @@ public class AuthController {
     }
     
     @GetMapping("/sobroker")
+    @Secured("ROLE_BROKER")
     public ResponseEntity<String> sobroker(){
         return ResponseEntity.ok().body("Fuck");
     }
