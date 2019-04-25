@@ -179,4 +179,9 @@ public class AuthController {
         return ResponseEntity.ok().body(new ApiResponse(true, "Logout feito com Sucesso!"));
 
     }
+    
+    @GetMapping("/sobroker")
+    public ResponseEntity<String> sobroker(){
+        return ResponseEntity.ok().body("Fuck");
+    }
 }
