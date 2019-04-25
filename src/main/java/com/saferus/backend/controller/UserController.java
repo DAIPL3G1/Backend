@@ -7,14 +7,12 @@ package com.saferus.backend.controller;
 
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
-import com.saferus.backend.security.UserPrincipal;
 import com.saferus.backend.service.UserServiceImpl;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,8 +81,8 @@ public class UserController {
     
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/read/user/vehicles/{user_nif}"}, method = RequestMethod.GET)
-    public List<Vehicle> readAllVehiclesFromUser(@PathVariable("user_nif") String user_nif){
-        return userService.readAllVehiclesFromUser(user_nif);
+    public ResponseEntity<List<Vehicle>> readAllVehiclesFromUser(@PathVariable("user_nif") String user_nif){
+        return ResponseEntity.ok().body(userService.readAllVehiclesFromUser(user_nif));
     }
     
     @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
