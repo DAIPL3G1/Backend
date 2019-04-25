@@ -10,14 +10,26 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Timer;
+import javax.annotation.PostConstruct;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
-@ComponentScan(basePackages = "com.saferus.backend")
-@SpringBootApplication()
+@SpringBootApplication
+@EntityScan(basePackageClasses = { 
+		BackendApplication.class,
+		Jsr310JpaConverters.class 
+})
 public class BackendApplication extends SpringBootServletInitializer {
 
     private static Class applicationClass = BackendApplication.class;
+
+    @PostConstruct
+    void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 
     public static void main(String[] args) throws ParseException {
 
@@ -31,7 +43,7 @@ public class BackendApplication extends SpringBootServletInitializer {
         Timer timer = new Timer();
 
         //Use this if you want to execute it repeatedly
-        int period = 60000*60;//60secs*
+        int period = 60000 * 60;//60secs*
         //timer.schedule(new MyTimeTask(appContext), date, period);
 
         MyTimeTask hello = new MyTimeTask(appContext);

@@ -61,7 +61,7 @@ public class AuthController {
     @Autowired
     JwtTokenProvider tokenProvider;
 
-    @PostMapping("/signin")
+    @PostMapping("/auth/signin")
     public ResponseEntity<?> authenticateUser(HttpServletResponse response, @Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -79,25 +79,16 @@ public class AuthController {
 
         JwtAuthenticationResponse JwtResponse = new JwtAuthenticationResponse(jwt, user);
 
-        /*Cookie cookie = new Cookie("token", jwt);
+        Cookie cookie = new Cookie("token", jwt);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(60 * 60 * 24 * 7);
-        response.addCookie(cookie);*/
+        cookie.setMaxAge(30000);
+        response.addCookie(cookie);
         
-        HttpCookie cookie = ResponseCookie.from("token", jwt)
-        .path("/")
-        .httpOnly(true)
-        .maxAge(60 * 60 * 24 * 3600)
-        .build();
-        
-        return ResponseEntity.ok()
-        .header(HttpHeaders.SET_COOKIE, cookie.toString())
-        .body(JwtResponse);
-        //return ResponseEntity.ok(JwtResponse);
+        return ResponseEntity.ok(JwtResponse);
     }
 
-    @PostMapping("/signup/user")
+    @PostMapping("/auth/signup/user")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if (userRepository.existsByNif(signUpRequest.getNif())) {
             return new ResponseEntity(new ApiResponse(false, "Nif já em uso"),
@@ -129,7 +120,7 @@ public class AuthController {
         return ResponseEntity.created(location).body(new ApiResponse(true, "Utilizador Registado com sucesso"));
     }
 
-    @PostMapping("/signup/broker")
+    @PostMapping("/auth/signup/broker")
     public ResponseEntity<?> registerBroker(@Valid @RequestBody SignUpRequest signUpRequest) {
         if (userRepository.existsByNif(signUpRequest.getNif())) {
             return new ResponseEntity(new ApiResponse(false, "Nif já em uso"),
