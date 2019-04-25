@@ -86,9 +86,12 @@ public class AuthController {
         cookie.setSecure(true);
         response.addCookie(cookie);*/
         
-        HttpCookie cookie = ResponseCookie.from("heroku-nav-data", jwt)
+        HttpCookie cookie = ResponseCookie.from("SaferusCookie", "Bearer " + jwt)
         .path("/")
+        .maxAge(60 * 60 * 24 * 3600)
+        .httpOnly(true)
         .build();
+        
         return ResponseEntity.ok()
         .header(HttpHeaders.SET_COOKIE, cookie.toString())
         .body(JwtResponse);
