@@ -37,7 +37,6 @@ import java.util.Collections;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -76,8 +75,8 @@ public class AuthController {
         String jwt = tokenProvider.generateToken(authentication);
 
         Cookie cookie = new Cookie("SaferusCookie", jwt);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(5*60);
+        cookie.setHttpOnly(false);
+        cookie.setMaxAge(6000);
         response.addCookie(cookie);
 
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, user));
