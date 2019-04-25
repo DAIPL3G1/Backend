@@ -83,7 +83,7 @@ public class AuthController {
         cookie.setPath("/");
         cookie.setSecure(true);
         response.addCookie(cookie);*/
-        final Cookie cookie = new Cookie("SaferusCookie", jwt);
+        final Cookie cookie = new Cookie("SaferusCookie", "Bearer " + jwt);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(60 * 60 * 24 * 7);
