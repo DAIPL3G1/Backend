@@ -1,11 +1,9 @@
 package com.saferus.backend.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -40,8 +38,6 @@ public class User extends Account implements Serializable {
     private String country;
     
     private String insuranceCompany;
-    
-    private String type;
     
     public String getFirstname() {
         return firstname;
@@ -181,10 +177,6 @@ public class User extends Account implements Serializable {
 
     public String getType() {
         return accountType.name;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
     
     
