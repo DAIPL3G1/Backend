@@ -90,9 +90,9 @@ public class AuthController {
         response.addCookie(cookie);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "SaferusCookie=" + jwt);
+        headers.add("Set-Cookie", "SaferusCookie=" + cookie);
 
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(JwtResponse);
     }
 
     @PostMapping("/signup/user")
