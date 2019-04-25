@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,13 +75,13 @@ public class UserController {
     }
     
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @RequestMapping(value = {"/delete/vehicle/{vehicle_id}"}, method = RequestMethod.DELETE)
+    @GetMapping("/delete/vehicle/{vehicle_id}")
     public void deleteVehicle(@PathVariable("vehicle_id") int id){
         userService.deleteVehicle(id);
     }
     
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @RequestMapping(value = {"/read/user/vehicles/{user_nif}"}, method = RequestMethod.GET)
+    @GetMapping("/read/user/vehicles/{user_nif}")
     public ResponseEntity<List<Vehicle>> readAllVehiclesFromUser(@PathVariable("user_nif") String user_nif){
         return ResponseEntity.ok().body(userService.readAllVehiclesFromUser(user_nif));
     }
