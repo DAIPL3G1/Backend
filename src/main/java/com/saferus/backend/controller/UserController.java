@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     
     @Autowired
-    private UserServiceImpl userService;
+    UserServiceImpl userService;
     
     @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/readAllUsers"}, method = RequestMethod.GET)
@@ -74,16 +74,17 @@ public class UserController {
         return "Veiculo com a matricula {" + vehicle.getPlate() + "} adicionado com Sucesso";
     }
     
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/delete/vehicle/{vehicle_id}")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public void deleteVehicle(@PathVariable("vehicle_id") int id){
         userService.deleteVehicle(id);
     }
     
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/read/user/vehicles/{user_nif}")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<List<Vehicle>> readAllVehiclesFromUser(@PathVariable("user_nif") String user_nif){
-        return ResponseEntity.ok().body(userService.readAllVehiclesFromUser(user_nif));
+        List<Vehicle> vehicles = userService.readAllVehiclesFromUser(user_nif);
+        return ResponseEntity.ok().body(vehicles);
     }
     
     @Secured({"ROLE_USER", "ROLE_BROKER", "ROLE_ADMIN"})
