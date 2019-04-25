@@ -122,8 +122,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif) {
-        if (vehicleRepository.findVehicleById(vehicle.getId()) == null) {
-            throw new DataNotFoundException("Veículo não encontrado");
+        if (vehicleRepository.findVehicleById(vehicle.getId()) != null) {
+            throw new DataNotFoundException("Veículo já inserido");
         }
         if (userRepository.findUserByNif(user_nif) == null) {
             throw new DataNotFoundException("Utilizador não encontrado");
