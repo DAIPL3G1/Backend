@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.config;
 
+/*import javax.annotation.Resource;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,14 +17,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  *
  * @author lucasbrito
  */
-@Configuration
+ /*@Configuration
 @EnableWebSecurity
 public class AccessConfig extends WebSecurityConfigurerAdapter {
 
@@ -47,42 +50,63 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/auth").hasRole("USER")
+                .antMatchers("/protected").hasRole("USER")
                 .antMatchers("/signup/user").permitAll()
                 .antMatchers("/signup/broker").permitAll()
+                .antMatchers("/emails/{email}/{generated_password}").permitAll()
+                .antMatchers("/emails/verify_email/{token}").permitAll()
                 .antMatchers("/test").permitAll()
-                .antMatchers("/bind/{broker_nif}/{user_nif}").hasAuthority("USER")
+                .antMatchers("/request/bind/{broker_nif}/{user_nif}").hasAuthority("USER")
                 .antMatchers("/readAllUsers").permitAll()
                 .antMatchers("/readAllBrokers").permitAll()
                 .antMatchers("/readAllBinds").permitAll()
-                .antMatchers("/read/user/{user_nif}").hasAuthority("USER")
+                .antMatchers("/read/all/clients/{broker_nif}").permitAll()
+                .antMatchers("/bind/request/pending/{broker_nif}").permitAll()
+                .antMatchers("/read/bound/vehicles/{broker_nif}").permitAll()
+                .antMatchers("/read/user/{user_nif}").hasAnyAuthority("USER")
                 .antMatchers("/read/broker/{broker_nif}").hasAuthority("BROKER")
                 .antMatchers("/read/bind/{bind_id}").permitAll()
                 .antMatchers("/delete/user/{user_nif}").hasAuthority("USER")
                 .antMatchers("/delete/broker/{broker_nif}").hasAuthority("BROKER")
+                .antMatchers("/delete/vehicle/{vehicle_id}").hasAnyAuthority("USER")
                 .antMatchers("/unbind/{user_nif}").hasAuthority("USER")
                 .antMatchers("/validate/user/{user_nif}").hasAuthority("ADMIN")
                 .antMatchers("/validate/broker/{broker_nif}").hasAuthority("ADMIN")
                 .antMatchers("/validate/bind/{bind_id}").hasAuthority("BROKER")
-                .antMatchers("/update/{user_nif}").hasAuthority("USER")
+                .antMatchers("/update/user/{user_nif}").hasAuthority("USER")
                 .antMatchers("/update/password/{user_nif}").hasAuthority("USER")
-                .antMatchers("/update/bind/{bind_id}").hasAnyAuthority("USER")
+                .antMatchers("/update/bind/{bind_id}").hasAnyRole("USER", "BROKER")
                 .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER")
-                .antMatchers("/dashboard/").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable()
-                .formLogin().loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/home")
-                .usernameParameter("email")
-                .passwordParameter("password")
+                .and()
+                .formLogin()
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/authenticated")
+                    .failureUrl("/login?error=true")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
                 .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .and().rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(60 * 60)
-                .and().exceptionHandling().accessDeniedPage("/access_denied");
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/logout")
+                .permitAll();
+
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*")
+                        .allowedHeaders("*");
+            }
+        };
     }
 
     @Bean
@@ -92,10 +116,81 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
 
         return db;
     }
+    
+    
+}*/
+import com.saferus.backend.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-    @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
+@Configuration
+@EnableConfigurationProperties
+public class AccessConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .cors().and()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup/user").permitAll()
+                .antMatchers("/signup/broker").permitAll()
+                .antMatchers("/trip/read/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/trip/read/datas/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/emails").permitAll()
+                .antMatchers("/emails/verify_email/{token}").permitAll()
+                .antMatchers("/authenticated").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/auth").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/protected").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/test").permitAll()
+                .antMatchers("/request/bind/{broker_nif}/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/readAllUsers").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/readAllBrokers").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/readAllBinds").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/readAllVehicles").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/read/all/clients/{broker_nif}").hasAnyAuthority("BROKER", "ADMIN")
+                .antMatchers("/bind/request/pending/{broker_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/read/bound/vehicles/{broker_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/read/user/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/read/broker/{broker_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/read/bind/{bind_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/read/user/vehicles/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/delete/user/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/delete/broker/{broker_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/delete/vehicle/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/unbind/user/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/unbind/vehicle/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/validate/user/{user_nif}").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/validate/broker/{broker_nif}").hasAnyAuthority("BROKER", "ADMIN")
+                .antMatchers("/validate/bind/{bind_id}").hasAnyAuthority("BROKER", "ADMIN")
+                .antMatchers("/unvalidate/bind/{bind_id}").hasAnyAuthority("BROKER", "ADMIN")
+                .antMatchers("/update/user/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/update/password/{user_nif}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/update/bind/{bind_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
+                .antMatchers("/add/vehicle/{user_nif}").hasAnyAuthority("USER", "ADMIN")
+                .anyRequest().authenticated()
+                .and().httpBasic()
+                .and().sessionManagement().disable();
     }
 
+    @Override
+    public void configure(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(userDetailsService);
+    }
+    
+    /*@Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
+    }*/
 }

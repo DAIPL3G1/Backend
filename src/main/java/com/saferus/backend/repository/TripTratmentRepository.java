@@ -5,16 +5,18 @@
  */
 package com.saferus.backend.repository;
 
-import com.saferus.backend.model.Statistic;
+import com.saferus.backend.model.TripTratment;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author lucasbrito
  */
-public interface StatisticRepository extends MongoRepository<Statistic, String>{
+@Repository("tripTratmentRepository")
+public interface TripTratmentRepository extends MongoRepository<TripTratment, Integer>{
     
-    public Statistic findStatisticById(ObjectId id);
+    TripTratment findBy_id(ObjectId _id);
     
 }

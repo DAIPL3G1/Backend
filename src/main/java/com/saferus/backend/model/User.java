@@ -1,9 +1,11 @@
 package com.saferus.backend.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +22,7 @@ public class User extends Account implements Serializable {
     private String lastname;
     
     @Column(name = "birth_date")
-    private Instant birthDate;
+    private Date birth_date;
     
     @Column(name = "contact")
     private String contact;
@@ -29,7 +31,7 @@ public class User extends Account implements Serializable {
     private String address;
     
     @Column(name = "zip_code")
-    private String zipCode;
+    private String zip_code;
     
     @Column(name = "city")
     private String city;
@@ -37,10 +39,9 @@ public class User extends Account implements Serializable {
     @Column(name = "country")
     private String country;
     
+    private String insuranceCompany;
     
-    public String getType(){
-        return accountType.getName();
-    }
+    private String type;
     
     public String getFirstname() {
         return firstname;
@@ -73,12 +74,12 @@ public class User extends Account implements Serializable {
         return email;
     }
 
-    public Instant getBirthDate() {
-        return birthDate;
+    public Date getBirthDate() {
+        return birth_date;
     }
 
-    public void setBirthDate(Instant birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDate(Date birthDate) {
+        this.birth_date = birthDate;
     }
 
     public String getContact() {
@@ -98,11 +99,11 @@ public class User extends Account implements Serializable {
     }
 
     public String getZipCode() {
-        return zipCode;
+        return zip_code;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZipCode(String zip_code) {
+        this.zip_code = zip_code;
     }
 
     public String getCity() {
@@ -120,6 +121,75 @@ public class User extends Account implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
+    
+    @Override
+    public void setEnabled(int enabled){
+        this.enabled = enabled;
+    }
+
+    public String getInsuranceCompany() {
+        return insuranceCompany;
+    }
+
+    public void setInsuranceCompany(String insuranceCompany) {
+        this.insuranceCompany = insuranceCompany;
+    }
+    
+    @Override
+    public int getEnabled(){
+        return enabled;
+    }
+    
+    @Override
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public Date getBirth_date() {
+        return birth_date;
+    }
+
+    public void setBirth_date(Date birth_date) {
+        this.birth_date = birth_date;
+    }
+
+    public String getZip_code() {
+        return zip_code;
+    }
+
+    public void setZip_code(String zip_code) {
+        this.zip_code = zip_code;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    @Override
+    public String getNif() {
+        return nif;
+    }
+
+    @Override
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
+    public String getType() {
+        return accountType.name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
+    
+    
     
     
     

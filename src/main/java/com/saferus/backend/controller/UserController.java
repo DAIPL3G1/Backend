@@ -48,15 +48,14 @@ public class UserController {
     }
     
     @RequestMapping(value = {"/update/user/{user_nif}"}, method = RequestMethod.PUT)
-    public User updateInfo(@Valid @RequestBody User user, String user_nif){
+    public User updateInfo(@Valid @RequestBody User user, @PathVariable("user_nif") String user_nif){
         userService.updateInfo(user, user_nif);
         return user;
     }
     
     @RequestMapping(value = {"/update/password/{user_nif}"}, method = RequestMethod.PUT)
-    public String updatePassword(@PathVariable("user_nif") String user_nif, @Valid @RequestBody String password, String newPassword){
-        userService.updatePassword(user_nif, password, newPassword);
-        return "Password alterada com sucesso";
+    public void updatePassword(@PathVariable("user_nif") String user_nif, @Valid @RequestBody User user){
+        userService.updatePassword(user_nif, user);
     }
     
     @RequestMapping(value = {"/add/vehicle/{user_nif}"}, method = RequestMethod.POST)
@@ -65,7 +64,19 @@ public class UserController {
         return "Veiculo com a matricula {" + vehicle.getPlate() + "} adicionado com Sucesso";
     }
     
+    @RequestMapping(value = {"/delete/vehicle/{vehicle_id}"}, method = RequestMethod.DELETE)
+    public void deleteVehicle(@PathVariable("vehicle_id") int id){
+        userService.deleteVehicle(id);
+    }
     
+    @RequestMapping(value = {"/read/user/vehicles/{user_nif}"}, method = RequestMethod.GET)
+    public List<Vehicle> readAllVehiclesFromUser(@PathVariable("user_nif") String user_nif){
+        return userService.readAllVehiclesFromUser(user_nif);
+    }
     
+    @RequestMapping(value = {"/readAllVehicles"}, method = RequestMethod.GET)
+    public List<Vehicle> readAllVehicles(){
+        return userService.readAllVehicles();
+    }
     
 }

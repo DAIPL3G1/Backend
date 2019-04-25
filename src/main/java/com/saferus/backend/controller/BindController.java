@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author lucasbrito
  */
-@RestController()
+@RestController
 public class BindController {
     
     @Autowired
     private BindServiceImpl bindService;
     
-    @RequestMapping(value = {"/bind/{broker_nif}/{user_nif}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/request/bind/{broker_nif}/{user_nif}"}, method = RequestMethod.POST)
     public String requestBind(@Valid @RequestBody Vehicle vehicle, @PathVariable("broker_nif") String broker_nif, @PathVariable("user_nif") String user_nif) throws Exception{
         bindService.requestBind(vehicle.getPlate(), broker_nif, user_nif);
         return "Pedido de Vinculacao feito com Sucesso";
@@ -40,10 +40,21 @@ public class BindController {
         return "Vinculacao Validada Com Sucesso";
     }
     
-    @RequestMapping(value = {"/unbind/{user_nif}"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/unvalidate/bind/{bind_id}"}, method = RequestMethod.PUT)
+    public String unValidateBind(@PathVariable("bind_id") int bind_id) throws Exception{
+        bindService.unvalidateBind(bind_id);
+        return "Vinculacao Não Validada Com Sucesso";
+    }
+    
+    @RequestMapping(value = {"/unbind/user/{user_nif}"}, method = RequestMethod.PUT)
     public String unbind(@PathVariable("user_nif") String user_nif) throws Exception{
         bindService.unbind(user_nif);
         return "Utilizador desvinculado com Sucesso";
+    }
+    
+    @RequestMapping(value = {"/unbind/vehicle/{vehicle_id}"}, method = RequestMethod.PUT)
+    public void unbindVehicle(@PathVariable("vehicle_id") int vehicle_id) throws Exception{
+        bindService.unbindVehicle(vehicle_id);
     }
     
     @RequestMapping(value = {"/readAllBinds"}, method = RequestMethod.GET)
@@ -60,6 +71,5 @@ public class BindController {
     public Bind updateBind(@PathVariable("bind_id") int bind_id, @Valid @RequestBody Bind bind){
         return bindService.updateBind(bind_id, bind);
     }
-    
     
 }

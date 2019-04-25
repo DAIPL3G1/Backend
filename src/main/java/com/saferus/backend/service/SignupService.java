@@ -6,6 +6,9 @@
 package com.saferus.backend.service;
 
 import com.saferus.backend.model.User;
+import java.io.IOException;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 /**
  *
@@ -13,12 +16,13 @@ import com.saferus.backend.model.User;
  */
 public interface SignupService {
     
-    public User findGenericUserByNif(String nif);
+    public User findUserByNif(String nif);
     public void signupUser(User newUser);
     public void signupBroker(User newBroker);
     public void deleteUser(String user_nif);
     public void deleteBroker(String broker_nif);
     public String validateUser(String user_nif) throws Exception;
     public String validateBroker(String broker_nif) throws Exception;
+    public String sendEmail(String email, String pw, String verificationCode) throws AddressException, MessagingException, IOException;
     
 }

@@ -21,14 +21,24 @@ public interface UserService {
 
     public User updateInfo(User user, String user_nif);
 
-    public void updatePassword(String user_nif, String newPassword, String oldPassword);
+    public void updatePassword(String user_nif, User user) ;
 
     public List<User> readAllBrokers();
 
     public User readBroker(String broker_nif);
 
     public User findUserByEmail(String email);
-
+    
+    public List<User> readAllClientsFromBroker(String broker_nif);
+    
+    public void deleteVehicle(int vehicle_id);
+    
     public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif);
+    
+    public List<Vehicle> readAllBoundVehicles(String broker_nif);
+    
+    public List<Vehicle> readAllVehiclesFromUser(String user_nif);
+    
+    public List<Vehicle> readAllVehicles();
 
 }

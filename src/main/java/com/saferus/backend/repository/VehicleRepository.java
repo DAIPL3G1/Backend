@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.repository;
 
+import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -18,5 +19,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     
     Vehicle findVehicleById(int id);
     Vehicle findVehicleByPlate(String plate);
+    Vehicle findVehicleByUser(User u);
     
 }
