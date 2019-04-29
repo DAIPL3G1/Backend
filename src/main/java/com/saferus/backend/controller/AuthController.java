@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.saferus.backend.service.UserService;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -35,8 +39,10 @@ public class AuthController {
     @Autowired
     Environment environment;    
 
+    
     @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
-    public User Login(HttpServletRequest request){
+    @ResponseStatus(value=HttpStatus.OK)
+    public User Authenticate(final HttpServletRequest request) throws UnsupportedEncodingException{
         return userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
     

@@ -17,7 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.repository.VehicleRepository;
 import com.saferus.backend.repository.VehicleTypeRepository;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -214,6 +218,22 @@ public class UserServiceImpl implements UserService {
             throw new DataNotFoundException("Nenhum Veículo encontrado");
         }
         return vehicleRepository.findAll();
+    }
+
+    @Override
+    public void setAuthCookieToResonse(final HttpServletRequest request, final HttpServletResponse response) throws UnsupportedEncodingException{
+
+        String cookieKey = "auth";
+        String cookieValue = request.getHeader("Authorization");
+
+        if (cookieValue != null) {
+            Cookie cookie = new Cookie(cookieKey, cookieValue);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            response.addCookie(cookie);
+            System.out.println("cookie stored " + cookieKey);
+        }
+
     }
 
 }

@@ -7,7 +7,10 @@ package com.saferus.backend.service;
 
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -40,5 +43,7 @@ public interface UserService {
     public List<Vehicle> readAllVehiclesFromUser(String user_nif);
     
     public List<Vehicle> readAllVehicles();
+    
+    public void setAuthCookieToResonse(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException;
 
 }
