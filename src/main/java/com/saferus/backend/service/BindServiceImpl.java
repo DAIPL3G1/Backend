@@ -159,7 +159,8 @@ public class BindServiceImpl implements BindService {
 
     @Override
     public List<Bind> readAllPendingBind(String broker_nif) {
-        if (bindRepository.findBindByUser(userRepository.findUserByNif(broker_nif)) == null) {
+        User broker = userRepository.findUserByNif(broker_nif);
+        if (bindRepository.findBindByUser(broker) == null) {
             throw new DataNotFoundException("Vinculos não encontrados");
         }
         List<Bind> binds = new ArrayList<>();
