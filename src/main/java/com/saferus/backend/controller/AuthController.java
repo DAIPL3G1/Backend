@@ -5,6 +5,8 @@
  */
 package com.saferus.backend.controller;
 
+import com.saferus.backend.config.LoginForm;
+import com.saferus.backend.config.ResponseLogin;
 import com.saferus.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +17,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
@@ -41,6 +46,14 @@ public class AuthController {
     @ResponseStatus(value=HttpStatus.OK)
     public User Authenticate(final HttpServletRequest request) throws UnsupportedEncodingException{
         return userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+    
+    @RequestMapping(value = "/signin", method = RequestMethod.POST)
+    @ResponseStatus(value=HttpStatus.OK)
+    public ResponseLogin Login(HttpServletResponse response, @Valid @RequestBody LoginForm login){
+        String token = userService.authenticateUser(login.getEmail(), login.getPassword(), response);
+        User u = userService.findUserByEmail(login.getEmail());
+        return new ResponseLogin(token, u);
     }
     
     @RequestMapping(value = "/auth", method = RequestMethod.GET)

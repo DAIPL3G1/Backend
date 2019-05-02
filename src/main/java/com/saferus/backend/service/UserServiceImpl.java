@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.service;
 
+import com.saferus.backend.exceptions.BadRequestException;
 import com.saferus.backend.exceptions.DataNotFoundException;
 import com.saferus.backend.model.Bind;
 import com.saferus.backend.model.User;
@@ -19,6 +20,8 @@ import com.saferus.backend.repository.VehicleRepository;
 import com.saferus.backend.repository.VehicleTypeRepository;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -234,6 +237,25 @@ public class UserServiceImpl implements UserService {
             System.out.println("cookie stored " + cookieKey);
         }
 
+    }
+    
+    @Override
+    public String authenticateUser(String email, String password, HttpServletResponse response) throws BadRequestException{
+        String token = "";
+        if(email.isEmpty() && password.isEmpty()){
+            throw new DataNotFoundException("Dados não inseridos");
+        }
+        else if(userRepository.findByEmail(email) == null){
+            throw new BadRequestException("Email não existe");
+        }
+        User u = userRepository.findUserByEmail(email);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
+        if(!encoder.matches(password, u.getPassword())){
+            throw new BadRequestException("Password errada");
+        }
+        token = "Basic " + new String(Base64.getEncoder().encode((email + ":" + password).getBytes()));
+        System.out.println(token);
+        return token;
     }
 
 }

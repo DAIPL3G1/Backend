@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableConfigurationProperties
@@ -28,7 +27,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/signin").permitAll()
                 .antMatchers("/signup/user").permitAll()
                 .antMatchers("/signup/broker").permitAll()
                 .antMatchers("/trip/read/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")

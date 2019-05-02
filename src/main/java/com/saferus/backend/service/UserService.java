@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.service;
 
+import com.saferus.backend.exceptions.BadRequestException;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
 import java.io.UnsupportedEncodingException;
@@ -46,4 +47,5 @@ public interface UserService {
     
     public void setAuthCookieToResonse(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException;
 
+    public String authenticateUser(String email, String password, HttpServletResponse response) throws BadRequestException;
 }
