@@ -21,6 +21,7 @@ import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.repository.VehicleRepository;
 import com.saferus.backend.repository.BindRepository;
 import com.saferus.backend.repository.VehicleTypeRepository;
+import java.io.PrintWriter;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -166,8 +167,7 @@ public class BindServiceImpl implements BindService {
                 if (b.getRequest() == 1) {
                     binds.add(b);
                 }
-            }
-            else{
+            } else {
                 throw new DataNotFoundException("Nenhum pedido de vinculação encontrado!");
             }
         }
@@ -186,9 +186,26 @@ public class BindServiceImpl implements BindService {
         }
         b.setAccepted(0);
         b.setRequest(0);
-        v.setVehicleType(vtRepository.findVehicleTypeById(1));
-        vehicleRepository.save(v);
         bindRepository.save(b);
+        v.setVehicleType(vtRepository.findVehicleTypeById(1));
+        PrintWriter writer = new PrintWriter("Unbind-Logs.txt", "UTF-8");
+        for (Bind bind : bindRepository.findAll()) {
+            if (bind.getAccepted() == 0 && bind.getRequest() == 0) {
+                writer.println("Bind id=" + bind.getId() + 
+                               " Contract Code=" + bind.getContractCode() +
+                               " Request Date=" + bind.getRequestDate() + 
+                               " Start Date=" + bind.getStartDate() + 
+                               " End Date=" + bind.getEndDate() + 
+                               " Mediador=" + bind.getBroker().getNif() + 
+                               " Utilizador=" + bind.getUser().getNif() + 
+                               " Veículo=" + bind.getVehicle().getPlate() + 
+                               " da marca " + bind.getVehicle().getBrand() + 
+                               " foi desvinculado!");
+            }
+        }
+        writer.close();
+        vehicleRepository.save(v);
+        bindRepository.delete(b);
     }
 
 }
