@@ -160,15 +160,15 @@ public class BindServiceImpl implements BindService {
     @Override
     public List<Bind> readAllPendingBind(String broker_nif) {
         User broker = userRepository.findUserByNif(broker_nif);
-        if (bindRepository.findBindByUser(broker) == null) {
-            throw new DataNotFoundException("Vinculos não encontrados");
-        }
         List<Bind> binds = new ArrayList<>();
         for (Bind b : bindRepository.findAll()) {
             if (b.getBroker().getNif().equals(broker_nif)) {
                 if (b.getRequest() == 1) {
                     binds.add(b);
                 }
+            }
+            else{
+                throw new DataNotFoundException("Nenhum pedido de vinculação encontrado!");
             }
         }
         return binds;
