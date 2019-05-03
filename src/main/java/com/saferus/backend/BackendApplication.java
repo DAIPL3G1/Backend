@@ -25,17 +25,17 @@ public class BackendApplication extends SpringBootServletInitializer {
 
         //the Date and time at which you want to execute
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = dateFormatter.parse("2019-04-23 23:59:59");
+        Date date = dateFormatter.parse("2019-05-03 11:30:00");
 
         //Now create the time and schedule it
         Timer timer = new Timer();
 
         //Use this if you want to execute it repeatedly
-        int period = 60000*60;//60secs*
-        //timer.schedule(new MyTimeTask(appContext), date, period);
+        int period = 60000*60;//60secs*60=1h
+        timer.schedule(new MyTimeTask(appContext), date, period);
         
-        MyTimeTask hello = new MyTimeTask(appContext);
-        hello.run();
+       /* MyTimeTask hello = new MyTimeTask(appContext);
+        hello.run();*/
     }
 
 }

@@ -156,9 +156,7 @@ public class UserServiceImpl implements UserService {
         if (broker == null) {
             throw new DataNotFoundException("Mediador não encontrado");
         }
-
         List<User> users = new ArrayList<>();
-
         for (Bind b : bindRepository.findAll()) {
             if (b.getAccepted() == 1) {
                 if (b.getBroker().equals(broker)) {
