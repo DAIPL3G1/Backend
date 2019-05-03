@@ -21,7 +21,9 @@ import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.repository.VehicleRepository;
 import com.saferus.backend.repository.BindRepository;
 import com.saferus.backend.repository.VehicleTypeRepository;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -189,10 +191,10 @@ public class BindServiceImpl implements BindService {
         b.setRequest(0);
         bindRepository.save(b);
         v.setVehicleType(vtRepository.findVehicleTypeById(1));
-        PrintWriter writer = new PrintWriter(new FileWriter("Unbind-Logs.txt"));
+        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream("Unbind-Logs.txt"));
         for (Bind bind : bindRepository.findAll()) {
             if (bind.getAccepted() == 0 && bind.getRequest() == 0) {
-                writer.println("Bind id=" + bind.getId() + 
+                writer.writeObject("Bind id=" + bind.getId() + 
                                " Contract Code=" + bind.getContractCode() +
                                " Request Date=" + bind.getRequestDate() + 
                                " Start Date=" + bind.getStartDate() + 
