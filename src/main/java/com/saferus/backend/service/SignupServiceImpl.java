@@ -82,9 +82,6 @@ public class SignupServiceImpl implements SignupService {
         else if(newBroker.getFirstname().isEmpty()){
             throw new BadRequestException("Por favor insira o nome");
         }
-        else if(newBroker.getLastname().isEmpty()){
-            throw new BadRequestException("Por favor insira o apelido");
-        }
         newBroker.setPassword(bCryptPasswordEncoder.encode(newBroker.getPassword()));
         newBroker.setEnabled(0);
         AccountType tp = atRepository.findAccountTypeById(2);
