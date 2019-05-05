@@ -18,27 +18,27 @@ public class User extends Account implements Serializable {
     @NotNull
     @Column(name = "lastname")
     private String lastname;
-    
-    @Column(name = "birth_date")
-    private Date birth_date;
-    
+
+    @Column(name = "birthDate")
+    private Date birthDate;
+
     @Column(name = "contact")
     private String contact;
-    
+
     @Column(name = "address")
     private String address;
-    
-    @Column(name = "zip_code")
-    private String zip_code;
-    
+
+    @Column(name = "zipCode")
+    private String zipCode;
+
     @Column(name = "city")
     private String city;
-    
+
     @Column(name = "country")
     private String country;
-    
+
     private String insuranceCompany;
-    
+
     public String getFirstname() {
         return firstname;
     }
@@ -56,26 +56,26 @@ public class User extends Account implements Serializable {
     }
 
     @Override
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
-    
+
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
-    
+
     @Override
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
     public Date getBirthDate() {
-        return birth_date;
+        return birthDate;
     }
 
     public void setBirthDate(Date birthDate) {
-        this.birth_date = birthDate;
+        this.birthDate = birthDate;
     }
 
     public String getContact() {
@@ -95,11 +95,11 @@ public class User extends Account implements Serializable {
     }
 
     public String getZipCode() {
-        return zip_code;
+        return zipCode;
     }
 
-    public void setZipCode(String zip_code) {
-        this.zip_code = zip_code;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public String getCity() {
@@ -117,9 +117,9 @@ public class User extends Account implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-    
+
     @Override
-    public void setEnabled(int enabled){
+    public void setEnabled(int enabled) {
         this.enabled = enabled;
     }
 
@@ -130,31 +130,15 @@ public class User extends Account implements Serializable {
     public void setInsuranceCompany(String insuranceCompany) {
         this.insuranceCompany = insuranceCompany;
     }
-    
+
     @Override
-    public int getEnabled(){
+    public int getEnabled() {
         return enabled;
     }
-    
+
     @Override
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Date getBirth_date() {
-        return birth_date;
-    }
-
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
-    }
-
-    public String getZip_code() {
-        return zip_code;
-    }
-
-    public void setZip_code(String zip_code) {
-        this.zip_code = zip_code;
     }
 
     public AccountType getAccountType() {
@@ -178,11 +162,5 @@ public class User extends Account implements Serializable {
     public String getType() {
         return accountType.name;
     }
-    
-    
-    
-    
-    
-    
-    
+
 }
