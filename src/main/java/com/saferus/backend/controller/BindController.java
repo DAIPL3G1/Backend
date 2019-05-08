@@ -35,7 +35,7 @@ public class BindController {
     }
     
     @RequestMapping(value = {"/validate/bind/{bind_id}"}, method = RequestMethod.PUT)
-    public String validateBind(@Valid @RequestBody ValidateBind vb, String contract_code, @PathVariable("bind_id") int bind_id) throws Exception{
+    public String validateBind(@Valid @RequestBody ValidateBind vb, @PathVariable("bind_id") int bind_id) throws Exception{
         bindService.validateBind(vb, bind_id);
         return "Vinculacao Validada Com Sucesso";
     }

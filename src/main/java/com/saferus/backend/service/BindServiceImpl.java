@@ -89,7 +89,7 @@ public class BindServiceImpl implements BindService {
         }
         v.setVehicleType(vt);
         vehicleRepository.save(v);
-        b.setContractCode(vb.getContract_code());
+        b.setContractCode(vb.getContractCode());
         b.setAccepted(1);
         b.setRequest(0);
         bindRepository.save(b);
