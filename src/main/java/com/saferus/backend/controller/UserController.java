@@ -79,4 +79,9 @@ public class UserController {
         return userService.readAllVehicles();
     }
     
+    @RequestMapping(value = {"/forgetPassword"}, method = RequestMethod.PUT)
+    public String forgetPassword(@RequestBody String email){
+        return userService.forgetPassword(email);
+    }
+    
 }

@@ -48,4 +48,8 @@ public interface UserService {
     public void setAuthCookieToResonse(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException;
 
     public String authenticateUser(String email, String password, HttpServletResponse response) throws BadRequestException;
+    
+    public String forgetPassword(String email);
+    
+    public String changePw(String Email);
 }

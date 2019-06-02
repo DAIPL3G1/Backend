@@ -30,6 +30,7 @@ public class AccessConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signin").permitAll()
                 .antMatchers("/signup/user").permitAll()
                 .antMatchers("/signup/broker").permitAll()
+                .antMatchers("/forgetPassword").permitAll()
                 .antMatchers("/trip/read/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/trip/read/datas/{vehicle_id}").hasAnyAuthority("USER", "BROKER", "ADMIN")
                 .antMatchers("/emails").permitAll()

@@ -7,6 +7,7 @@ package com.saferus.backend.service;
 
 import com.saferus.backend.exceptions.BadRequestException;
 import com.saferus.backend.exceptions.DataNotFoundException;
+import com.saferus.backend.exceptions.GenericException;
 import com.saferus.backend.model.Bind;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
@@ -18,13 +19,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.saferus.backend.repository.UserRepository;
 import com.saferus.backend.repository.VehicleRepository;
 import com.saferus.backend.repository.VehicleTypeRepository;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Random;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 /**
  *
@@ -47,6 +56,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private VehicleTypeRepository vtRepository;
+
+    @Autowired
+    private JavaMailSender sender;
 
     @Override
     public List<User> readAllUsers() {
@@ -222,7 +234,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setAuthCookieToResonse(final HttpServletRequest request, final HttpServletResponse response) throws UnsupportedEncodingException{
+    public void setAuthCookieToResonse(final HttpServletRequest request, final HttpServletResponse response) throws UnsupportedEncodingException {
 
         String cookieKey = "auth";
         String cookieValue = request.getHeader("Authorization");
@@ -236,24 +248,62 @@ public class UserServiceImpl implements UserService {
         }
 
     }
-    
+
     @Override
-    public String authenticateUser(String email, String password, HttpServletResponse response) throws BadRequestException{
+    public String authenticateUser(String email, String password, HttpServletResponse response) throws BadRequestException {
         String token = "";
-        if(email.isEmpty() && password.isEmpty()){
+        if (email.isEmpty() && password.isEmpty()) {
             throw new DataNotFoundException("Dados não inseridos");
-        }
-        else if(userRepository.findByEmail(email) == null){
+        } else if (userRepository.findByEmail(email) == null) {
             throw new BadRequestException("Email não existe");
         }
         User u = userRepository.findUserByEmail(email);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
-        if(!encoder.matches(password, u.getPassword())){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(password, u.getPassword())) {
             throw new BadRequestException("Password errada");
         }
         token = "Basic " + new String(Base64.getEncoder().encode((email + ":" + password).getBytes()));
         System.out.println(token);
         return token;
+    }
+
+    @Override
+    public String forgetPassword(String email) {
+        try {
+            User user = userRepository.findUserByEmail(email);
+            URL url = new URL("https:/saferusbackend.herokuapp.com/");
+
+            String pw = changePw(email);
+
+            MimeMessage message = sender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+
+            helper.setTo(user.getEmail());
+            helper.setSubject("Safe'R'Us - Alteração da Palavra-Passe para " + user.getFirstname());
+            helper.setText("Utilizador: " + user.getFirstname() + "\nPassword gerada: " + pw + "\nAltere a sua palavra-passe em Alterar Dados de Perfil \nVolte para o site: " + url);
+            sender.send(message);
+        } catch (MessagingException | IOException | DataNotFoundException ex) {
+            throw new GenericException(ex.getMessage());
+        }
+        return "Email enviado com sucesso";
+    }
+
+    @Override
+    public String changePw(String Email) {
+        User user = userRepository.findUserByEmail(Email);
+        if (user == null) {
+            throw new DataNotFoundException("Utilizador Não Encontrado");
+        }
+        
+        byte[] array = new byte[10];
+        new Random().nextBytes(array);
+        String generatedString = new String(array, Charset.forName("UTF-8"));
+        
+        user.setPassword(bCryptPasswordEncoder.encode(generatedString));
+        userRepository.save(user);
+        
+        return generatedString;
+        
     }
 
 }
