@@ -81,7 +81,7 @@ public class UserController {
     }
     
     @RequestMapping(value = {"/forgetPassword"}, method = RequestMethod.PUT)
-    public String forgetPassword(@RequestBody String email){
+    public int forgetPassword(@RequestBody String email){
         return email.length();
         //return userService.forgetPassword(email);
     }
