@@ -43,6 +43,7 @@ public class MyTimeTask extends TimerTask {
         tripTratmentRepository = appContext.getBean(TripTratmentRepository.class);
     }
 
+    //Metodo para Converter data
     public static Date parse(String date) throws java.text.ParseException {
         //Convert String to Date
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz");
@@ -60,6 +61,7 @@ public class MyTimeTask extends TimerTask {
         return df.parse(date);
     }
 
+    //Pedido GET para o Mongo
     public static JSONObject requestToMongo(String url) throws MalformedURLException, IOException, JSONException {
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -100,6 +102,7 @@ public class MyTimeTask extends TimerTask {
         return myResponse;
     }
 
+    //Delete Mongo Data
     public static void deleteMongoData(String request) throws MalformedURLException, IOException, JSONException {
         URL url = new URL(request);
         HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
@@ -112,6 +115,7 @@ public class MyTimeTask extends TimerTask {
 
     }
 
+    //Organiza os dados recolhidos por data e cria uma Viagem com os dados de um veículo
     public static List<TripData> TripProcess(JSONObject myResponse) throws JSONException, ParseException, IOException {
 
         //Cria uma lista dos objetos JSON
@@ -187,6 +191,7 @@ public class MyTimeTask extends TimerTask {
         return trips;
     }
 
+    //Inicia o MyTimeTask
     @Override
     public void run() {
         try {
@@ -209,8 +214,7 @@ public class MyTimeTask extends TimerTask {
         }
     }
 
-    //FUNÇÕES PARA TRATAR
-    //Função para tratar
+    //Função para tratar dos dados de um Viagem e criar estatísticas sobre a viagem
     public void TripTratment() {
 
         System.out.print("hello");

@@ -158,6 +158,11 @@ public class UserServiceImpl implements UserService {
         if (vehicle == null) {
             throw new DataNotFoundException("Veículo não encontrado");
         }
+        Bind bind = bindRepository.findBindByVehicle(vehicle);
+        if(bind != null){
+            bind.setVehicle(null);
+            bindRepository.delete(bind);
+        }
         vehicleRepository.delete(vehicle);
     }
 
