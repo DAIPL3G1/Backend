@@ -28,17 +28,20 @@ public class TripController {
     @Autowired
     private TripServiceImpl tripService;
     
+    //Lê as viagens (estatisticas) de um veiculo pelo seu ID
     @RequestMapping(value = "/read/{vehicle_id}", method = RequestMethod.GET)
     public List<TripTratment> readTripsFromVehicle(@PathVariable("vehicle_id") int vehicle_id){
         return tripService.readTripsFromVehicle(vehicle_id);
     }
     
+    //Lê todos os pontos de uma viagem de um veiculo pelo seu ID
     @RequestMapping(value = "/read/datas/{vehicle_id}", method = RequestMethod.GET)
     public List<TripData> readTripsDatasFromVehicle(@PathVariable("vehicle_id") int vehicle_id){
         return tripService.readTripsDatasFromVehicle(vehicle_id);
     }
     
-    @RequestMapping(value = "/tratment", method = RequestMethod.GET)
+    //Atualiza as viagens
+    @RequestMapping(value = "/tratment", method = RequestMethod.PUT)
     public void tripTratment(){
         task.run();
     }

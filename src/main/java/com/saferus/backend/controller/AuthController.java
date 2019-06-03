@@ -41,13 +41,14 @@ public class AuthController {
     @Autowired
     Environment environment;    
 
-    
+    //Rota para receber dados do utilizador Autenticado
     @RequestMapping(value = "/authenticated", method = RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)
     public User Authenticate(final HttpServletRequest request) throws UnsupportedEncodingException{
         return userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
     
+    //Rota para fazer o login do Utilizador
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     @ResponseStatus(value=HttpStatus.OK)
     public ResponseLogin Login(HttpServletResponse response, @Valid @RequestBody LoginForm login){

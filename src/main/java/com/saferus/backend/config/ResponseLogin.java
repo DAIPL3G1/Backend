@@ -12,6 +12,8 @@ import java.io.Serializable;
  *
  * @author lucasbrito
  */
+
+//Model para receber a token e o Utilizador a que pertence
 public class ResponseLogin implements Serializable{
     
     private String token;

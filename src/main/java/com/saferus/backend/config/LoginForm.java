@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  *
  * @author lucasbrito
  */
+
+//Form para se fazer login
 public class LoginForm implements Serializable{
     
     private String email;
