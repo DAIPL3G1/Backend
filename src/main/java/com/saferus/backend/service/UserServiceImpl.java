@@ -289,7 +289,7 @@ public class UserServiceImpl implements UserService {
 
             helper.setTo(user.getEmail());
             helper.setSubject("Safe'R'Us - Alteração da Palavra-Passe para " + user.getFirstname());
-            helper.setText("Utilizador: " + user.getFirstname() + "\nPassword gerada: " + pw + "\nAltere a sua palavra-passe em Alterar Dados de Perfil \nVolte para o site: " + url);
+            helper.setText("Utilizador: " + user.getEmail() + "\nPassword gerada: " + pw + "\nAltere a sua palavra-passe em Alterar Dados de Perfil \nVolte para o site: " + url);
             sender.send(message);
         } catch (MessagingException | IOException | DataNotFoundException ex) {
             throw new GenericException(ex.getMessage());
@@ -300,6 +300,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String changePw(String Email) {
         User user = userRepository.findUserByEmail(Email);
+        String generatedString;
         if (user == null) {
             throw new DataNotFoundException("Utilizador Não Encontrado");
         }
@@ -307,17 +308,18 @@ public class UserServiceImpl implements UserService {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
-        while (salt.length() < 18) { // length of the random string.
+        while (salt.length() < 10) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
         }
-        String generatedString = salt.toString();
+        generatedString = salt.toString();
         
         user.setPassword(bCryptPasswordEncoder.encode(generatedString));
+        System.out.println("PASSSSSSSS " + user.getPassword());
         userRepository.save(user);
         
         return generatedString;
-        
+ 
     }
 
 }
