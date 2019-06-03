@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
+import java.util.UUID;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
@@ -276,7 +277,10 @@ public class UserServiceImpl implements UserService {
     public String forgetPassword(String email) {
         try {
             User user = userRepository.findUserByEmail(email);
-            URL url = new URL("https:/saferusbackend.herokuapp.com/");
+            if(user == null){
+                throw new DataNotFoundException("Utilizador não encontrado");
+            }
+            URL url = new URL("https:/saferus.herokuapp.com/");
 
             String pw = changePw(email);
 
@@ -300,9 +304,14 @@ public class UserServiceImpl implements UserService {
             throw new DataNotFoundException("Utilizador Não Encontrado");
         }
         
-        byte[] array = new byte[10];
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String generatedString = salt.toString();
         
         user.setPassword(bCryptPasswordEncoder.encode(generatedString));
         userRepository.save(user);
