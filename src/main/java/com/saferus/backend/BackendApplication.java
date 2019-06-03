@@ -18,6 +18,8 @@ import org.springframework.context.ApplicationContext;
 public class BackendApplication extends SpringBootServletInitializer {
 
     private static Class applicationClass = BackendApplication.class;
+    
+    public static MyTimeTask task;
 
     public static void main(String[] args) throws ParseException {
 
@@ -29,10 +31,13 @@ public class BackendApplication extends SpringBootServletInitializer {
 
         //Now create the time and schedule it
         Timer timer = new Timer();
+        
 
+        task = new MyTimeTask(appContext);
+        
         //Use this if you want to execute it repeatedly
         int period = 60000*60;//60secs*60=1h
-        timer.schedule(new MyTimeTask(appContext), date, period);
+        timer.schedule(task, date, period);
         
        /* MyTimeTask hello = new MyTimeTask(appContext);
         hello.run();*/

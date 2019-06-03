@@ -42,6 +42,10 @@ public class MyTimeTask extends TimerTask {
         tripRepository = appContext.getBean(TripRepository.class);
         tripTratmentRepository = appContext.getBean(TripTratmentRepository.class);
     }
+    
+    public MyTimeTask(){
+        
+    }
 
     //Metodo para Converter data
     public static Date parse(String date) throws java.text.ParseException {
@@ -216,8 +220,6 @@ public class MyTimeTask extends TimerTask {
 
     //Função para tratar dos dados de um Viagem e criar estatísticas sobre a viagem
     public void TripTratment() {
-
-        System.out.print("hello");
 
         //Vai ver quantos veiculos tem na Viagem com os dados por tratar
         List<Integer> vehicles = new ArrayList<>();

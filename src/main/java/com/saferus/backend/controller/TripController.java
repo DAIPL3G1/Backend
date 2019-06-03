@@ -5,6 +5,7 @@
  */
 package com.saferus.backend.controller;
 
+import com.saferus.backend.MyTimeTask;
 import com.saferus.backend.model.TripData;
 import com.saferus.backend.model.TripTratment;
 import com.saferus.backend.service.TripServiceImpl;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import static com.saferus.backend.BackendApplication.task;
 
 /**
  *
@@ -34,6 +36,11 @@ public class TripController {
     @RequestMapping(value = "/read/datas/{vehicle_id}", method = RequestMethod.GET)
     public List<TripData> readTripsDatasFromVehicle(@PathVariable("vehicle_id") int vehicle_id){
         return tripService.readTripsDatasFromVehicle(vehicle_id);
+    }
+    
+    @RequestMapping(value = "/tratment", method = RequestMethod.GET)
+    public void tripTratment(){
+        task.run();
     }
     
 }
