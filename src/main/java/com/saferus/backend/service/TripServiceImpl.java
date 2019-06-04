@@ -39,6 +39,7 @@ public class TripServiceImpl implements TripService {
         }
         List<TripTratment> trips = new ArrayList<>();
         for (TripTratment trip : tripTratmentRepository.findAll()) {
+            System.out.println(trip);
             if (trip.getVehicle_id() == vehicle_id) {
                 trips.add(trip);
             }
