@@ -50,7 +50,6 @@ public class AuthController {
     
     //Rota para fazer o login do Utilizador
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    @ResponseStatus(value=HttpStatus.OK)
     public ResponseLogin Login(HttpServletResponse response, @Valid @RequestBody LoginForm login){
         String token = userService.authenticateUser(login.getEmail(), login.getPassword(), response);
         User u = userService.findUserByEmail(login.getEmail());
