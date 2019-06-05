@@ -42,10 +42,6 @@ public class MyTimeTask extends TimerTask {
         tripRepository = appContext.getBean(TripRepository.class);
         tripTratmentRepository = appContext.getBean(TripTratmentRepository.class);
     }
-    
-    public MyTimeTask(){
-        
-    }
 
     //Metodo para Converter data
     public static Date parse(String date) throws java.text.ParseException {
