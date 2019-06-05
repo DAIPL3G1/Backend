@@ -32,6 +32,7 @@ public class TripServiceImpl implements TripService {
     @Autowired
     private TripRepository tripRepository;
 
+    //Função para ler Todas as Viagens Tratadas de um Veículo (Recebe ID do Veículo)
     @Override
     public List<TripTratment> readTripsFromVehicle(int vehicle_id) {
         if (vehicleRepository.findVehicleById(vehicle_id) == null) {
@@ -46,6 +47,7 @@ public class TripServiceImpl implements TripService {
         return trips;
     }
     
+    //Função para ler todos os Dados de um Viagem de um Veículo (Recebe ID do Veículo)
     public List<TripData> readTripsDatasFromVehicle(int vehicle_id){
         if (vehicleRepository.findVehicleById(vehicle_id) == null) {
             throw new DataNotFoundException("Veículo não encontrado");

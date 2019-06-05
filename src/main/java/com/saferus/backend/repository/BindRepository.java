@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
+
+//Repositório de Vinculações
 @Repository("bindRepository")
 public interface BindRepository extends JpaRepository<Bind, Integer>{
     

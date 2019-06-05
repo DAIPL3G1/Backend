@@ -19,12 +19,14 @@ import java.util.List;
 
 //MUDAR PARa JWT
 
+//Serviço de UserDetails
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService{
     
   @Autowired
   private UserRepository repository;
 
+  //Função para fazer recebe Informações de Utilizador aquando o login deste
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
       com.saferus.backend.model.User user = repository.findUserByEmail(email);

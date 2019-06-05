@@ -17,12 +17,13 @@ public class TripData {
 
     @Id
     public ObjectId _id;
-    
+
     public int vehicle_id;
     public List<Data> datas;
 
-    public TripData() {}
-    
+    public TripData() {
+    }
+
     public TripData(ObjectId _id, int vehicle_id, List<Data> datas) {
         this._id = _id;
         this.vehicle_id = vehicle_id;

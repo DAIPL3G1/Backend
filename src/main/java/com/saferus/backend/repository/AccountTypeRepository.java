@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
+
+//Repositório de Tipo de Contas
 @Repository("atRepository")
 public interface AccountTypeRepository extends JpaRepository<AccountType, Integer> {
     

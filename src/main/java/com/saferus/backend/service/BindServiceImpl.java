@@ -7,7 +7,6 @@ package com.saferus.backend.service;
 
 import com.saferus.backend.exceptions.BadRequestException;
 import com.saferus.backend.exceptions.DataNotFoundException;
-import com.saferus.backend.exceptions.DuplicatedException;
 import com.saferus.backend.model.User;
 import com.saferus.backend.model.Vehicle;
 import com.saferus.backend.model.Bind;
@@ -48,6 +47,7 @@ public class BindServiceImpl implements BindService {
     @Autowired
     private VehicleTypeRepository vtRepository;
 
+    //Função para o Pedido de Vinculação (Recebe Matricula, NIF Mediador e NIF Utilizador)
     @Override
     public void requestBind(String plate, String broker_nif, String user_nif) {
         Bind newBind = new Bind();
@@ -70,6 +70,7 @@ public class BindServiceImpl implements BindService {
         bindRepository.save(newBind);
     }
 
+    //Função para Validar a Vinculação (Recebe Objeto ValidateBind e ID da Vinculação)
     @Override
     public Bind validateBind(ValidateBind vb, int bind_id) throws Exception {
         ZoneId denverTimeZone = ZoneId.of("Europe/Lisbon");
@@ -96,6 +97,7 @@ public class BindServiceImpl implements BindService {
         return b;
     }
 
+    //Função para Invalidar Vinculação (Recebe o ID da Vinculação)
     @Override
     public Bind unvalidateBind(int bind_id) throws Exception {
         ZoneId denverTimeZone = ZoneId.of("Europe/Lisbon");
@@ -114,6 +116,7 @@ public class BindServiceImpl implements BindService {
         return b;
     }
 
+    //Função para desvincular (Recebe o NIF do Utilizador)
     @Override
     public void unbind(String user_nif) throws Exception {
         User u = userRepository.findUserByNif(user_nif);
@@ -135,11 +138,13 @@ public class BindServiceImpl implements BindService {
         bindRepository.save(b);
     }
 
+    //Função para ler todas as Vinculações
     @Override
     public List<Bind> readBinds() {
         return bindRepository.findAll();
     }
 
+    //Função para ler uma Vinculação (Recebe o ID da Vinculação)
     @Override
     public Bind readBind(int bind_id) {
         Bind b = bindRepository.findBindById(bind_id);
@@ -149,6 +154,7 @@ public class BindServiceImpl implements BindService {
         return b;
     }
 
+    //Função para alterar uma Vinculação (Recebe o ID da Vinculação e o Objeto BIND)
     @Override
     public Bind updateBind(int bind_id, Bind bind) {
         if (bind == null) {
@@ -161,6 +167,7 @@ public class BindServiceImpl implements BindService {
         return bindRepository.save(bind);
     }
 
+    //Função para ler todas as Vinculações em Aprovação (Recebe o NIF do Mediador)
     @Override
     public List<Bind> readAllPendingBind(String broker_nif) {
         User broker = userRepository.findUserByNif(broker_nif);
@@ -177,6 +184,7 @@ public class BindServiceImpl implements BindService {
         return binds;
     }
 
+    //Função para desvincular Veículo (Recebe o ID do Veículo)
     @Override
     public void unbindVehicle(int vehicle_id) throws Exception {
         Vehicle v = vehicleRepository.findVehicleById(vehicle_id);

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+//Repositório de Tokens para Verificação de Contas
 public interface VerificationTokenRepository extends JpaRepository<VerificationToken, String> {
     List<VerificationToken> findByUserEmail(String email);
     List<VerificationToken> findByToken(String token);

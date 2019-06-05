@@ -12,6 +12,8 @@ import java.util.List;
  *
  * @author lucasbrito
  */
+
+//Serviço de Viagens
 public interface TripService {
     
 public List<TripTratment> readTripsFromVehicle(int vehicle_id);

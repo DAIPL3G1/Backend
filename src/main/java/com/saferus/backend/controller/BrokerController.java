@@ -30,16 +30,19 @@ public class BrokerController {
     @Autowired
     private BindServiceImpl bindService;
 
+    //Rota para ler todos os clientes de um Mediador pelo seu NIF
     @RequestMapping(value = "/read/all/clients/{broker_nif}", method = RequestMethod.GET)
     public List<User> readAllClientsFromABroker(@PathVariable("broker_nif") String broker_nif) {
         return userService.readAllClientsFromBroker(broker_nif);
     }
 
+    //Rota para ler todos os veículos vinculados ao Mediador pelo seu NIF
     @RequestMapping(value = {"/read/bound/vehicles/{broker_nif}"}, method = RequestMethod.GET)
     public List<Vehicle> readAllBoundVehicles(@PathVariable("broker_nif") String broker_nif) {
         return userService.readAllBoundVehicles(broker_nif);
     }
 
+    //Rota para ler todos os veículos com a vinculação em aprovação ao Mediador pelo seu NIF
     @RequestMapping(value = {"/bind/request/pending/{broker_nif}"}, method = RequestMethod.GET)
     public List<Bind> readAllPendingBind(@PathVariable("broker_nif") String broker_nif){
         return bindService.readAllPendingBind(broker_nif);

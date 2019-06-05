@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author lucasbrito
  */
+
+//Repositório de Tipo de Veículos
 public interface VehicleTypeRepository extends JpaRepository<VehicleType, Integer>{
     
     VehicleType findVehicleTypeById(int id);

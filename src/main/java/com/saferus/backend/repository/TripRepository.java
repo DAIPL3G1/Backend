@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
+
+//Repositório de Viagens
 @Repository("tripRepository")
 public interface TripRepository extends MongoRepository<TripData, Integer>{
     

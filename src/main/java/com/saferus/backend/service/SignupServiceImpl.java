@@ -42,6 +42,7 @@ public class SignupServiceImpl implements SignupService {
     @Autowired
     private JavaMailSender sender;
 
+    //Função para registar um Utilizador (Recebe o Object USER)
     @Override
     public void signupUser(User newUser) {
         if(newUser.getPassword().isEmpty()){
@@ -71,6 +72,7 @@ public class SignupServiceImpl implements SignupService {
         userRepository.save(newUser);
     }
 
+    //Função para registar Mediador (Recebe o Objeto USER)
     @Override
     public void signupBroker(User newBroker) {
         if(newBroker.getPassword().isEmpty()){
@@ -97,6 +99,7 @@ public class SignupServiceImpl implements SignupService {
         userRepository.save(newBroker);
     }
 
+    //Função para eliminar um Utilizador (Recebe o NIF do User)
     @Override
     public void deleteUser(String user_nif) {
         User u = userRepository.findUserByNif(user_nif);
@@ -111,6 +114,7 @@ public class SignupServiceImpl implements SignupService {
         }
     }
 
+    //Função para eliminar um Mediador (Recebe o NIF do Mediador)
     @Override
     public void deleteBroker(String broker_nif) {
         User b = userRepository.findUserByNif(broker_nif);
@@ -124,6 +128,7 @@ public class SignupServiceImpl implements SignupService {
         }
     }
 
+    //Função para Validar o Utilizador (Recebe o NIf do Utilizador)
     @Override
     public String validateUser(String user_nif) throws Exception {
         User u = userRepository.findUserByNif(user_nif);
@@ -139,6 +144,7 @@ public class SignupServiceImpl implements SignupService {
         return "Utilizador validado com Sucesso";
     }
 
+    //Função para validar o Mediador (Recebe o NIF do Mediador)
     @Override
     public String validateBroker(String broker_nif) throws Exception {
         User b = userRepository.findUserByNif(broker_nif);
@@ -154,6 +160,7 @@ public class SignupServiceImpl implements SignupService {
         return "Mediador validado com Sucesso";
     }
 
+    //Função para encontrar o Utilizador pelo seu NIF
     @Override
     public User findUserByNif(String user_nif) {
         if (userRepository.findUserByNif(user_nif) == null) {
@@ -162,6 +169,7 @@ public class SignupServiceImpl implements SignupService {
         return userRepository.findUserByNif(user_nif);
     }
 
+    //Função para enviar Email (Recebe STRING email, STRING Password e STRING código de verificação
     @Override
     public String sendEmail(String email, String pw, String verificationCode) {
         try {

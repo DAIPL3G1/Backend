@@ -46,6 +46,7 @@ public class VerificationTokenServiceImpl {
         this.sendingMailService = sendingMailService;
     }
 
+    //Função para criar a Verificação da Conta
     public String createVerification(Account account) throws MessagingException, AddressException, IOException{
         if(account == null){
             throw new DataNotFoundException("Conta não encontrada");
@@ -75,6 +76,7 @@ public class VerificationTokenServiceImpl {
         return verificationToken.getToken();
     }
 
+    //Função para Vericar email da Conta
     public ResponseEntity<String> verifyEmail(String token) throws MalformedURLException{
         List<VerificationToken> verificationTokens = verificationTokenRepository.findByToken(token);
         if (verificationTokens.isEmpty()) {

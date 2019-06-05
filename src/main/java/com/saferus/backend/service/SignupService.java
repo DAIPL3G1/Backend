@@ -14,6 +14,8 @@ import javax.mail.internet.AddressException;
  *
  * @author lucasbrito
  */
+
+//Serviço de Registo
 public interface SignupService {
     
     public User findUserByNif(String nif);

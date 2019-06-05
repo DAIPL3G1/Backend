@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
+
+//Repositório de Viagens Tratadas (Estatísticas)
 @Repository("tripTratmentRepository")
 public interface TripTratmentRepository extends MongoRepository<TripTratment, Integer>{
     

@@ -30,53 +30,61 @@ public class SignupController {
 
     @Autowired
     private SignupServiceImpl signupService;
-    
+
     @Autowired
     VerificationTokenServiceImpl verificationTokenService;
 
+    //Rota para registar utilizadores
     @RequestMapping(value = {"/signup/user"}, method = RequestMethod.POST)
     public User signupUser(@Valid @RequestBody User user) throws Exception {
         signupService.signupUser(user);
         return user;
     }
 
+    //Rota para registar Mediadores
     @RequestMapping(value = {"/signup/broker"}, method = RequestMethod.POST)
     public User signupBroker(@Valid @RequestBody User b) {
         signupService.signupBroker(b);
         return b;
     }
 
+    //Rota para Acesso Negado
     @RequestMapping(value = {"/access_denied"}, method = RequestMethod.GET)
     public String accessDenied() {
         return "Acesso Negado! Tente Novamente mais tarde!";
     }
 
+    //Rota para eliminar utilizador pelo seu NIF
     @RequestMapping(value = {"/delete/user/{user_nif}"}, method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable("user_nif") String user_nif) {
         signupService.deleteUser(user_nif);
     }
 
+    //Rota para eliminar mediador pelo seu NIF
     @RequestMapping(value = {"/delete/broker/{broker_nif}"}, method = RequestMethod.DELETE)
     public void deleteBroker(@PathVariable("broker_nif") String broker_nif) {
         signupService.deleteBroker(broker_nif);
     }
 
+    //Rota para validar o registo de um Utilizador pelo seu NIF
     @RequestMapping(value = {"/validate/user/{user_nif}"}, method = RequestMethod.PUT)
     public String validateUser(@PathVariable("user_nif") String user_nif) throws Exception {
         return signupService.validateUser(user_nif);
     }
 
+    //Rota para validar o registo de um Mediador pelo seu NIF
     @RequestMapping(value = {"/validate/broker/{broker_nif}"}, method = RequestMethod.PUT)
     public String validateBroker(@PathVariable("broker_nif") String broker_nif) throws Exception {
         return signupService.validateBroker(broker_nif);
     }
-    
-    
+
+    //Rota para criar uma verificação e mandar para o email do Utilizador no Objeto
     @RequestMapping(value = {"/emails"}, method = RequestMethod.POST)
     public String sendEmail(@Valid @RequestBody Account account) throws MessagingException, AddressException, IOException {
-      return verificationTokenService.createVerification(account);
-   } 
+        return verificationTokenService.createVerification(account);
+    }
     
+    //Rota para verificar a conta e depois ativa-la no Email
     @RequestMapping(value = {"/emails/verify_email/{token}"}, method = RequestMethod.GET)
     public String verifyEmail(@PathVariable("token") String token) throws MalformedURLException {
         return verificationTokenService.verifyEmail(token).getBody();

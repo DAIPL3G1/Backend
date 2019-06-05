@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lucasbrito
  */
+
+//Serviço de Utilizador
 public interface UserService {
 
     public List<User> readAllUsers();

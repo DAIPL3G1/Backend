@@ -15,6 +15,8 @@ import java.util.UUID;
  *
  * @author lucasbrito
  */
+
+//Serviço de Vinculações
 public interface BindService {
     
     public void requestBind(String plate, String broker_nif, String user_nif) ;

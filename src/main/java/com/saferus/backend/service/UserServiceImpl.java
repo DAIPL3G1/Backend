@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JavaMailSender sender;
 
+    //Função para ler Utilizadores
     @Override
     public List<User> readAllUsers() {
         List<User> users = new ArrayList<>();
@@ -75,6 +76,7 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    //Função para ler um Utilizador (Recebe NIF do Utilizador)
     @Override
     public User readUser(String user_nif) {
         if (userRepository.findUserByNif(user_nif) == null) {
@@ -83,6 +85,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByNif(user_nif);
     }
 
+    //Função para encontrar Utilizador pelo seu Email (Recebe STRING Email)
     @Override
     public User findUserByEmail(String email) {
         User u = userRepository.findUserByEmail(email);
@@ -92,6 +95,7 @@ public class UserServiceImpl implements UserService {
         return u;
     }
 
+    //Função para atualizar Informações de um Utilizador (Recebe Objeto USER e Nif do Utilizador)
     @Override
     public User updateInfo(User user, String user_nif) {
         User u = userRepository.findUserByNif(user_nif);
@@ -106,6 +110,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    //Função para alterar Password (Recebe o NIF do Utilizador e o Objeto USER)
     @Override
     public void updatePassword(String user_nif, User user) {
         User u = userRepository.findUserByNif(user_nif);
@@ -117,6 +122,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(u);
     }
 
+    //Função para ler Mediadores
     @Override
     public List<User> readAllBrokers() {
         List<User> brokers = new ArrayList<>();
@@ -131,6 +137,7 @@ public class UserServiceImpl implements UserService {
         return brokers;
     }
 
+    //Função para ler Mediador (Recebe NIF do Mediador)
     @Override
     public User readBroker(String broker_nif) {
         User b = userRepository.findUserByNif(broker_nif);
@@ -140,6 +147,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByNif(broker_nif);
     }
 
+    //Função para adicionar Veículo ao Utilizador (Recebe Objeto VEHICLE e NIF do Utilizador)
     @Override
     public Vehicle addVehicleToUser(Vehicle vehicle, String user_nif) {
         if (vehicleRepository.findVehicleById(vehicle.getId()) != null) {
@@ -153,6 +161,7 @@ public class UserServiceImpl implements UserService {
         return vehicleRepository.save(vehicle);
     }
 
+    //Função para eliminar Veículo (Recebe ID do Veículo)
     @Override
     public void deleteVehicle(int vehicle_id) {
         Vehicle vehicle = vehicleRepository.findVehicleById(vehicle_id);
@@ -167,6 +176,7 @@ public class UserServiceImpl implements UserService {
         vehicleRepository.delete(vehicle);
     }
 
+    //Função para ler todos os Clientes de um Mediador (Recebe ID do Mediador)
     @Override
     public List<User> readAllClientsFromBroker(String broker_nif) {
 
@@ -190,6 +200,7 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    //Função para ler todos os Veículos Vinculados ao Mediador (Recebe NIF do Mediador)
     @Override
     public List<Vehicle> readAllBoundVehicles(String broker_nif) {
         List<Vehicle> vehicles = new ArrayList<>();
@@ -213,6 +224,7 @@ public class UserServiceImpl implements UserService {
         return vehicles;
     }
 
+    //Função para ler todos os Veículos de um Utilizador (Recebe NIF do Utilizador)
     @Override
     public List<Vehicle> readAllVehiclesFromUser(String user_nif) {
         List<Vehicle> vehicles = new ArrayList<>();
@@ -231,6 +243,7 @@ public class UserServiceImpl implements UserService {
         return vehicles;
     }
 
+    //Função para ler todos os Veículos
     @Override
     public List<Vehicle> readAllVehicles() {
         if (vehicleRepository.findAll().isEmpty()) {
@@ -255,6 +268,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    //Função para Login do Utilizador (Recebe Email, Password e o ServletResponse)
     @Override
     public String authenticateUser(String email, String password, HttpServletResponse response) throws BadRequestException {
         String token = "";
@@ -273,6 +287,7 @@ public class UserServiceImpl implements UserService {
         return token;
     }
 
+    //Função para recuperar Password (Recebe email do Utilizador)
     @Override
     public String forgetPassword(String email) {
         try {
@@ -297,6 +312,7 @@ public class UserServiceImpl implements UserService {
         return "Email enviado com sucesso";
     }
 
+    //Função para alterar a password recuperada do Utilizador (Recebe Email do Utilizador)
     @Override
     public String changePw(String Email) {
         User user = userRepository.findUserByEmail(Email);

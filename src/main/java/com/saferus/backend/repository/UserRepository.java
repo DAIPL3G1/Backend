@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
+
+//Repoistório de Utilizadores
 @Repository("userRepository")
 public interface UserRepository extends JpaRepository<User, String>{
     

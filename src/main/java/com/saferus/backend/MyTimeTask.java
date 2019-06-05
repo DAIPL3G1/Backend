@@ -227,7 +227,7 @@ public class MyTimeTask extends TimerTask {
         }
 
         System.out.println("Veiculos existentes: " + vehicles);
-
+        /*
         //Para cada veiculo existente no Array que tem todos os veiculos que viajaram ou estão a viajar
         for (Integer vehicleId : vehicles) {
             for (TripData tripData : tripRepository.findAll()) {
@@ -293,7 +293,49 @@ public class MyTimeTask extends TimerTask {
                 }
             }
 
+        }*/
+
+        for (TripData tripData : tripRepository.findAll()) {
+            double velocityAverage = 0;
+            double distance = 0;
+            double timeAboveLimit = 0;
+            Date dateStart = null;
+            Date dateFinish = null;
+            String dateEnd;
+            String hourEnd;
+            final double R = 6371;
+            for (int i = 0; i < tripData.getDatas().size(); i++) {
+                if (tripData.getDatas().get(i).isStart()) {
+                    dateStart = new Date(tripData.getDatas().get(i).getDate().getTime());
+                } else if (tripData.getDatas().get(i).isFinish()) {
+                    dateFinish = new Date(tripData.getDatas().get(i).getDate().getTime());
+                    dateEnd = dateFinish + "/" + (dateFinish.getMonth() + 1) + "/" + dateFinish.getYear();
+
+                    if (dateFinish.getMinutes() < 10) {
+
+                        hourEnd = dateFinish.getHours() + ":0" + dateFinish.getMinutes();
+
+                    } else {
+                        hourEnd = dateFinish.getHours() + ":" + dateFinish.getMinutes();
+                    }
+                    velocityAverage = velocityAverage / (tripData.getDatas().size() - 2);
+                    timeAboveLimit = timeAboveLimit / (dateFinish.getTime() - dateStart.getTime());
+
+                } else {
+                    double dLat = (tripData.getDatas().get(i + 1).getLatitude() - tripData.getDatas().get(i).getLatitude()) * Math.PI / 180;
+                    double dLon = (tripData.getDatas().get(i + 1).getLongitude() - tripData.getDatas().get(i).getLongitude()) * Math.PI / 180;
+                    double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(tripData.getDatas().get(i).getLatitude() * Math.PI / 180) * Math.cos(tripData.getDatas().get(i + 1).getLatitude() * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                    distance += R * c;
+                    velocityAverage += tripData.getDatas().get(i).getVelocity();
+                    if (tripData.getDatas().get(i).getVelocity() > tripData.getDatas().get(i).getVelocityLimit()) {
+                        timeAboveLimit += tripData.getDatas().get(i + 1).getDate().getTime() - tripData.getDatas().get(i).getDate().getTime();
+                    }
+                }
+
+            }
         }
+
     }
 
 }

@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
  *
  * @author lucasbrito
  */
+
+//Serviço de Token de Verificação
 @Service("verificationTokenService")
 public interface VerificationTokenService {
     

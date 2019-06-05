@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author lucasbrito
  */
+
+//Repositório de Veículos
 @Repository("vehicleRepository")
 public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     
